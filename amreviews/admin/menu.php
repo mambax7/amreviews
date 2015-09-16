@@ -3,7 +3,7 @@
 //  ------------------------------------------------------------------------ //
 //  Author: Andrew Mills                                                     //
 //  Email:  ajmills@sirium.net                                               //
-//	About:  This file is part of the AM Reviews module for Xoops v2.         //
+//  About:  This file is part of the AM Reviews module for Xoops v2.         //
 //                                                                           //
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
@@ -29,57 +29,68 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
-$path = dirname(dirname(dirname(dirname(__FILE__))));
+$path = dirname(dirname(dirname(__DIR__)));
 include_once $path . '/mainfile.php';
 
-$dirname         = basename(dirname(dirname(__FILE__)));
-$module_handler  = xoops_gethandler('module');
-$module          = $module_handler->getByDirname($dirname);
-$pathIcon32      = $module->getInfo('icons32');
-$pathModuleAdmin = $module->getInfo('dirmoduleadmin');
-$pathLanguage    = $path . $pathModuleAdmin;
+$moduleDirName = basename(dirname(__DIR__));
+$moduleHandler = &xoops_gethandler('module');
+$module        = $moduleHandler->getByDirname($moduleDirName);
+$pathIcon32    = '../../' . $module->getInfo('sysicons32');
 
-
-if (!file_exists($fileinc = $pathLanguage . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/' . 'main.php')) {
-    $fileinc = $pathLanguage . '/language/english/main.php';
+$xoopsModuleAdminPath = XOOPS_ROOT_PATH . '/' . $module->getInfo('dirmoduleadmin');
+if (!file_exists($fileinc = $xoopsModuleAdminPath . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/' . 'main.php')) {
+    $fileinc = $xoopsModuleAdminPath . '/language/english/main.php';
 }
-
 include_once $fileinc;
 
-$adminmenu = array();
+xoops_loadLanguage('modinfo', $moduleDirName);
 
-$i= 1;
+//include_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/config.php");
 
-$adminmenu[$i]["title"] = _AM_MODULEADMIN_HOME;
-$adminmenu[$i]["link"]  = 'admin/index.php';
-$adminmenu[$i]["icon"]  = $pathIcon32 . '/home.png';
+$adminmenu[] = array(
+    'title' => _AM_MODULEADMIN_HOME,
+    'link'  => 'admin/index.php',
+    'icon'  => $pathIcon32 . '/home.png');
+//global $modinfoLang;
+//include_once dirname(__DIR__) . '/class/helper.php';
+//$helper      = & Helper::getInstance();
+use Xoopsmodules\amreviews;
 
-//$i++;
-//$adminmenu[$i]["title"] =_MI_AMREVIEW_MENU1;
-//$adminmenu[$i]["link"]  = 'admin/main.php';
-//$adminmenu[$i]["icon"]  = $pathIcon32.'/home.png';
+$helper = new Xoopsmodules\amreviews\Helper();
+//echo $modinfoLang. '<br/>';
+//echo '--- 1  ----'. '<br/>';
+$mainLang    = '_MD_' . strtoupper($helper->moduleDirName);
+$modinfoLang = '_MI_' . strtoupper($helper->moduleDirName);
+$adminLang   = '_AM_' . strtoupper($helper->moduleDirName);
+//echo $mainLang. '<br/>';
+//echo $modinfoLang. '<br/>';
+//echo $adminLang. '<br/>';
+//echo strtoupper($helper->moduleDirName). '<br/>';
+//echo '--- 2  ----'. '<br/>';
+$adminmenu[] = array(
+    //    'title' => $modinfoLang . '_MENU2',
+    'title' => constant($modinfoLang . '_MENU2'),
+    'link'  => 'admin/category.php',
+    'icon'  => $pathIcon32 . '/category.png');
 
-$i++;
-$adminmenu[$i]["title"] =_MI_AMREVIEW_MENU2;
-$adminmenu[$i]["link"]  = 'admin/category.php';
-$adminmenu[$i]["icon"]  = $pathIcon32.'/category.png';
+$adminmenu[] = array(
+    'title' => constant($modinfoLang . '_MENU3'),
+    'link'  => 'admin/review.php',
+    'icon'  => $pathIcon32 . '/button_ok.png');
 
-$i++;
-$adminmenu[$i]["title"] = _MI_AMREVIEW_MENU3;
-$adminmenu[$i]["link"]  = 'admin/review.php';
-$adminmenu[$i]["icon"]  = $pathIcon32.'/button_ok.png';
-$i++;
-$adminmenu[$i]["title"] = _MI_AMREVIEW_MENU4;
-$adminmenu[$i]["link"]  = 'admin/image.php';
-$adminmenu[$i]["icon"]  = $pathIcon32.'/photo.png';
-$i++;
-$adminmenu[$i]["title"] = _MI_AMREVIEW_MENU5;
-$adminmenu[$i]["link"]  = 'admin/perms.php';
-$adminmenu[$i]["icon"]  = $pathIcon32.'/permissions.png';
+$adminmenu[] = array(
+    'title' => constant($modinfoLang . '_MENU4'),
+    'link'  => 'admin/image.php',
+    'icon'  => $pathIcon32 . '/photo.png');
 
-$i++;
-$adminmenu[$i]['title'] = _AM_MODULEADMIN_ABOUT;
-$adminmenu[$i]["link"]  = 'admin/about.php';
-$adminmenu[$i]["icon"]  = $pathIcon32 . '/about.png';
+$adminmenu[] = array(
+    'title' => constant($modinfoLang . '_MENU5'),
+    'link'  => 'admin/permissions.php',
+    'icon'  => $pathIcon32 . '/permissions.png');
+
+$adminmenu[] = array(
+    'title' => _AM_MODULEADMIN_ABOUT,
+    'link'  => 'admin/about.php',
+    'icon'  => $pathIcon32 . '/about.png');

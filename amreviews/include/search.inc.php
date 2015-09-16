@@ -25,35 +25,42 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
-function amreviews_search($queryarray, $andor, $limit, $offset, $userid){
-	global $xoopsDB;
-	$sql = "SELECT id, uid, title, subtitle, UNIX_TIMESTAMP(date) AS date FROM ".$xoopsDB->prefix("amreview_reviews").
-	" WHERE validated='1' AND showme='1'";
-	if ( $userid != 0 ) {
-		$sql .= " AND uid=".$userid." ";
-	}
-	// because count() returns 1 even if a supplied variable
-	// is not an array, we must check if $querryarray is really an array
-	if ( is_array($queryarray) && $count = count($queryarray) ) {
-		$sql .= " AND ((title LIKE '%$queryarray[0]%' OR subtitle LIKE '%$queryarray[0]%' OR review LIKE '%$queryarray[0]%' OR keywords LIKE '%$queryarray[0]%')";
-		for($i=1;$i<$count;$i++){
-			$sql .= " $andor ";
-			$sql .= "(title LIKE '%$queryarray[$i]%' OR subtitle LIKE '%$queryarray[$i]%' OR review LIKE '%$queryarray[$i]%' OR keywords LIKE '%$queryarray[$i]%')";
-		}
-		$sql .= ") ";
-	}
-	$sql .= "ORDER BY date DESC";
-	$result = $xoopsDB->query($sql,$limit,$offset);
-	$ret = array();
-	$i = 0;
- 	while($myrow = $xoopsDB->fetchArray($result)){
-		$ret[$i]['image'] = "images/amreviews.gif";
-		$ret[$i]['link'] = "review.php?id=" . $myrow['id'] ."";
-		$ret[$i]['title'] = $myrow['title'];
-		$ret[$i]['time'] = $myrow['date'];
-		$ret[$i]['uid'] = $myrow['uid'];
-		$i++;
-	}
-	return $ret;
+/**
+ * @param $queryarray
+ * @param $andor
+ * @param $limit
+ * @param $offset
+ * @param $userid
+ * @return array
+ */
+function amreviews_search($queryarray, $andor, $limit, $offset, $userid)
+{
+    $sql = "SELECT id, uid, title, subtitle, UNIX_TIMESTAMP(date) AS date FROM " . $GLOBALS['xoopsDB']->prefix("amreview_reviews") . " WHERE validated='1' AND showme='1'";
+    if ($userid !== 0) {
+        $sql .= " AND uid=" . $userid . " ";
+    }
+    // because count() returns 1 even if a supplied variable
+    // is not an array, we must check if $querryarray is really an array
+    if (is_array($queryarray) && $count = count($queryarray)) {
+        $sql .= " AND ((title LIKE '%$queryarray[0]%' OR subtitle LIKE '%$queryarray[0]%' OR review LIKE '%$queryarray[0]%' OR keywords LIKE '%$queryarray[0]%')";
+        for ($i = 1; $i < $count; ++$i) {
+            $sql .= " $andor ";
+            $sql .= "(title LIKE '%$queryarray[$i]%' OR subtitle LIKE '%$queryarray[$i]%' OR review LIKE '%$queryarray[$i]%' OR keywords LIKE '%$queryarray[$i]%')";
+        }
+        $sql .= ") ";
+    }
+    $sql .= "ORDER BY date DESC";
+    $result = $GLOBALS['xoopsDB']->query($sql, $limit, $offset);
+    $ret    = array();
+    $i      = 0;
+    while ($myrow = $GLOBALS['xoopsDB']->fetchArray($result)) {
+        $ret[$i]['image'] = "assets/images/amreviews.gif";
+        $ret[$i]['link']  = "review.php?id=" . $myrow['id'] . "";
+        $ret[$i]['title'] = $myrow['title'];
+        $ret[$i]['time']  = $myrow['date'];
+        $ret[$i]['uid']   = $myrow['uid'];
+        ++$i;
+    }
+
+    return $ret;
 }
-?>

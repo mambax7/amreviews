@@ -3,7 +3,7 @@
 //  ------------------------------------------------------------------------ //
 //  Author: Andrew Mills                                                     //
 //  Email:  ajmills@sirium.net                                               //
-//	About:  This file is part of the AM Reviews module for Xoops v2.         //
+//  About:  This file is part of the AM Reviews module for Xoops v2.         //
 //                                                                           //
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
@@ -29,183 +29,195 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+use Xoopsmodules\amreviews;
 
 // includes
-//include_once("header.php");
+//include_once('header.php');
+
+$helper = &Xoopsmodules\amreviews\Helper::getInstance();
+//$helper    = new Xoopsmodules\amreviews\Helper();
+$adminLang = '_AM_' . strtoupper($helper->moduleDirName);
 
 /**
-* Admin header menu.
-*/
-define("_AM_AMREV_GENERALSET",	"Prefs");
-define("_AM_AMREV_GOTOMOD",		"Go to mod");
-define("_AM_AMREV_HELP",		"Help");
-define("_AM_AMREV_MODULEADMIN",	"Admin :");
-define("_AM_AMREV_INDEX",		"Index");
-define("_AM_AMREV_CAT",			"Categories");
-define("_AM_AMREV_REVIEWS",		"Reviews");
-define("_MI_AMREV_IMAGES",		"Images");
-define("_AM_AMREV_PERMS",		"Permissions");
-define("_AM_AMREV_ABOUT",		"About");
-
-
-/**
-* Misc. (used on more than one page)
-*/
-define("_AM_AMREV_FILECHECKS",		"Information");
-define("_AM_AMREV_UPLOADMAX",		"Maximum upload size: ");
-define("_AM_AMREV_POSTMAX",			"Maximum post size: ");
-define("_AM_AMREV_UPLOADS",			"Uploads allowed: ");
-define("_AM_AMREV_UPLOAD_ON",		"On");
-define("_AM_AMREV_UPLOAD_OFF",		"Off");
-define("_AM_AMREV_GDIMGSPPRT",		"GD image lib supported: ");
-define("_AM_AMREV_GDIMGON",			"Yes");
-define("_AM_AMREV_GDIMGOFF",		"No");
-define("_AM_AMREV_GDIMGVRSN",		"GD image lib version: ");
-define("_AM_AMREV_DBUPDATED",		"Database updated!");
-define("_AM_AMREV_DBNOUPDATED",		"Database not updated!");
-define("_AM_AMREV_DBCONFMDEL",		"Are you sure you want to delete this item?");
-define("_AM_AMREV_DBDELETED",		"Item deleted!");
-define("_AM_AMREV_DBNOTDELETED",	"Item not deleted!");
-define("_AM_AMREV_CLICKEDIT",		"Click to edit.");
-define("_AM_AMREV_CLICKDELETE",		"Click to delete.");
-define("_AM_AMREV_STATUSSHOW",		"Status: Published.");
-define("_AM_AMREV_STATUSHIDE",		"Status: Hidden.");
-define("_AM_AMREV_FRMCAPNOHTML",	"&nbsp;Allow HTML.");
-define("_AM_AMREV_FRMCAPNOBR",		"&nbsp;Convert line breaks (deselect when using WYSIWYG editors).");
-define("_AM_AMREV_FRMCAPNOSMLY",	"&nbsp;Allow XOOPS smiley icons.");
-define("_AM_AMREV_FRMCAPNOXCDE",	"&nbsp;Allow XOOPS codes.");
-define("_AM_AMREV_FRMCAPNOXIMG",	"&nbsp;Allow display of images with XOOPS codes.");
-define("_AM_AMREV_IMGCONFDEL",		"Are you sure you want to delete this image?");
-define("_AM_AMREV_IMGCONFDELIU",	"Are you sure you want to delete this image?<br />There are %d review(s) using this image!");
-
+ * Admin header menu.
+ */
+define($adminLang . '_GENERALSET', 'Prefs');
+define($adminLang . '_GOTOMOD', 'Go to mod');
+define($adminLang . '_HELP', 'Help');
+define($adminLang . '_MODULEADMIN', 'Admin :');
+define($adminLang . '_INDEX', 'Index');
+define($adminLang . '_CAT', 'Categories');
+define($adminLang . '_REVIEWS', 'Reviews');
+define($adminLang . '_IMAGES', 'Images');
+define($adminLang . '_PERMS', 'Permissions');
+define($adminLang . '_ABOUT', 'About');
 
 /**
-* index.php
-*/
-define("_AM_AMREV_SUMMARY",			"General stats");
-define("_AM_AMREV_WAITVALCAP",		"Validation:");
-define("_AM_AMREV_WAITVAL",			"%s reviews are waiting to be <a href=\"validate.php\">validated</a>.");
-define("_AM_AMREV_REVIEWTOTCAP",	"No. reviews:");
-define("_AM_AMREV_REVIEWTOT",		"%s <a href=\"review.php\">reviews</a>.");
-define("_AM_AMREV_CATETOTCAP",		"No. categories:");
-define("_AM_AMREV_CATETOT",			"%s <a href=\"category.php\">categories</a>.");
-define("_AM_AMREV_CATTBLCAP",		"Categories");
-define("_AM_AMREV_VIEWSCAP", 		"No. views:");
-define("_AM_AMREV_VIEWS",	 		"%s total <a href=\"review.php\">reviews</a> views.");
-define("_AM_AMREV_PUBLISHEDCAP",	"Published:");
-define("_AM_AMREV_PUBLISHED", 		"%s <a href=\"review.php\">reviews</a> have been published.");
-define("_AM_AMREV_HIDDENCAP",		"Hidden:");
-define("_AM_AMREV_HIDDEN", 			"%s <a href=\"review.php\">reviews</a> are hidden (includes unvalidated <a href=\"review.php\">reviews</a>).");
-
-
-/**
-* category.php
-*/
-define("_AM_AMREV_CATCAPTION",		"Add a category:");
-define("_AM_AMREV_CATCAPSAVE",		"Save");
-define("_AM_AMREV_CATCAPTIONED",	"Edit a category:");
-define("_AM_AMREV_CATCAPSAVEED",	"Save changes");
-
-
-/**
-* catform.inc.php
-*/
-define("_AM_AMREV_CATCAPTTL",		"Category title:");
-define("_AM_AMREV_CATCAPDESC",		"Description:");
-define("_AM_AMREV_CATCAPPAR",		"Parent category:");
-define("_AM_AMREV_CATCAPPARSLT",	"Select parent as required:");
-define("_AM_AMREV_CATCAPSRT",		"Weight:");
-define("_AM_AMREV_CATCAPDSPLY",		"Publish:");
-define("_AM_AMREV_CATCAPDSPLYTXT",	"&nbsp;Select to show this category.");
-
+ * Misc. (used on more than one page)
+ */
+define($adminLang . '_SERVERSTATS', 'Server Information');
+define($adminLang . '_UPLOADMAX', 'Maximum upload size: ');
+define($adminLang . '_POSTMAX', 'Maximum post size: ');
+define($adminLang . '_UPLOADS', 'Uploads allowed: ');
+define($adminLang . '_UPLOAD_ON', 'On');
+define($adminLang . '_UPLOAD_OFF', 'Off');
+define($adminLang . '_GDIMGSPPRT', 'GD image lib supported: ');
+define($adminLang . '_GDIMGON', 'Yes');
+define($adminLang . '_GDIMGOFF', 'No');
+define($adminLang . '_GDIMGVRSN', 'GD image lib version: ');
+define($adminLang . '_DBUPDATED', 'Database updated!');
+define($adminLang . '_DBNOUPDATED', 'Database not updated!');
+define($adminLang . '_DBCONFMDEL', 'Are you sure you want to delete this item?');
+define($adminLang . '_DBDELETED', 'Item deleted!');
+define($adminLang . '_DBNOTDELETED', 'Item not deleted!');
+define($adminLang . '_CLICKEDIT', 'Click to edit.');
+define($adminLang . '_CLICKDELETE', 'Click to delete.');
+define($adminLang . '_STATUSSHOW', 'Status: Published.');
+define($adminLang . '_STATUSHIDE', 'Status: Hidden.');
+define($adminLang . '_FRMCAPNOHTML', '&nbsp;Allow HTML.');
+define($adminLang . '_FRMCAPNOBR', '&nbsp;Convert line breaks (deselect when using WYSIWYG editors).');
+define($adminLang . '_FRMCAPNOSMLY', '&nbsp;Allow XOOPS smiley icons.');
+define($adminLang . '_FRMCAPNOXCDE', '&nbsp;Allow XOOPS codes.');
+define($adminLang . '_FRMCAPNOXIMG', '&nbsp;Allow display of images with XOOPS codes.');
+define($adminLang . '_IMGCONFDEL', 'Are you sure you want to delete this image?');
+define($adminLang . '_IMGCONFDELIU', 'Are you sure you want to delete this image?<br />There are %d review(s) using this image!');
 
 /**
-* review.php
-*/
-define("_AM_AMREV_REVIEWTBLCAP",	"Reviews:");
-define("_AM_AMREW_REVCAPID",		"ID");
-define("_AM_AMREW_REVCAPTTL",		"Title");
-define("_AM_AMR_FRMCAPLNKPRVW",		"Click to preview");
-define("_AM_AMREV_REVCAPTION",		"Add a review:");
-define("_AM_AMREV_REVCAPSAVE",		"Save");
-define("_AM_AMREV_REVCAPEDIT",		"Edit review:");
-
-
-/**
-* reviewform.inc.php
-*/
-define("_AM_AMREV_REVCAPTTL",		"Review title:");
-define("_AM_AMREV_REVCAPSUBTTL",	"Subtitle:");
-define("_AM_AMREV_CAPSAUTHOR",		"Author:");
-define("_AM_AMREV_CAPSDETAILS",		"Item details:");
-define("_AM_AMREV_CAPSTEASER",		"Teaser:");
-define("_AM_AMREV_CAPSMAINREVIEW",	"Main review:");
-define("_AM_AMREV_CAPSKEYWORDS",	"Keywords:");
-define("_AM_AMREV_CAPSKEYWORDSDSC",	"Add comma separated list of keywords for meta headers and site search.<br /> Example: &quot;key, word, for, search, meta tags&quot;");
-define("_AM_AMREV_CATCAP",			"Category:");
-define("_AM_AMREV_CATCAPSLT",		"Select a category");
-define("_AM_AMREV_CAPDSPLYREV",		"Publish:");
-define("_AM_AMREV_CAPDSPLYREVTXT",	"display this review.");
-define("_AM_AMREV_CAPSDDATE",		"Published date:");
-define("_AM_AMREV_CAPSSTARTDATE",	"Start date:");
-define("_AM_AMREV_CAPSSTARTDTBX",	"Set when to start display of review (de-select to remove display restriction).<br />");
-define("_AM_AMREV_CAPSSTARTDTYN",	"<br />Remove start date: ");
-define("_AM_AMREV_CAPSENDDATE",		"End date:");
-define("_AM_AMREV_CAPSENDDTBX",		"Set when to end display of review (de-select to remove display restriction).<br />");
-define("_AM_AMREV_CAPSENDDTYN",		"<br />Remove expiry date: ");
-define("_AM_AMREV_CAPRATE",			"Review rating:");
-define("_AM_AMREV_CAPRATESLT",		"Select a rating:");
-define("_AM_AMREV_CAPRATE1",		"*");
-define("_AM_AMREV_CAPRATE2",		"**");
-define("_AM_AMREV_CAPRATE3",		"***");
-define("_AM_AMREV_CAPRATE4",		"****");
-define("_AM_AMREV_CAPRATE5",		"*****");
-define("_AM_AMREV_PAGETTL",			"Review title as page title:");
-//define("_AM_AMREV_PAGETTLDSC",	"The default page title behaviour - can be set individually in review.");
-define("_AM_AMREV_PAGETTL_OPT_0",	"None: default XOOPS page title");
-define("_AM_AMREV_PAGETTL_OPT_1",	"Yes: &lt;module name&gt; - &lt;review title&gt;");
-define("_AM_AMREV_PAGETTL_OPT_2",	"Yes: &lt;review title&gt; - &lt;module name&gt;");
-define("_AM_AMREV_KEYWORD",			"Keyword meta header options:");
-define("_AM_AMREV_KEYWORD_OPT_0",	"None: default XOOPS meta tags");
-define("_AM_AMREV_KEYWORD_OPT_1",	"Yes: review's meta tags only");
-define("_AM_AMREV_KEYWORD_OPT_2",	"Yes: review's and XOOPS meta tags");
-define("_AM_AMREV_CAPCOMMENTS",		"Allow comments:");
-define("_AM_AMREV_CAPCOMMENTSTXT",	"&nbsp;Allow comments for this review.");
+ * index.php
+ */
+define($adminLang . '_SUMMARY', 'Module Stats');
+define($adminLang . '_WAITVALCAP', 'Validation:');
+define($adminLang . '_WAITVAL', '%s reviews are waiting to be <a href=\'validate.php\'>validated</a>.');
+define($adminLang . '_REVIEWTOTCAP', 'No. reviews:');
+define($adminLang . '_REVIEWTOT', '%s <a href=\'review.php\'>reviews</a>.');
+define($adminLang . '_CATETOTCAP', 'No. categories:');
+define($adminLang . '_CATETOT', '%s <a href=\'category.php\'>categories</a>.');
+define($adminLang . '_CATTBLCAP', 'Categories');
+define($adminLang . '_VIEWSCAP', 'No. views:');
+define($adminLang . '_VIEWS', '%s total <a href=\'review.php\'>reviews</a> views.');
+define($adminLang . '_PUBLISHEDCAP', 'Published:');
+define($adminLang . '_PUBLISHED', '%s <a href=\'review.php\'>reviews</a> have been published.');
+define($adminLang . '_HIDDENCAP', 'Hidden:');
+define($adminLang . '_HIDDEN', '%s <a href=\'review.php\'>reviews</a> are hidden (includes unvalidated <a href=\'review.php\'>reviews</a>).');
 
 /**
-* Image.php
-*/
-define("_AM_AMREV_IMGUPLOAD",		"Upload images:");
-define("_AM_AMREV_IMGUPFILE",		"Select image:");
-define("_AM_AMREV_IMGUPBUTTON",		"Upload");
-define("_AM_AMREV_IMGUPLOADFNL",	"<b>Final upload path:</b> ");
-define("_AM_AMREV_IMGUPLOADTMP",	"<b>Temp upload path:</b> ");
-define("_AM_AMREV_IMGUPLOADMAX",	"<b>Max. file size:</b> ");
-define("_AM_AMREV_IMGUPLOADFN",		"&nbsp;Select to keep original filename.");
-define("_AM_AMREV_IMGUPLOADED",		"Image uploaded successfully");
-define("_AM_AMREV_DELETEIMGCAP",	"Delete an image:");
-define("_AM_AMREV_SELECTIMGCAP",	"Select image:");
-define("_AM_AMREV_HIWIDTH",			"Default highlight width:");
-define("_AM_AMREV_THUMBWIDTH",		"Default thumbnail width:");
-define("_AM_AMREV_DELTHUMBS",		"Delete thumbnails:");
-define("_AM_AMREV_DELTHUMBSCAP",	"");
-define("_AM_AMREV_DELIMAGEBUT",		"Delete");
-define("_AM_AMREV_DELIMG",			"Delete image:");
-define("_AM_AMREV_IMGMAINDEL",		"Main image........");
-define("_AM_AMREV_IMGHIGHDEL",		"Highlight image...");
-define("_AM_AMREV_IMGTHUMBDEL",		"Thumbnail image...");
-define("_AM_AMREV_IMGDELERR",		"<b>Please note:</b> One or more of the images could not be deleted. Either the file(s) do not exist, or I do not have sufficient permissions.");
-define("_AM_AMREV_IMGRETURN",		"Return to image admin");
-define("_AM_AMREV_IMGDELETING",		"Deleting:");
-
+ * category.php
+ */
+define($adminLang . '_CATCAPTION', 'Add a category:');
+define($adminLang . '_CATCAPSAVE', 'Save');
+define($adminLang . '_CATCAPTIONED', 'Edit a category:');
+define($adminLang . '_CATCAPSAVEED', 'Save changes');
 
 /**
-* perms.php
-*/
-define("_AM_AMREV_CATPERMTTL",	"Category permissions");
-define("_AM_AMREV_CATPERMDSC",	"Select who can view which category:");
+ * catform.inc.php
+ */
+define($adminLang . '_CATCAPTTL', 'Category title:');
+define($adminLang . '_CATCAPDESC', 'Description:');
+define($adminLang . '_CATCAPPAR', 'Parent category:');
+define($adminLang . '_CATCAPPARSLT', 'Select parent as required:');
+define($adminLang . '_CATCAPSRT', 'Weight:');
+define($adminLang . '_CATCAPDSPLY', 'Publish:');
+define($adminLang . '_CATCAPDSPLYTXT', '&nbsp;Select to show this category.');
+
+/**
+ * review.php
+ */
+define($adminLang . '_REVIEWTBLCAP', 'Reviews:');
+define($adminLang . '_REVCAPID', 'ID');
+define($adminLang . '_REVCAPTTL', 'Title');
+define($adminLang . '_FRMCAPLNKPRVW', 'Click to preview');
+define($adminLang . '_REVCAPTION', 'Add a review:');
+define($adminLang . '_REVCAPSAVE', 'Save');
+define($adminLang . '_REVCAPEDIT', 'Edit review:');
+
+/**
+ * reviewform.inc.php
+ */
+//define($adminLang . '_REVCAPTTL', 'Review title:');
+define($adminLang . '_REVCAPSUBTTL', 'Subtitle:');
+define($adminLang . '_CAPSAUTHOR', 'Author:');
+define($adminLang . '_CAPSDETAILS', 'Item details:');
+define($adminLang . '_CAPSTEASER', 'Teaser:');
+define($adminLang . '_CAPSMAINREVIEW', 'Main review:');
+define($adminLang . '_CAPSKEYWORDS', 'Keywords:');
+define($adminLang . '_CAPSKEYWORDSDSC', 'Add comma separated list of keywords for meta headers and site search.<br /> Example: &quot;key, word, for, search, meta tags&quot;');
+define($adminLang . '_CATCAP', 'Category:');
+define($adminLang . '_CATCAPSLT', 'Select a category');
+define($adminLang . '_CAPDSPLYREV', 'Publish:');
+define($adminLang . '_CAPDSPLYREVTXT', 'display this review.');
+define($adminLang . '_CAPSDDATE', 'Published date:');
+define($adminLang . '_CAPSSTARTDATE', 'Start date:');
+define($adminLang . '_CAPSSTARTDTBX', 'Set when to start display of review (de-select to remove display restriction).<br />');
+define($adminLang . '_CAPSSTARTDTYN', '<br />Remove start date: ');
+define($adminLang . '_CAPSENDDATE', 'End date:');
+define($adminLang . '_CAPSENDDTBX', 'Set when to end display of review (de-select to remove display restriction).<br />');
+define($adminLang . '_CAPSENDDTYN', '<br />Remove expiry date: ');
+define($adminLang . '_CAPRATE', 'Review rating:');
+define($adminLang . '_CAPRATESLT', 'Select a rating:');
+define($adminLang . '_CAPRATE1', '*');
+define($adminLang . '_CAPRATE2', '**');
+define($adminLang . '_CAPRATE3', '***');
+define($adminLang . '_CAPRATE4', '****');
+define($adminLang . '_CAPRATE5', '*****');
+define($adminLang . '_PAGETTL', 'Review title as page title:');
+//define($adminLang . '_PAGETTLDSC',    'The default page title behaviour - can be set individually in review.');
+define($adminLang . '_PAGETTL_OPT_0', 'None: default XOOPS page title');
+define($adminLang . '_PAGETTL_OPT_1', 'Yes: &lt;module name&gt; - &lt;review title&gt;');
+define($adminLang . '_PAGETTL_OPT_2', 'Yes: &lt;review title&gt; - &lt;module name&gt;');
+define($adminLang . '_KEYWORD', 'Keyword meta header options:');
+define($adminLang . '_KEYWORD_OPT_0', 'None: default XOOPS meta tags');
+define($adminLang . '_KEYWORD_OPT_1', 'Yes: review\s meta tags only');
+define($adminLang . '_KEYWORD_OPT_2', 'Yes: review\'s and XOOPS meta tags');
+define($adminLang . '_CAPCOMMENTS', 'Allow comments:');
+define($adminLang . '_CAPCOMMENTSTXT', '&nbsp;Allow comments for this review.');
+
+/**
+ * Image.php
+ */
+define($adminLang . '_IMGUPLOAD', 'Upload images:');
+define($adminLang . '_IMGUPFILE', 'Select image:');
+define($adminLang . '_IMGUPBUTTON', 'Upload');
+define($adminLang . '_IMGUPLOADFNL', '<b>Final upload path:</b> ');
+define($adminLang . '_IMGUPLOADTMP', '<b>Temp upload path:</b> ');
+define($adminLang . '_IMGUPLOADMAX', '<b>Max. file size:</b> ');
+define($adminLang . '_IMGUPLOADFN', '&nbsp;Select to keep original filename.');
+define($adminLang . '_IMGUPLOADED', 'Image uploaded successfully');
+define($adminLang . '_DELETEIMGCAP', 'Delete an image:');
+define($adminLang . '_SELECTIMGCAP', 'Select image:');
+define($adminLang . '_HIWIDTH', 'Default highlight width:');
+define($adminLang . '_THUMBWIDTH', 'Default thumbnail width:');
+define($adminLang . '_DELTHUMBS', 'Delete thumbnails:');
+define($adminLang . '_DELTHUMBSCAP', '');
+define($adminLang . '_DELIMAGEBUT', 'Delete');
+define($adminLang . '_DELIMG', 'Delete image:');
+define($adminLang . '_IMGMAINDEL', 'Main image........');
+define($adminLang . '_IMGHIGHDEL', 'Highlight image...');
+define($adminLang . '_IMGTHUMBDEL', 'Thumbnail image...');
+define($adminLang . '_IMGDELERR', '<b>Please note:</b> One or more of the images could not be deleted. Either the file(s) do not exist, or I do not have sufficient permissions.');
+define($adminLang . '_IMGRETURN', 'Return to image admin');
+define($adminLang . '_IMGDELETING', 'Deleting:');
+
+/**
+ * perms.php
+ */
+define($adminLang . '_CATPERMTTL', 'Category permissions');
+define($adminLang . '_CATPERMDSC', 'Select who can view which category:');
 
 // 0.1 Alpha 2
 
-define("_AM_AMREW_REVCAP_VISIBLE",	"Visible:");
-define("_AM_AMREW_REVCAP_ACTIONS",	"Actions:");
+define($adminLang . '_REVCAP_VISIBLE', 'Visible:');
+define($adminLang . '_REVCAP_ACTIONS', 'Actions:');
+
+define($adminLang . '_THUMBNAIL_INFO', 'This will also create thumbnail and highlight images');
+define($adminLang . '_ERROR_UNSUPPORTED_TYPE', 'This will also create thumbnail and highlight images');
+
+define($adminLang . '_ERROR_PHOTO_NOT_UPLOADED', 'Error: photo not uploaded');
+define($adminLang . '_ERROR_NOT_MOVED_TO_TEMP', 'File could not be moved to local temp dir');
+define($adminLang . '_ERROR_PERMISSIONS_NOT_CHANGED', 'I was unable to change the temp file\'s permissions');
+define($adminLang . '_ERROR_FILE_NOT_COPIED', 'Sorry, I was unable to copy the uploaded file from:');
+define($adminLang . '_ERROR_TEMP_NOT_DELETED', 'I was unable to delete the temp copy of the uploaded file:');
+define($adminLang . '_ERROR_FILE_EXISTS_RENAMED', 'already exists in the photo directory, so I have renamed it to');
+
+
+
+

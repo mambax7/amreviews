@@ -3,7 +3,7 @@
 //  ------------------------------------------------------------------------ //
 //  Author: Andrew Mills                                                     //
 //  Email:  ajmills@sirium.net                                               //
-//	About:  This file is part of the AM Reviews module for Xoops v2.         //
+//  About:  This file is part of the AM Reviews module for Xoops v2.         //
 //                                                                           //
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
@@ -33,9 +33,7 @@
 // includes
 
 /**
-* Debug stuff
-*/
+ * Debug stuff
+ */
 #if (function_exists("tmngend")) {  echo tmngend($tmngstart); }
 
-
-?>

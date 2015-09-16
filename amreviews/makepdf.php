@@ -1,187 +1,103 @@
 <?php
-// $Id: makepdf.php,v 1.1 2007/01/24 19:24:50 andrew Exp $
-//  ------------------------------------------------------------------------ //
-//  Author: Andrew Mills                                                     //
-//  Email:  ajmills@sirium.net                                               //
-//	About:  This file is part of the AM Reviews module for Xoops v2.         //
-//                                                                           //
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
 
-// Based on makepdf.php (from news module) by phppp
-
+/**
+ * File : makefile.pdf for publisher
+ * For tcpdf_for_xoops 2.01 and higher
+ * Created by montuy337513 / philodenelle - http://www.chg-web.org
+ **/
 error_reporting(0);
-include_once("header.php");
-$myts =& MyTextSanitizer::getInstance();
-include_once("fpdf/fpdf.inc.php");
 
-/*
-$storyid = isset($_GET['storyid']) ? intval($_GET['storyid']) : 0;
+include_once __DIR__ . '/header.php';
+$itemid       = XoopsRequest::getInt('itemid', 0, 'GET');
+$item_page_id = XoopsRequest::getInt('page', -1, 'GET');
+if ($itemid === 0) {
+    redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);
 
-if (empty($storyid))  {
-    redirect_header(XOOPS_URL.'/modules/news/index.php',2,_NW_NOSTORY);
-    exit();
+}
+if (!is_file(XOOPS_PATH . '/vendor/tcpdf/tcpdf.php')) {
+    redirect_header(XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . '/review.php?id=' . $itemid, 3, 'TCPF for Xoops not installed in ./xoops_lib/vendor/');
+}
+// Creating the item object for the selected item
+$itemObj = $publisher->getHandler('item')->get($itemid);
+
+// if the selected item was not found, exit
+if (!$itemObj) {
+    redirect_header('javascript:history.go(-1)', 1, _MD_PUBLISHER_NOITEMSELECTED);
 }
 
-$article = new NewsStory($storyid);
-// Not yet published
-if ( $article->published() == 0 || $article->published() > time() ) {
-    redirect_header(XOOPS_URL.'/modules/news/index.php', 2, _NW_NOSTORY);
-    exit();
+// Creating the category object that holds the selected item
+$categoryObj = $publisher->getHandler('category')->get($itemObj->categoryid());
+
+// Check user permissions to access that category of the selected item
+if (!$itemObj->accessGranted()) {
+    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
 }
 
-// Expired
-if ( $article->expired() != 0 && $article->expired() < time() ) {
-    redirect_header(XOOPS_URL.'/modules/news/index.php', 2, _NW_NOSTORY);
-    exit();
+xoops_loadLanguage('main', PUBLISHER_DIRNAME);
+
+$dateformat    = $itemObj->datesub();
+$sender_inform = sprintf(_MD_PUBLISHER_WHO_WHEN, $itemObj->posterName(), $itemObj->datesub());
+$mainImage     = $itemObj->getMainImage();
+
+$content = '';
+if ($mainImage['image_path'] !== '') {
+    $content .= '<img src="' . $mainImage['image_path'] . '" alt="' . $myts->undoHtmlSpecialChars($mainImage['image_name']) . '"/>';
 }
+$content .= '<a href="' . PUBLISHER_URL . '/item.php?itemid=' . $itemid . '" style="text-decoration: none; color: black; font-size: 120%;" title="' . $myts->undoHtmlSpecialChars($itemObj->title()) . '">' . $myts->undoHtmlSpecialChars($itemObj->title()) . '</a>';
+$content .= '<br /><span style="color: #CCCCCC; font-weight: bold; font-size: 80%;">' . _CO_PUBLISHER_CATEGORY . ' : </span><a href="' . PUBLISHER_URL . '/category.php?categoryid=' . $itemObj->categoryid() . '" style="color: #CCCCCC; font-weight: bold; font-size: 80%;" title="' . $myts->undoHtmlSpecialChars($categoryObj->name()) . '">' . $myts->undoHtmlSpecialChars($categoryObj->name()) . '</a>';
+$content .= '<br /><span style="font-size: 80%; font-style: italic;">' . $sender_inform . '</span><br />';
+$content .= $itemObj->plain_maintext();
 
+// Configuration for TCPDF_for_XOOPS
+$pdf_data = array(
+    'author'           => $itemObj->posterName(),
+    'title'            => $myts->undoHtmlSpecialChars($categoryObj->name()),
+    'page_format'      => 'A4',
+    'page_orientation' => 'P',
+    'unit'             => 'mm',
+    'rtl'              => false //true if right to left
+);
+require_once(XOOPS_PATH . '/vendor/tcpdf/tcpdf.php');
 
-$gperm_handler =& xoops_gethandler('groupperm');
-if (is_object($xoopsUser)) {
-    $groups = $xoopsUser->getGroups();
-} else {
-	$groups = XOOPS_GROUP_ANONYMOUS;
-}
-if (!$gperm_handler->checkRight('news_view', $article->topicid(), $groups, $xoopsModule->getVar('mid'))) {
-	redirect_header(XOOPS_URL.'/modules/news/index.php', 3, _NOPERM);
-	exit();
-}
-*/
+$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, _CHARSET, false);
 
-//----------------------------------------------------------------------------//
+$doc_title    = publisher_convertCharset($myts->undoHtmlSpecialChars($itemObj->title()));
+$doc_keywords = 'XOOPS';
+$docKeywords  = $myts->undoHtmlSpecialChars($itemObj->meta_keywords());
+if (array_key_exists('rtl', $pdf_data)) {
+    $pdf->setRTL($pdf_data['rtl']);
+};
+// set document information
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor(PDF_AUTHOR);
+$pdf->SetTitle($doc_title);
+$pdf->SetSubject($docSubject);
+//$pdf->SetKeywords(XOOPS_URL . ', '.' by TCPDF_for_XOOPS (chg-web.org), '.$doc_title);
+$pdf->SetKeywords($docKeywords);
 
-	$sql = ("SELECT * FROM " .$xoopsDB->prefix('amreview_reviews') . 
-	" WHERE (date_publish='0' OR ". time() ." > date_publish) AND (date_end='0' OR ". time() ." < date_end) AND validated='1' AND showme='1' AND id = '" . intval($_GET['id']) . "'");
-	$result=$xoopsDB->query($sql);
+$firstLine  = publisherConvertCharset($GLOBALS['xoopsConfig']['sitename']) . ' (' . XOOPS_URL . ')';
+$secondLine = publisherConvertCharset($GLOBALS['xoopsConfig']['slogan']);
 
-	if ($xoopsDB->getRowsNum($result) > 0) {
-		while($myrow = $xoopsDB->fetchArray($result)) {
+//$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine);
+$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine, array(0, 64, 255), array(0, 64, 128));
 
-			$id				= $myrow['id'];
-			$pdf_data['title']			= $myts->displayTarea($myrow['title'], 0, 0, 1, 0, 0);
-			$pdf_data['subtitle'] 		= $myts->displayTarea($myrow['subtitle'], 0, 0, 1, 0, 0);
-			$pdf_data['item_details']	= $myts->displayTarea($myrow['item_details'], 1, 1, 1, 1, 1);
-			$pdf_data['review']			= $myts->displayTarea($myrow['review'], $myrow['nohtml'], $myrow['nosmiley'], $myrow['noxcode'], $myrow['noimage'], $myrow['nobr']);
-			$pdf_data['date']			= formatTimestamp(strtotime($myrow['date']), $xoopsModuleConfig['dateformat']);
-				
-			$pdf_data['author']			= XoopsUser::getUnameFromId($myrow['uid'],0);
+//$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
 
-		} // end while
-	}// end if
+//set margins
+$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+//set auto page breaks
+$pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
 
+$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); //set image scale factor
 
-#$dateformat=news_getmoduleoption('dateformat');
-#$article_data = $article->hometext() . $article->bodytext();
-#$article_title = $article->title();
-#$article_title = news_html2text($myts->undoHtmlSpecialChars($article_title));
-#$forumdata['topic_title'] = $article_title;
-#$pdf_data['title'] = $article->title();
-#$topic_title = $article->topic_title();
-#$topic_title = news_html2text($myts->undoHtmlSpecialChars($topic_title));
-#$pdf_data['subtitle'] = $topic_title;
+$pdf->setHeaderFont(Array(PDF_FONT_NAME_SUB, '', PDF_FONT_SIZE_SUB));
+$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+$pdf->setFooterData($tc = array(0, 64, 0), $lc = array(0, 64, 128));
 
-#$pdf_data['subsubtitle'] = '';
-#$pdf_data['date'] = formatTimestamp($article->published(),$dateformat);
-#$pdf_data['filename'] = preg_replace("/[^0-9a-z\-_\.]/i",'', $myts->htmlSpecialChars($article->topic_title()).' - '.$article->title());
-$pdf_data['filename'] = 'test';
-#$hometext = $article->hometext();
-#$bodytext = $article->bodytext();
-#$content = $myts->undoHtmlSpecialChars($hometext) . '<br /><br />' . $myts->undoHtmlSpecialChars($bodytext);
-//$content = str_replace('[pagebreak]','<br /><br />',$content);
-$pdf_data['review'] = str_replace('[pagebreak]','',$pdf_data['review']);
-#$pdf_data['content'] = $content;
-
-#$pdf_data['author'] = $article->uname();
-
-//Other stuff
-$puff='<br />';
-$puffer='<br /><br /><br />';
-
-//create the A4-PDF...
-$pdf_config['slogan']=$xoopsConfig['sitename'].' - '.$xoopsConfig['slogan'];
-
-
-$pdf=new PDF();
-if(method_exists($pdf, 'encoding')){
-	$pdf->encoding($pdf_data, _CHARSET);
-}
-$pdf->SetCreator($pdf_config['creator']);
-$pdf->SetTitle($pdf_data['title']);
-$pdf->SetAuthor($pdf_config['url']);
-$pdf->SetSubject($pdf_data['author']);
-$out=$pdf_config['url'].', '.$pdf_data['author'].', '.$pdf_data['title'].', '.$pdf_data['subtitle'].', '.$pdf_data['subsubtitle'];
-$pdf->SetKeywords($out);
-$pdf->SetAutoPageBreak(true,25);
-$pdf->SetMargins($pdf_config['margin']['left'],$pdf_config['margin']['top'],$pdf_config['margin']['right']);
+//initialize document
 $pdf->Open();
-
-//First page
 $pdf->AddPage();
-$pdf->SetXY(24,25);
-$pdf->SetTextColor(10,60,160);
-$pdf->SetFont($pdf_config['font']['slogan']['family'],$pdf_config['font']['slogan']['style'],$pdf_config['font']['slogan']['size']);
-$pdf->WriteHTML($pdf_config['slogan'], $pdf_config['scale']);
-//$pdf->Image($pdf_config['logo']['path'],$pdf_config['logo']['left'],$pdf_config['logo']['top'],$pdf_config['logo']['width'],$pdf_config['logo']['height'],'',$pdf_config['url']);
-$pdf->Line(25,30,190,30);
-$pdf->SetXY(25,35);
-$pdf->SetFont($pdf_config['font']['title']['family'],$pdf_config['font']['title']['style'],$pdf_config['font']['title']['size']);
-$pdf->WriteHTML($pdf_data['title'],$pdf_config['scale']);
-
-if ($pdf_data['subtitle']<>''){
-	$pdf->WriteHTML($puff,$pdf_config['scale']);
-	$pdf->SetFont($pdf_config['font']['subtitle']['family'],$pdf_config['font']['subtitle']['style'],$pdf_config['font']['subtitle']['size']);
-	$pdf->WriteHTML($pdf_data['subtitle'],$pdf_config['scale']);
-}
-/*
-if ($pdf_data['subsubtitle']<>'') {
-	$pdf->WriteHTML($puff,$pdf_config['scale']);
-	$pdf->SetFont($pdf_config['font']['subsubtitle']['family'],$pdf_config['font']['subsubtitle']['style'],$pdf_config['font']['subsubtitle']['size']);
-	$pdf->WriteHTML($pdf_data['subsubtitle'],$pdf_config['scale']);
-}
-*/
-$pdf->WriteHTML($puff,$pdf_config['scale']);
-$pdf->SetFont($pdf_config['font']['author']['family'],$pdf_config['font']['author']['style'],$pdf_config['font']['author']['size']);
-$out=AMREV_PDF_AUTHOR.': ';
-$out.=$pdf_data['author'];
-$pdf->WriteHTML($out,$pdf_config['scale']);
-$pdf->WriteHTML($puff,$pdf_config['scale']);
-$out=AMREV_PDF_DATE;
-$out.=$pdf_data['date'];
-$pdf->WriteHTML($out,$pdf_config['scale']);
-$pdf->WriteHTML($puff,$pdf_config['scale']);
-
-$pdf->SetTextColor(0,0,0);
-$pdf->WriteHTML($puffer,$pdf_config['scale']);
-
-$pdf->SetFont($pdf_config['font']['review']['family'],$pdf_config['font']['review']['style'],$pdf_config['font']['review']['size']);
-$pdf->WriteHTML($pdf_data['review'],$pdf_config['scale']);
-
-//$pdf->Output($pdf_data['filename'],'');
-
+$pdf->writeHTML($content, true, 0, true, 0);
 $pdf->Output();
-
-
-?>

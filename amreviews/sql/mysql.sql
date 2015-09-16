@@ -35,7 +35,7 @@
 #-- Table structure for table `<prefix>_amreview_cat`
 #--
 
-CREATE TABLE `amreview_cat` (
+CREATE TABLE `amreviews_cat` (
   `id` int(5) NOT NULL auto_increment,
   `cat_parentid` int(5) NOT NULL default '0',
   `cat_title` varchar(100) NOT NULL default '0',
@@ -49,7 +49,7 @@ CREATE TABLE `amreview_cat` (
 #-- Dumping data for table `<prefix>_amreview_cat`
 #--
 
-INSERT INTO `amreview_cat` VALUES (1, 0, 'Example category', 'This is an example category.', 0, 1);
+INSERT INTO `amreviews_cat` VALUES (1, 0, 'Example category', 'This is an example category.', 0, 1);
 
 
 #-- --------------------------------------------------------
@@ -58,7 +58,7 @@ INSERT INTO `amreview_cat` VALUES (1, 0, 'Example category', 'This is an example
 #-- Table structure for table `<prefix>_amreview_reviews`
 #-- 
 
-CREATE TABLE `amreview_reviews` (
+CREATE TABLE `amreviews_reviews` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `uid` int(10) unsigned NOT NULL default '0',
   `catid` int(10) unsigned NOT NULL default '0',
@@ -99,7 +99,7 @@ CREATE TABLE `amreview_reviews` (
 #-- Table structure for table `<prefix>_amreview_rate`
 #-- 
 
-CREATE TABLE `amreview_rate` (
+CREATE TABLE `amreviews_rate` (
   `id` int(5) NOT NULL auto_increment,
   `rate_review_id` int(5) NOT NULL default '0',
   `rate_rating` int(5) NOT NULL default '0',

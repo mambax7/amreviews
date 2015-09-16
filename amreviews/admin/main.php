@@ -3,7 +3,7 @@
 //  ------------------------------------------------------------------------ //
 //  Author: Andrew Mills                                                     //
 //  Email:  ajmills@sirium.net                                               //
-//	About:  This file is part of the AM Reviews module for Xoops v2.         //
+//  About:  This file is part of the AM Reviews module for Xoops v2.         //
 //                                                                           //
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
@@ -31,56 +31,47 @@
 //  ------------------------------------------------------------------------ //
 
 // includes
-include ('../../../include/cp_header.php');
-if ( file_exists("../language/".$xoopsConfig['language']."/main.php") ) {
-	include ("../language/".$xoopsConfig['language']."/main.php");
-} else {
-	include ("../language/english/main.php");
-}
-include_once("functions.inc.php");
-include_once("../include/config.inc.php");
+
+include_once __DIR__ . '/admin_header.php';
+//include_once __DIR__ . '/functions.inc.php';
+include_once dirname(__DIR__) . '/include/config.inc.php';
 
 xoops_cp_header();
 
 /**
-* Summary
-*/
-$summary = amr_summary();
+ * Summary
+ */
+$utilities = new Xoopsmodules\amreviews\Utilities($db);
+$summary   = $utilities->summary();
 /*
 echo "<fieldset>";
-echo "<legend style=\"color: #990000; font-weight: bold;\">" . _AM_AMREV_SUMMARY . "</legend>";
+echo "<legend style=\"color: #990000; font-weight: bold;\">" . $adminLang . '_SUMMARY . "</legend>";
 
 echo "<ul>";
-echo "<li>" . _AM_AMREV_WAITVAL . $summary['waitval'] . "</li>";
-echo "<li>" . _AM_AMREV_REVIEWTOT . $summary['revcount'] . "</li>";
-echo "<li>" . _AM_AMREV_CATETOT . $summary['catcount'] . "</li>";
+echo "<li>" . $adminLang . '_WAITVAL' . $summary['waitval'] . "</li>";
+echo "<li>" . $adminLang . '_REVIEWTOT' . $summary['revcount'] . "</li>";
+echo "<li>" . $adminLang . '_CATETOT' . $summary['catcount'] . "</li>";
 echo "</ul>";
 echo "</fieldset><br />";
 */
 
-echo "<table width=\"100%\" cellspacing=\"1\" class=\"outer\">";
-echo "<tr><th colspan=\"2\">" . _AM_AMREV_SUMMARY . "</th></tr>";
-echo "<tr><td class=\"head\">". _AM_AMREV_WAITVALCAP ."</td><td class=\"odd\">" . sprintf(_AM_AMREV_WAITVAL, $summary['waitval']) . "</td></tr>";
-echo "<tr><td class=\"head\">". _AM_AMREV_REVIEWTOTCAP ."</td><td class=\"odd\">" . sprintf(_AM_AMREV_REVIEWTOT, $summary['revcount']) . "</td></tr>";
-echo "<tr><td class=\"head\">". _AM_AMREV_CATETOTCAP ."</td><td class=\"odd\">" . sprintf(_AM_AMREV_CATETOT, $summary['catcount']) . "</td></tr>";
-echo "<tr><td class=\"head\">". _AM_AMREV_VIEWSCAP ."</td><td class=\"odd\">" . sprintf(_AM_AMREV_VIEWS, $summary['views']) . "</td></tr>";
-echo "<tr><td class=\"head\">". _AM_AMREV_PUBLISHEDCAP ."</td><td class=\"odd\">" . sprintf(_AM_AMREV_PUBLISHED, $summary['published']) . "</td></tr>";
-echo "<tr><td class=\"head\">". _AM_AMREV_HIDDENCAP ."</td><td class=\"odd\">" . sprintf(_AM_AMREV_HIDDEN, $summary['hidden']) . "</td></tr>";
-echo "</table><br />";
-
-
-
-
-
+echo '<table width=\'100%\' cellspacing=\'1\' class=\'outer\'>';
+echo '<tr><th colspan=\"2\">' . $adminLang . '_SUMMARY' . '</th></tr>';
+echo '<tr><td class=\"head\">' . $adminLang . '_WAITVALCAP' . '</td><td class=\'odd\'>' . sprintf($adminLang . '_WAITVAL', $summary['waitval']) . '</td></tr>';
+echo '<tr><td class=\"head\">' . $adminLang . '_REVIEWTOTCAP' . '</td><td class=\'odd\'>' . sprintf($adminLang . '_REVIEWTOT', $summary['revcount']) . '</td></tr>';
+echo '<tr><td class=\"head\">' . $adminLang . '_CATETOTCAP' . '</td><td class=\'odd\'>' . sprintf($adminLang . '_CATETOT', $summary['catcount']) . '</td></tr>';
+echo '<tr><td class=\"head\">' . $adminLang . '_VIEWSCAP' . '</td><td class=\'odd\'>' . sprintf($adminLang . '_VIEWS', $summary['views']) . '</td></tr>';
+echo '<tr><td class=\"head\">' . $adminLang . '_PUBLISHEDCAP' . '</td><td class=\'odd\'>' . sprintf($adminLang . '_PUBLISHED', $summary['published']) . '</td></tr>';
+echo '<tr><td class=\"head\">' . $adminLang . '_HIDDENCAP' . '</td><td class=\'odd\'>' . sprintf($adminLang . '_HIDDEN', $summary['hidden']) . '</td></tr>';
+echo '</table><br />';
 
 /**
-* Do some tests
-*/
-amr_filechecks();
+ * Do some tests
+ */
+$utilities = new Xoopsmodules\amreviews\Utilities($db);
+$utilities->getServerStats();
+//    $utilities = new Xoopsmodules\amreviews\Utilities();
+//$utilities->adminfooter();
+include_once __DIR__ . '/admin_footer.php';
+//xoops_cp_footer();
 
-
-
-amrev_adminfooter();
-xoops_cp_footer();
-
-?>

@@ -1,7 +1,19 @@
-<b><u>Version 0.1 Alpha 2 (2012-05-06)</u></b>
+1.0 Alpha 1         NOT RELEASED, WORK IN PROGRESS
+==================================================
+- converted to XOOPS 2.5.7 Admin GUI (mamba)
+- removed hard-coded editor list (mamba)
+- converted templates to .tpl (mamba)
+- removed fpdf (it links now to TCPDF) (mamba)
+- experiment with PSR-4 Autoloading (mamba)
+- code cleanup/PSR-2 (mamba)
+- moving photos to /uploads (mamba)
+- basic refactoring (mamba)
+- changed naming of language variables to include folder's name (mamba)
+- bunch of other small experiments, incl. DI, Helper, etc.  (mamba)
+- changed intval() to (int) and remove other PHP 4 old code (mamba)
 
-- converted to XOOPS 2.5.x Admin GUI (mamba)
 
-<b><u>Version 0.1. Alpha 1 (2007-01-24)</u></b>
 
-- First Alpha release of the module.
+0.1 Alpha 1                     2007-01-27
+==================================================
+- First Alpha release of the module (Andrew Mills)

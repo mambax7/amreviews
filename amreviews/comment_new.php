@@ -25,15 +25,15 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
-include '../../mainfile.php';
-$com_itemid = isset($HTTP_GET_VARS['com_itemid']) ? intval($HTTP_GET_VARS['com_itemid']) : 0;
-if ($com_itemid > 0) {
-	// Get link title
-	$sql = "SELECT title FROM " . $xoopsDB->prefix('articles_reviews') . " WHERE id = " . $com_itemid . "";
-	$result = $xoopsDB->query($sql);
-	$row = $xoopsDB->fetchArray($result);
-    $com_replytitle = $row['title'];
-    include XOOPS_ROOT_PATH.'/include/comment_new.php';
-}
+include_once dirname(dirname(__DIR__)) . '/mainfile.php';
+xoops_load('XoopsRequest');
 
-?>
+$com_itemid = XoopsRequest::getInt('com_itemid', 0, 'GET'); //isset($_GET['com_itemid']) ? (int)($_GET['com_itemid']) : 0;
+if ($com_itemid > 0) {
+    // Get link title
+    $sql            = 'SELECT title FROM ' . $GLOBALS['xoopsDB']->prefix('articles_reviews') . ' WHERE id = ' . $com_itemid . '';
+    $result         = $GLOBALS['xoopsDB']->query($sql);
+    $row            = $GLOBALS['xoopsDB']->fetchArray($result);
+    $com_replytitle = $row['title'];
+    include XOOPS_ROOT_PATH . '/include/comment_new.php';
+}

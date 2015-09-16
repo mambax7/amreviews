@@ -1,397 +1,411 @@
 <?php
-// $Id: xoops_version.php,v 1.7 2007/01/24 19:24:32 andrew Exp $
-//  ------------------------------------------------------------------------ //
-//  Author: Andrew Mills                                                     //
-//  Email:  ajmills@sirium.net                                               //
-//	About:  This file is part of the AM Reviews module for Xoops v2.         //
-//                                                                           //
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
 
+/**
+ * @copyright   XOOPS Project (http://xoops.org)
+ * @license     GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @package     review
+ * @since       1.0
+ * @author      Andrew Mills (ajmills@sirium.net), XOOPS Development Team
+ * @version     $Id $
+ */
 
-// Any copyright notice, instructions, etc...
-$modversion['name']			= _MI_AM_REVIEW_NAME;
-$modversion['version']		= 0.10;
-$modversion['description']	= _MI_AM_REVIEW_DESC;
-$modversion['credits']		= '';
-$modversion['author']		= 'Andrew Mills - http://support.sirium.net';
-$modversion['help'] = 'page=help';
-$modversion['license'] = 'GNU GPL 2.0';
-$modversion['license_url'] = "www.gnu.org/licenses/gpl-2.0.html/";
-$modversion['official']		= 0;
-$modversion['image']		= 'modulelogo.png';
-$modversion['dirname']		= 'amreviews';
+$moduleDirName = basename(__DIR__);
+$modinfoLang   = '_MI_' . strtoupper($moduleDirName);
 
-$modversion['dirmoduleadmin'] = '/Frameworks/moduleclasses/moduleadmin';
-$modversion['icons16'] = '../../Frameworks/moduleclasses/icons/16';
-$modversion['icons32'] = '../../Frameworks/moduleclasses/icons/32';
+// ------------------- Informations ------------------- //
+$modversion = array(
+    'name'                => constant($modinfoLang . '_NAME'),
+    'description'         => constant($modinfoLang . '_DESC'),
+    'official'            => 0, //1 indicates supported by XOOPS Dev Team, 0 means 3rd party supported
+    'author'              => 'Andrew Mills',
+    'author_mail'         => 'ajmills@sirium.net',
+    'author_website_url'  => 'http://support.sirium.net',
+    'author_website_name' => 'Sirium',
+    'credits'             => 'XOOPS Development Team',
+    'license'             => 'GPL 2.0 or later',
+    'license_url'         => 'www.gnu.org/licenses/gpl-2.0.html/',
+    'help'                => 'page=help',
+    //
+    'release_info'        => 'Changelog',
+    'release_file'        => XOOPS_URL . "/modules/{$moduleDirName}/docs/changelog file",
+    //
+    'manual'              => 'link to manual file',
+    'manual_file'         => XOOPS_URL . "/modules/{$moduleDirName}/docs/install.txt",
+    'min_php'             => '5.3.7',
+    'min_xoops'           => '2.5.7.1',
+    'min_admin'           => '1.1',
+    'min_db'              => array('mysql' => '5.0.7', 'mysqli' => '5.0.7'),
+    // images
+    'image'               => 'assets/images/module_logo.png',
+    'iconsmall'           => 'assets/images/iconsmall.png',
+    'iconbig'             => 'assets/images/iconbig.png',
+    'dirname'             => $moduleDirName,
+    //Frameworks
+    'dirmoduleadmin'      => 'Frameworks/moduleclasses/moduleadmin',
+    'sysicons16'          => 'Frameworks/moduleclasses/icons/16',
+    'sysicons32'          => 'Frameworks/moduleclasses/icons/32',
+    // Local path icons
+    'modicons16'          => 'assets/images/icons/16',
+    'modicons32'          => 'assets/images/icons/32',
+    //About
+    'version'             => 1.00,
+    'module_status'       => 'Beta 1',
+    'release_date'        => '2015/07/06', //yyyy/mm/dd
+    //    'release'             => '2015-04-04',
+    'demo_site_url'       => 'http://www.xoops.org',
+    'demo_site_name'      => 'XOOPS Demo Site',
+    'support_url'         => 'http://xoops.org/modules/newbb',
+    'support_name'        => 'Support Forum',
+    'module_website_url'  => 'www.xoops.org',
+    'module_website_name' => 'XOOPS Project',
+    // Admin system menu
+    'system_menu'         => 1,
+    // Admin menu
+    'hasAdmin'            => 1,
+    'adminindex'          => 'admin/index.php',
+    'adminmenu'           => 'admin/menu.php',
+    // Main menu
+    'hasMain'             => 1,
+    //Search & Comments
+    'hasSearch'           => 1,
+    'search'              => array(
+        'file' => 'include/search.inc.php',
+        'func' => $moduleDirName . '_' . 'search'),
+    'hasComments'         => 1,
+    'comments'            => array(
+        'pageName' => 'review.php',
+        'itemName' => 'id'),
+    // Install/Update
+    'onInstall'           => 'include/oninstall.php',
+    'onUpdate'            => 'include/onupdate.php'//  'onUninstall'         => 'include/onuninstall.php'
 
-//about
-$modversion['demo_site_url'] = "";
-$modversion['demo_site_name'] = "";
-$modversion['module_website_url'] = "http://xoops.org";
-$modversion['module_website_name'] = "XOOPS";
-$modversion['release_date'] = "2012/05/06";
-$modversion['module_status'] = "Alpha 2";
-$modversion["author_website_url"] = "http://sirium.net";
-$modversion["author_website_name"] = "Sirium.net";
-$modversion['min_php']='5.2';
-$modversion['min_xoops']="2.5.0";
-$modversion['min_db']           = array('mysql'=>'5.0.7', 'mysqli'=>'5.0.7');
-$modversion['min_admin']        = '1.1';
+);
 
-// Admin
-$modversion['hasAdmin']		= 1;
-$modversion['system_menu']		= 1;
-$modversion['adminindex']	= "admin/index.php";
-$modversion['adminmenu']	= "admin/menu.php";
-
-// Menu
-$modversion['hasMain'] = 1;
-
-// Templates
-$modversion['templates'][1]['file'] 		= "amr_index.html"; // main index - default view
-$modversion['templates'][1]['description'] 	= "";
-$modversion['templates'][2]['file'] 		= "amr_review.html"; // Review page
-$modversion['templates'][2]['description'] 	= "";
-$modversion['templates'][3]['file'] 		= "amr_rate.html"; // Rate page
-$modversion['templates'][3]['description'] 	= "";
-$modversion['templates'][4]['file'] 		= "amr_print.html"; // Rate page
-$modversion['templates'][4]['description'] 	= "";
-
-
-// Blocks
-//$modversion['blocks'][1]['file']		= "menu_block.php";
-//$modversion['blocks'][1]['name']		= _MI_ARTICLES_BNAME1;
-//$modversion['blocks'][1]['description']	= "Shows Norton AV info";
-//$modversion['blocks'][1]['show_func']	= "nav_info_show";
-//$modversion['blocks'][1]['template']	= 'news_block_topics.html';
-
-
-// Sql file (must contain sql generated by phpMyAdmin or phpPgAdmin)
-// All tables should not have any prefix!
-$modversion['sqlfile']['mysql']		= "sql/mysql.sql";
-//$modversion['sqlfile']['postgresql']	= "sql/pgsql.sql";
-
+// ------------------- Mysql ------------------- //
+$modversion['sqlfile']['mysql'] = 'sql/mysql.sql';
 
 // Tables created by sql file (without prefix!)
-$modversion['tables'][0]	= "amreview_reviews";
-$modversion['tables'][1]	= "amreview_cat";
-//$modversion['tables'][2]	= "amreview_rate";
+$modversion['tables'] = array(
+    $moduleDirName . '_' . 'reviews',
+    $moduleDirName . '_' . 'cat',
+    $moduleDirName . '_' . 'rate');
 
-// Search
-$modversion['hasSearch'] = 1;
-$modversion['search']['file'] = "include/search.inc.php";
-$modversion['search']['func'] = "amreviews_search";
+// ------------------- Templates ------------------- //
 
-// Comments
-$modversion['hasComments'] = 1;
-$modversion['comments']['itemName'] = 'id';
-$modversion['comments']['pageName'] = 'review.php';
+$modversion['templates'] = array(
+    array('file' => 'amr_index.tpl', 'description' => ''),
+    array('file' => 'amr_review.tpl', 'description' => ''),
+    array('file' => 'amr_rate.tpl', 'description' => ''),
+    array('file' => 'amr_print.tpl', 'description' => ''));
 
+// ------------------- blocks ------------------- //
 
-// Config options
-// 
-#$modversion['config'][1]['name']		= 'indextype';
-#$modversion['config'][1]['title']		= '_MI_AMR_OTPN_INDEX';
-#$modversion['config'][1]['description']	= '_MI_AMR_OTPN_INDEXDESC';
-#$modversion['config'][1]['formtype']	= 'select';
-#$modversion['config'][1]['valuetype']	= 'int';
-#$modversion['config'][1]['default']		= '0';
-#$modversion['config'][1]['options']		= array('default' => '0', 'Directory' => '1');
+//$modversion['blocks'][] = array(
+//    'file'        => 'blocks_subscrinfo.php',
+//    'name'        => $modinfoLang . '_SUBSCRINFO_BLOCK',
+//    'description' => '',
+//    'show_func'   => 'b_xnewsletter_subscrinfo',
+//    'edit_func'   => '',
+//    'template'    => 'xnewsletter_subscrinfo_block.tpl',
+//    'can_clone'   => true,
+//    'options'     => '');
 
-$key=1;
+// ------------------- Config Options ------------------- //
+
+#$modversion['config'][1]['name']       = 'indextype';
+#$modversion['config'][1]['title']      = $modinfoLang . '_OTPN_INDEX';
+#$modversion['config'][1]['description']    = $modinfoLang . '_OTPN_INDEXDESC';
+#$modversion['config'][1]['formtype']   = 'select';
+#$modversion['config'][1]['valuetype']  = 'int';
+#$modversion['config'][1]['default']        = '0';
+#$modversion['config'][1]['options']        = array('default' => '0', 'Directory' => '1');
+
 // Number of category columns in directory view
-$modversion['config'][$key]['name']			= 'indexcolumns';
-$modversion['config'][$key]['title']		= '_MI_AMR_INDXCOL';
-$modversion['config'][$key]['description']	= '_MI_AMR_INDXCOLDSC';
-$modversion['config'][$key]['formtype']		= 'textbox';
-$modversion['config'][$key]['valuetype']	= 'int';
-$modversion['config'][$key]['default']		= '2'; 
+$modversion['config'][] = array(
+    'name'        => 'indexcolumns',
+    'title'       => $modinfoLang . '_INDXCOL',
+    'description' => $modinfoLang . '_INDXCOLDSC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'int',
+    'default'     => '2');
 
 // Date format - review page
-$key++;
-$modversion['config'][$key]['name']			= 'indxlistdatefrmt';
-$modversion['config'][$key]['title']		= '_MI_AMR_DATEFRMTINDX';
-$modversion['config'][$key]['description']	= '_MI_AMR_DATEFRMTINDXDSC';
-$modversion['config'][$key]['formtype']		= 'textbox';
-$modversion['config'][$key]['valuetype']	= 'text';
-$modversion['config'][$key]['default']		= 'Y/m/d';
+$modversion['config'][] = array(
+    'name'        => 'indxlistdatefrmt',
+    'title'       => $modinfoLang . '_DATEFRMTINDX',
+    'description' => $modinfoLang . '_DATEFRMTINDXDSC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => 'Y/m/d');
 
 // Date format - review page
-$key++;
-$modversion['config'][$key]['name']			= 'dateformat';
-$modversion['config'][$key]['title']		= '_MI_AMR_DATEFRMT';
-$modversion['config'][$key]['description']	= '_MI_AMR_DATEFRMTDSC';
-$modversion['config'][$key]['formtype']		= 'textbox';
-$modversion['config'][$key]['valuetype']	= 'text';
-$modversion['config'][$key]['default']		= 'Y/m/d';
+$modversion['config'][] = array(
+    'name'        => 'dateformat',
+    'title'       => $modinfoLang . '_DATEFRMT',
+    'description' => $modinfoLang . '_DATEFRMTDSC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => 'Y/m/d');
 
 // Date format - print page
-$key++;
-$modversion['config'][$key]['name']			= 'dateformatprint';
-$modversion['config'][$key]['title']		= '_MI_AMR_DATEFRMTPRT';
-$modversion['config'][$key]['description']	= '_MI_AMR_DATEFRMTPRTDSC';
-$modversion['config'][$key]['formtype']		= 'textbox';
-$modversion['config'][$key]['valuetype']	= 'text';
-$modversion['config'][$key]['default']		= 'D, j F Y';
+$modversion['config'][] = array(
+    'name'        => 'dateformatprint',
+    'title'       => $modinfoLang . '_DATEFRMTPRT',
+    'description' => $modinfoLang . '_DATEFRMTPRTDSC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => 'D, j F Y');
 
 // Date format - review page
-$key++;
-$modversion['config'][$key]['name']			= 'dateformatpdf';
-$modversion['config'][$key]['title']		= '_MI_AMR_DATEFRMTPDF';
-$modversion['config'][$key]['description']	= '_MI_AMR_DATEFRMTPDFDSC';
-$modversion['config'][$key]['formtype']		= 'textbox';
-$modversion['config'][$key]['valuetype']	= 'text';
-$modversion['config'][$key]['default']		= 'Y/m/d';
+$modversion['config'][] = array(
+    'name'        => 'dateformatpdf',
+    'title'       => $modinfoLang . '_DATEFRMTPDF',
+    'description' => $modinfoLang . '_DATEFRMTPDFDSC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => 'Y/m/d');
 
 // Show reviewed by
-$key++;
-$modversion['config'][$key]['name']		= 'showreviewedby';
-$modversion['config'][$key]['title']		= '_MI_AMR_SHWRVWDBY';
-$modversion['config'][$key]['description']	= '_MI_AMR_SHWRVWDBYDSC';
-$modversion['config'][$key]['formtype']	= 'yesno';
-$modversion['config'][$key]['valuetype']	= 'int';
-$modversion['config'][$key]['default']		= 1;
+$modversion['config'][] = array(
+    'name'        => 'showreviewedby',
+    'title'       => $modinfoLang . '_SHWRVWDBY',
+    'description' => $modinfoLang . '_SHWRVWDBYDSC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'int',
+    'default'     => 1);
 
 /*
 // Show reviewed on (show/hide date)
-$key++;
-$modversion['config'][$key]['name']		= 'showreviewedon';
-$modversion['config'][$key]['title']		= '_MI_AMR_OPT_SHWRVWDON';
-$modversion['config'][$key]['description']	= '_MI_AMR_OPT_SHWRVWDONDSC';
-$modversion['config'][$key]['formtype']	= 'yesno';
-$modversion['config'][$key]['valuetype']	= 'int';
-$modversion['config'][$key]['default']		= 1;
+$modversion['config'][] = array(
+    'name'        => 'showreviewedon',
+    'title'       => $modinfoLang . '_OPT_SHWRVWDON',
+    'description' => $modinfoLang . '_OPT_SHWRVWDONDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1
+);
 */
 
 // Show print version
-$key++;
-$modversion['config'][$key]['name']			= 'showprint';
-$modversion['config'][$key]['title']		= '_MI_AMR_SHWPRINT';
-$modversion['config'][$key]['description']	= '_MI_AMR_SHWPRINTDSC';
-$modversion['config'][$key]['formtype']		= 'yesno';
-$modversion['config'][$key]['valuetype']	= 'int';
-$modversion['config'][$key]['default']		= 1;
+$modversion['config'][] = array(
+    'name'        => 'showprint',
+    'title'       => $modinfoLang . '_SHWPRINT',
+    'description' => $modinfoLang . '_SHWPRINTDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1);
 
 // Allow e-mail to friend feature.
-$key++;
-$modversion['config'][$key]['name']			= 'allowpdf';
-$modversion['config'][$key]['title']		= '_MI_AMR_ALLOWPDF';
-$modversion['config'][$key]['description']	= '_MI_AMR_ALLOWPDFDSC';
-$modversion['config'][$key]['formtype']		= 'yesno';
-$modversion['config'][$key]['valuetype']	= 'int';
-$modversion['config'][$key]['default']		= 1;
+$modversion['config'][] = array(
+    'name'        => 'allowpdf',
+    'title'       => $modinfoLang . '_ALLOWPDF',
+    'description' => $modinfoLang . '_ALLOWPDFDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1);
 
 // Allow e-mail to friend feature.
-$key++;
-$modversion['config'][$key]['name']			= 'allowemail';
-$modversion['config'][$key]['title']		= '_MI_AMR_ALLOWEMAIL';
-$modversion['config'][$key]['description']	= '_MI_AMR_ALLOWEMAILDSC';
-$modversion['config'][$key]['formtype']		= 'yesno';
-$modversion['config'][$key]['valuetype']	= 'int';
-$modversion['config'][$key]['default']		= 1;
+$modversion['config'][] = array(
+    'name'        => 'allowemail',
+    'title'       => $modinfoLang . '_ALLOWEMAIL',
+    'description' => $modinfoLang . '_ALLOWEMAILDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1);
 
 // Log in to use - emailtofriendlogin
-$key++;
-$modversion['config'][$key]['name']			= 'emailtofriendlogin';
-$modversion['config'][$key]['title']		= '_MI_AMR_EMLLOGGEDIN';
-$modversion['config'][$key]['description']	= '_MI_AMR_EMLLOGGEDINDSC';
-$modversion['config'][$key]['formtype']		= 'yesno';
-$modversion['config'][$key]['valuetype']	= 'int';
-$modversion['config'][$key]['default']		= 1;
+$modversion['config'][] = array(
+    'name'        => 'emailtofriendlogin',
+    'title'       => $modinfoLang . '_EMLLOGGEDIN',
+    'description' => $modinfoLang . '_EMLLOGGEDINDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1);
 
 // Allow user to include own message
-$key++;
-$modversion['config'][$key]['name']			= 'emailtofriendownmsg';
-$modversion['config'][$key]['title']		= '_MI_AMR_OPTION_EMLOWNMSG';
-$modversion['config'][$key]['description']	= '_MI_AMR_OPTION_EMLOWNMSGDSC';
-$modversion['config'][$key]['formtype']		= 'yesno';
-$modversion['config'][$key]['valuetype']	= 'int';
-$modversion['config'][$key]['default']		= 1;
+$modversion['config'][] = array(
+    'name'        => 'emailtofriendownmsg',
+    'title'       => $modinfoLang . '_OPTION_EMLOWNMSG',
+    'description' => $modinfoLang . '_OPTION_EMLOWNMSGDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1);
 
 // Characters in message
-$key++;
-$modversion['config'][$key]['name']			= 'emailtofreindchars';
-$modversion['config'][$key]['title']		= '_MI_AMR_OPTION_EMLMSGCHRS';
-$modversion['config'][$key]['description']	= '_MI_AMR_OPTION_EMLMSGCHRSDSC';
-$modversion['config'][$key]['formtype']		= 'textbox';
-$modversion['config'][$key]['valuetype']	= 'int';
-$modversion['config'][$key]['default']		= '200'; 
+$modversion['config'][] = array(
+    'name'        => 'emailtofreindchars',
+    'title'       => $modinfoLang . '_OPTION_EMLMSGCHRS',
+    'description' => $modinfoLang . '_OPTION_EMLMSGCHRSDSC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'int',
+    'default'     => '200');
 
 // Subject text
-$key++;
-$modversion['config'][$key]['name']			= 'emailtofreindsubect';
-$modversion['config'][$key]['title']		= '_MI_AMR_OPTION_EMLMSGSBJCT';
-$modversion['config'][$key]['description']	= '_MI_AMR_OPTION_EMLMSGSBJCTDSC';
-$modversion['config'][$key]['formtype']		= 'textbox';
-$modversion['config'][$key]['valuetype']	= 'text';
-$modversion['config'][$key]['default']		= _MI_AMR_OPTION_EMLMSGSUBJECT; 
+$modversion['config'][] = array(
+    'name'        => 'emailtofreindsubect',
+    'title'       => $modinfoLang . '_OPTION_EMLMSGSBJCT',
+    'description' => $modinfoLang . '_OPTION_EMLMSGSBJCTDSC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => constant($modinfoLang . '_OPTION_EMLMSGSUBJECT'));
 
 // send to friend e-mail text
-$key++;
-$modversion['config'][$key]['name']			= 'emailtext';
-$modversion['config'][$key]['title']			= '_MI_AMR_OPTION_EMAILTXT';
-$modversion['config'][$key]['description']	= '_MI_AMR_OPTION_EMAILTXTSC';
-$modversion['config'][$key]['formtype']		= 'textarea';
-$modversion['config'][$key]['valuetype']		= 'text';
-$modversion['config'][$key]['default']		= _MI_AMR_OPTION_EMAILTXTMSG;
-
+$modversion['config'][] = array(
+    'name'        => 'emailtext',
+    'title'       => $modinfoLang . '_OPTION_EMAILTXT',
+    'description' => $modinfoLang . '_OPTION_EMAILTXTSC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => constant($modinfoLang . '_OPTION_EMAILTXTMSG'));
 
 /*
 // Index page header text
-$key++;
-$modversion['config'][$key]['name']		= 'headertext';
-$modversion['config'][$key]['title']		= '_MI_AMR_OPT_HEADER';
-$modversion['config'][$key]['description']	= '_MI_AMR_OPT_HEADERDSC';
-$modversion['config'][$key]['formtype']	= 'textbox';
-$modversion['config'][$key]['valuetype']	= 'text';
-$modversion['config'][$key]['default']		= '_MI_AMR_OPT_HEADERTXT';
+$modversion['config'][] = array(
+    'name'        => 'headertext',
+    'title'       => $modinfoLang . '_OPT_HEADER',
+    'description' => $modinfoLang . '_OPT_HEADERDSC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => $modinfoLang . '_OPT_HEADERTXT''
+);
 */
+
 // Item details template
-$key++;
-$modversion['config'][$key]['name']			= 'itemdetailtpl';
-$modversion['config'][$key]['title']			= '_MI_AMR_DETAILTPL';
-$modversion['config'][$key]['description']	= '_MI_AMR_DETAILTPLDSC';
-$modversion['config'][$key]['formtype']		= 'textarea';
-$modversion['config'][$key]['valuetype']		= 'text';
-$modversion['config'][$key]['default']		= _MI_AMR_DETAILTPLTXT;
+$modversion['config'][] = array(
+    'name'        => 'itemdetailtpl',
+    'title'       => $modinfoLang . '_DETAILTPL',
+    'description' => $modinfoLang . '_DETAILTPLDSC',
+    'formtype'    => 'textarea',
+    'valuetype'   => 'text',
+    'default'     => constant($modinfoLang . '_DETAILTPLTXT'));
 
 // Do not increment admin views
-$key++;
-$modversion['config'][$key]['name']			= 'noincrementifadmin';
-$modversion['config'][$key]['title']			= '_MI_AMR_INCREMENTADMIN';
-$modversion['config'][$key]['description']	= '_MI_AMR_INCREMENTADMINDSC';
-$modversion['config'][$key]['formtype']		= 'yesno';
-$modversion['config'][$key]['valuetype']		= 'int';
-$modversion['config'][$key]['default']		= 1;
+$modversion['config'][] = array(
+    'name'        => 'noincrementifadmin',
+    'title'       => $modinfoLang . '_INCREMENTADMIN',
+    'description' => $modinfoLang . '_INCREMENTADMINDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1);
 
 // default admin editor
-$key++;
-$modversion['config'][$key]['name']			= 'amrevieweditadmin';
-$modversion['config'][$key]['title']			= '_MI_AMR_EDITADMIN';
-$modversion['config'][$key]['description']	= '_MI_AMR_EDITADMINDSC';
-$modversion['config'][$key]['formtype']		= 'select';
-$modversion['config'][$key]['valuetype']		= 'int';
-$modversion['config'][$key]['default']		= '0';
-$modversion['config'][$key]['options']		= array('XOOPS dhtml' => '0', 'SPAW' => '1', 'FCK Editor' => '2', 'HTML Area' => '3', 'Koivi' => '4', 'XOOPS Compact' => '5');
+xoops_load('XoopsEditorHandler');
+$editor_handler         = &XoopsEditorHandler::getInstance();
+$editorList             = array_flip($editor_handler->getList());
+$modversion['config'][] = array(
+    'name'        => 'amrevieweditadmin',
+    'title'       => $modinfoLang . '_EDITADMIN',
+    'description' => $modinfoLang . '_EDITADMINDSC',
+    'formtype'    => 'select',
+    'valuetype'   => 'text',
+    'default'     => 'dhtmltextarea',
+    'options'     => $editorList);
 
-// 
-$key++;
-$modversion['config'][$key]['name']			= 'photopath';
-$modversion['config'][$key]['title']			= '_MI_AMR_PHOTOPATH';
-$modversion['config'][$key]['description']	= '_MI_AMR_PHOTOPATHDSC';
-$modversion['config'][$key]['formtype']		= 'textbox';
-$modversion['config'][$key]['valuetype']		= 'text';
-$modversion['config'][$key]['default']		= '/modules/amreviews/photos';
+//
+$modversion['config'][] = array(
+    'name'        => 'photopath',
+    'title'       => $modinfoLang . '_PHOTOPATH',
+    'description' => $modinfoLang . '_PHOTOPATHDSC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => "/uploads/{$moduleDirName}/photos");
 
 // Maximum upload size - admin
-$key++;
-$modversion['config'][$key]['name']			= 'maxuploadadmin';
-$modversion['config'][$key]['title']			= '_MI_AMR_MAXUPADMIN';
-$modversion['config'][$key]['description']	= '_MI_AMR_MAXUPADMINDSC';
-$modversion['config'][$key]['formtype']		= 'textbox';
-$modversion['config'][$key]['valuetype']		= 'int';
-$modversion['config'][$key]['default']		= '200'; 
+$modversion['config'][] = array(
+    'name'        => 'maxuploadadmin',
+    'title'       => $modinfoLang . '_MAXUPADMIN',
+    'description' => $modinfoLang . '_MAXUPADMINDSC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'int',
+    'default'     => '200');
 
 // Highlight image - default width (used in review/cat listing)
-$key++;
-$modversion['config'][$key]['name']			= 'imghighwdith';
-$modversion['config'][$key]['title']			= '_MI_AMR_IMGHIGHWIDTH';
-$modversion['config'][$key]['description']	= '_MI_AMR_IMGHIGHWIDTHDSC';
-$modversion['config'][$key]['formtype']		= 'textbox';
-$modversion['config'][$key]['valuetype']		= 'int';
-$modversion['config'][$key]['default']		= '80'; 
+$modversion['config'][] = array(
+    'name'        => 'imghighwdith',
+    'title'       => $modinfoLang . '_IMGHIGHWIDTH',
+    'description' => $modinfoLang . '_IMGHIGHWIDTHDSC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'int',
+    'default'     => '80');
 
 // Thumbnail image - default width (used in review article)
-$key++;
-$modversion['config'][$key]['name']			= 'imgthumbwdith';
-$modversion['config'][$key]['title']			= '_MI_AMR_IMGTHUMBWIDTH';
-$modversion['config'][$key]['description']	= '_MI_AMR_IMGTHUMBWIDTHDSC';
-$modversion['config'][$key]['formtype']		= 'textbox';
-$modversion['config'][$key]['valuetype']		= 'int';
-$modversion['config'][$key]['default']		= '120'; 
+$modversion['config'][] = array(
+    'name'        => 'imgthumbwdith',
+    'title'       => $modinfoLang . '_IMGTHUMBWIDTH',
+    'description' => $modinfoLang . '_IMGTHUMBWIDTHDSC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'int',
+    'default'     => '120');
 
 // show/hide showsubcats
-$key++;
-$modversion['config'][$key]['name']			= 'showsubcats';
-$modversion['config'][$key]['title']			= '_MI_AMR_SHOWSUBCATS';
-$modversion['config'][$key]['description']	= '_MI_AMR_SHOWSUBCATSDSC';
-$modversion['config'][$key]['formtype']		= 'yesno';
-$modversion['config'][$key]['valuetype']		= 'int';
-$modversion['config'][$key]['default']		= 1;
+$modversion['config'][] = array(
+    'name'        => 'showsubcats',
+    'title'       => $modinfoLang . '_SHOWSUBCATS',
+    'description' => $modinfoLang . '_SHOWSUBCATSDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1);
 
 // show/hide cats for people who do not have permission to view.
-$key++;
-$modversion['config'][$key]['name']			= 'hidenopermcats';
-$modversion['config'][$key]['title']			= '_MI_AMR_HIDENOPERMCATS';
-$modversion['config'][$key]['description']	= '_MI_AMR_HIDENOPERMCATSDSC';
-$modversion['config'][$key]['formtype']		= 'yesno';
-$modversion['config'][$key]['valuetype']		= 'int';
-$modversion['config'][$key]['default']		= 0;
+$modversion['config'][] = array(
+    'name'        => 'hidenopermcats',
+    'title'       => $modinfoLang . '_HIDENOPERMCATS',
+    'description' => $modinfoLang . '_HIDENOPERMCATSDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0);
 
 // Default page title options.
-$key++;
-$modversion['config'][$key]['name']			= 'pagettldefault';
-$modversion['config'][$key]['title']		= '_MI_AMR_PAGETTLDEF';
-$modversion['config'][$key]['description']	= '_MI_AMR_PAGETTLDEFDSC';
-$modversion['config'][$key]['formtype']		= 'select';
-$modversion['config'][$key]['valuetype']	= 'int';
-$modversion['config'][$key]['default']		= '0';
-$modversion['config'][$key]['options']		= array('_MI_AMR_PAGETTLDEF_OPT_0' => '0', '_MI_AMR_PAGETTLDEF_OPT_1' => '1', '_MI_AMR_PAGETTLDEF_OPT_2' => '2');
+$modversion['config'][] = array(
+    'name'        => 'pagettldefault',
+    'title'       => $modinfoLang . '_PAGETTLDEF',
+    'description' => $modinfoLang . '_PAGETTLDEFDSC',
+    'formtype'    => 'select',
+    'valuetype'   => 'int',
+    'default'     => '0',
+    'options'     => array(
+        $modinfoLang . '_PAGETTLDEF_OPT_0' => '0',
+        $modinfoLang . '_PAGETTLDEF_OPT_1' => '1',
+        $modinfoLang . '_PAGETTLDEF_OPT_2' => '2'));
 
 // Default page meta tag options
-$key++;
-$modversion['config'][$key]['name']			= 'pagemetadefault';
-$modversion['config'][$key]['title']		= '_MI_AMR_PAGEMETADEF';
-$modversion['config'][$key]['description']	= '_MI_AMR_PAGEMETADEFDSC';
-$modversion['config'][$key]['formtype']		= 'select';
-$modversion['config'][$key]['valuetype']	= 'int';
-$modversion['config'][$key]['default']		= '0';
-$modversion['config'][$key]['options']		= array('_MI_AMR_PAGEMETADEF_OPT_0' => '0', '_MI_AMR_PAGEMETADEF_OPT_1' => '1');//, '_MI_AMR_PAGEMETADEF_OPT_2' => '2');
+$modversion['config'][] = array(
+    'name'        => 'pagemetadefault',
+    'title'       => $modinfoLang . '_PAGEMETADEF',
+    'description' => $modinfoLang . '_PAGEMETADEFDSC',
+    'formtype'    => 'select',
+    'valuetype'   => 'int',
+    'default'     => '0',
+    'options'     => array($modinfoLang . '_PAGEMETADEF_OPT_0' => '0', $modinfoLang . '_PAGEMETADEF_OPT_1' => '1')
+    //, $modinfoLang . '_PAGEMETADEF_OPT_2' => '2')
+);
 
 // Logged in to vote
-$key++;
-$modversion['config'][$key]['name']			= 'loggedinvote';
-$modversion['config'][$key]['title']		= '_MI_AMR_LOGGEDINVOTE';
-$modversion['config'][$key]['description']	= '_MI_AMR_LOGGEDINVOTEDSC';
-$modversion['config'][$key]['formtype']		= 'yesno';
-$modversion['config'][$key]['valuetype']	= 'int';
-$modversion['config'][$key]['default']		= 0;
+$modversion['config'][] = array(
+    'name'        => 'loggedinvote',
+    'title'       => $modinfoLang . '_LOGGEDINVOTE',
+    'description' => $modinfoLang . '_LOGGEDINVOTEDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0);
 
 // Default page meta tag options
-$key++;
-$modversion['config'][$key]['name']			= 'hiliteimg';
-$modversion['config'][$key]['title']		= '_MI_AMR_HILITEIMG';
-$modversion['config'][$key]['description']	= '_MI_AMR_HILITEIMGDSC';
-$modversion['config'][$key]['formtype']		= 'select';
-$modversion['config'][$key]['valuetype']	= 'int';
-$modversion['config'][$key]['default']		= '1';
-$modversion['config'][$key]['options']		= array('_MI_AMR_HILITEIMG_OPT_0' => '0', '_MI_AMR_HILITEIMG_OPT_1' => '1');//, '_MI_AMR_PAGEMETADEF_OPT_2' => '2');
-
-
-
-
-?>
+$modversion['config'][] = array(
+    'name'        => 'hiliteimg',
+    'title'       => $modinfoLang . '_HILITEIMG',
+    'description' => $modinfoLang . '_HILITEIMGDSC',
+    'formtype'    => 'select',
+    'valuetype'   => 'int',
+    'default'     => 1,
+    'options'     => array($modinfoLang . '_HILITEIMG_OPT_0' => '0', $modinfoLang . '_HILITEIMG_OPT_1' => '1')
+    //, $modinfoLang . '_PAGEMETADEF_OPT_2' => '2')
+);

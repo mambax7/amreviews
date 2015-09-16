@@ -1,9 +1,12 @@
 <?php
+
+//use Xoopsmodules\amreviews;
+
 // $Id: main.php,v 1.5 2007/01/24 19:20:20 andrew Exp $
 //  ------------------------------------------------------------------------ //
 //  Author: Andrew Mills                                                     //
 //  Email:  ajmills@sirium.net                                               //
-//	About:  This file is part of the AM Reviews module for Xoops v2.         //
+//  About:  This file is part of the AM Reviews module for Xoops v2.         //
 //                                                                           //
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
@@ -31,101 +34,101 @@
 //  ------------------------------------------------------------------------ //
 
 // includes
-//include_once("header.php");
+//include_once('header.php');
+//include_once dirname(dirname(__DIR__)) . '/class/helper.php';
+//$helper    = & Helper::getInstance();
+use Xoopsmodules\amreviews;
+
+$helper   = new Xoopsmodules\amreviews\Helper();
+$mainLang = '_MD_' . strtoupper($helper->moduleDirName);
 
 /**
-* Defines for index.php
-*/
-define("_MD_AMR_NAVBCTOP",	"Top"); // Navigation BreadCrumbs "Top"
+ * Defines for index.php
+ */
+define($mainLang . '_NAVBCTOP', 'Top'); // Navigation BreadCrumbs 'Top'
 
 /**
-* index.php - reviews listing.
-*/
-define("_MD_AMR_REVIEWEDBY",	"Reviewed by:");
-define("_MD_AMR_NOREVIEWCAP",	"There are currently no reviews in this category.");
-define("_MD_AMR_NOPERMCATMSG",	"You do not have permission to view this category. Do you need to log in?");
-
-
-/**
-* Generic that can go anywhere and notice messages.
-*/
-define("_MD_AMR_GENON",		"on");
-define("_MD_AMR_READCAP",	"reads");
-
+ * index.php - reviews listing.
+ */
+define($mainLang . '_REVIEWEDBY', 'Reviewed by:');
+define($mainLang . '_NOREVIEWCAP', 'There are currently no reviews in this category.');
+define($mainLang . '_NOPERMCATMSG', 'You do not have permission to view this category. Do you need to log in?');
 
 /**
-* review.php
-*/
-define("_MD_AMR_SUBTTLCAP",		"Subtitle:");
-define("_MD_AMR_STARALTNORATE",	"Not rated.");
-define("_MD_AMR_OURRATECAP",	"Our rating:");
-define("_MD_AMR_USERRATECAP",	"User rating:");
-define("_MD_AMR_USERRATEALT",	"Our users have rated this: %s/5 from %s votes."); // first %s replaced with vote, second with number of votes.
-define("_MD_AMR_DETAILSCAP",	"Item details:");
-define("_MD_AMR_BACKCAP",		"Back");
-define("_MD_AMR_PRINTCAP",		"Click for printer friendly version");
-define("_MD_AMR_EMAILCAP",		"Click to send to friend");
-define("_MD_AMR_PDFCAP",		"Click for PDF version");
-define("_MD_AMR_RSSCAP",		"RSS feed.");
-define("_MD_AMR_EDITCAP",		"Click to edit");
-define("_MD_AMR_DELETECAP",		"Click to delete");
-define("_MD_AMR_PAGENEXT",		"next");
-define("_MD_AMR_PAGEPREV",		"prev");
-define("_MD_AMR_PAGENUM",		"Page");
-define("_MD_AMR_PAGEOF",		"of");
-
+ * Generic that can go anywhere and notice messages.
+ */
+define($mainLang . '_GENON', 'on');
+define($mainLang . '_READCAP', 'reads');
 
 /**
-* rate.php
-*/
-define("_AM_AMREV_ALRDYVTD",	"It appears you've already voted!");
-define("_MD_LOGGEDINVOTE",		"You must be logged in to vote!");
-define("_AM_AMREV_VOTED",		"Thanks for your vote!");
-define("_AM_AMREV_DBVOTEFAIL",	"Sorry, there was an error and your vote was not recorded.");
+ * review.php
+ */
+define($mainLang . '_SUBTTLCAP', 'Subtitle:');
+define($mainLang . '_STARALTNORATE', 'Not rated.');
+define($mainLang . '_OURRATECAP', 'Our rating:');
+define($mainLang . '_USERRATECAP', 'User rating:');
+define($mainLang . '_USERRATEALT', 'Our users have rated this: %s/5 from %s votes.'); // first %s replaced with vote, second with number of votes.
+define($mainLang . '_DETAILSCAP', 'Item details:');
+define($mainLang . '_BACKCAP', 'Back');
+define($mainLang . '_PRINTCAP', 'Click for printer friendly version');
+define($mainLang . '_EMAILCAP', 'Click to send to friend');
+define($mainLang . '_PDFCAP', 'Click for PDF version');
+define($mainLang . '_RSSCAP', 'RSS feed.');
+define($mainLang . '_EDITCAP', 'Click to edit');
+define($mainLang . '_DELETECAP', 'Click to delete');
+define($mainLang . '_PAGENEXT', 'next');
+define($mainLang . '_PAGEPREV', 'prev');
+define($mainLang . '_PAGENUM', 'Page');
+define($mainLang . '_PAGEOF', 'of');
+
+/**
+ * rate.php
+ */
+define($mainLang . '_AMREV_ALRDYVTD', 'It appears you\'ve already voted!');
+define($mainLang . '_LOGGEDINVOTE', 'You must be logged in to vote!');
+define($mainLang . '_AMREV_VOTED', 'Thanks for your vote!');
+define($mainLang . '_AMREV_DBVOTEFAIL', 'Sorry, there was an error and your vote was not recorded.');
 /*
-define("_MD_AMR_RATEPGNM",			"Submit rating");
-define("_MD_AMR_RATEFRMCAP",		"Rate");
-define("_MD_AMR_RATETYPECAP",		"Type:");
-define("_MD_AMR_RATETYPEONLY",		"Rate only");
-define("_MD_AMR_RATETYPERANDC",		"Rate and comment");
-define("_MD_AMR_RATETYPECOMM",		"Comment only");
-define("_MD_AMR_CAPRATE",			"Rating:");
-define("_MD_AMR_CAPRATESLT",		"Select a rating");
-define("_MD_AMR_CAPRATE1",			"*");
-define("_MD_AMR_CAPRATE2",			"* *");
-define("_MD_AMR_CAPRATE3",			"* * *");
-define("_MD_AMR_CAPRATE4",			"* * * *");
-define("_MD_AMR_CAPRATE5",			"* * * * *");
-define("_MD_AMR_FRMCAPSDTTL",		"Subject:");
-define("_MD_AMR_COMMENTTXT",		"Comments:");
-define("_MD_AMR_RATESUBMIT",		"Submit");
-define("_MD_AMR_RATERESET",			"Reset");
+define($mainLang . '_RATEPGNM',         'Submit rating');
+define($mainLang . '_RATEFRMCAP',       'Rate');
+define($mainLang . '_RATETYPECAP',      'Type:');
+define($mainLang . '_RATETYPEONLY',     'Rate only');
+define($mainLang . '_RATETYPERANDC',        'Rate and comment');
+define($mainLang . '_RATETYPECOMM',     'Comment only');
+define($mainLang . '_CAPRATE',          'Rating:');
+define($mainLang . '_CAPRATESLT',       'Select a rating');
+define($mainLang . '_CAPRATE1',         '*');
+define($mainLang . '_CAPRATE2',         '* *');
+define($mainLang . '_CAPRATE3',         '* * *');
+define($mainLang . '_CAPRATE4',         '* * * *');
+define($mainLang . '_CAPRATE5',         '* * * * *');
+define($mainLang . '_FRMCAPSDTTL',      'Subject:');
+define($mainLang . '_COMMENTTXT',       'Comments:');
+define($mainLang . '_RATESUBMIT',       'Submit');
+define($mainLang . '_RATERESET',            'Reset');
 */
 
 /**
-* Print.php
-*/
-define("_MD_AMR_PRINTAUTHOR",	"Reviewed by:");
-define("_MD_AMR_PRINTPUBBY",	"Review published on:");
-
+ * Print.php
+ */
+define($mainLang . '_PRINTAUTHOR', 'Reviewed by:');
+define($mainLang . '_PRINTPUBBY', 'Review published on:');
 
 // email.php
-define("_MD_EMAILHEADTTL", 		"E-mail Event to friend");
-define("_MD_EMAILYOURNAME",		"Your name:");
-define("_MD_EMAILYOUREMAIL",	"Your e-mail:");
-define("_MD_EMAILRECIPIENT",	"Recipient:");
-define("_MD_EMAILMESSAGE",		"Your message:");
-define("_MD_EMAILMESSAGEDESC",	"This will be included in the e-mail.");
-define("_MD_EMAILSEND",			"send");
-define("_MD_EMAILSET",			"reset");
-define("_MD_EMAILSECNOTE",		"<strong>Please note:</strong> Some security information will be sent along with the e-mail to help trace anyone who abuses this service."); 
-define("_MD_EMAILNOTON",		"This feature is not enabled.");
+define('_MD_EMAILHEADTTL', 'E-mail Event to friend');
+define('_MD_EMAILYOURNAME', 'Your name:');
+define('_MD_EMAILYOUREMAIL', 'Your e-mail:');
+define('_MD_EMAILRECIPIENT', 'Recipient:');
+define('_MD_EMAILMESSAGE', 'Your message:');
+define('_MD_EMAILMESSAGEDESC', 'This will be included in the e-mail.');
+define('_MD_EMAILSEND', 'send');
+define('_MD_EMAILSET', 'reset');
+define('_MD_EMAILSECNOTE', '<strong>Please note:</strong> Some security information will be sent along with the e-mail to help trace anyone who abuses this service.');
+define('_MD_EMAILNOTON', 'This feature is not enabled.');
 
+// makepdf.php and associated PDF
+define('_MD_PDFPOSTEDON', 'Posted on: ');
+define('_MD_PDFPAGE', 'Page');
 
-// makepdf.php and associated
-define("_MD_PDFPOSTEDON",		"Posted on: ");
-define("_MD_PDFPAGE",			"Page");
-
-
-
-?>
+define($mainLang . '_PDF_NOT_INSTALLED', 'TCPDF for XOOPS not installed');
+//define($mainLang . '_PRINTPUBBY', 'Review published on:');

@@ -3,7 +3,7 @@
 //  ------------------------------------------------------------------------ //
 //  Author: Andrew Mills                                                     //
 //  Email:  ajmills@sirium.net                                               //
-//	About:  This file is part of the AM Reviews module for Xoops v2.         //
+//  About:  This file is part of the AM Reviews module for Xoops v2.         //
 //                                                                           //
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
@@ -31,34 +31,29 @@
 //  ------------------------------------------------------------------------ //
 
 // includes
-#include_once("header.php");
+#include_once('header.php');
 
 // Version
-define("_AM_AMRVERSION",	"0.10");
+define('_AM_AMRVERSION', '0.10');
 
 /**
-* Some config options that may not be changed too oftion
-* and are in here to prevent prefs area getting too
-* cluttered.
-*/
+ * Some config options that may not be changed too oftion
+ * and are in here to prevent prefs area getting too
+ * cluttered.
+ */
 // allow to change extension of want to use PNG or JPG, etc.
-define("_AM_AMR_RATESTAREXT",	"png");
-
-
-
+define('_AM_AMR_RATESTAREXT', 'png');
 
 // For cloning - not entirely sure this will work, yet.
-define("_AM_AMRMODDIR",	"amreviews");
-
+define('_AM_AMRMODDIR', 'amreviews');
 
 /*
-* This next part loads a file with some debug options. 
-* The debug file should not be included in distro, so 
+* This next part loads a file with some debug options.
+* The debug file should not be included in distro, so
 * will not affect released versions.
 */
-#if (file_exists(XOOPS_ROOT_PATH . "/modules/amreviews/include/debug.php")) {
-#	include(XOOPS_ROOT_PATH . "/modules/amreviews/include/debug.php");
-#	#include_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->getVar('dirname') . '/include/config.php');	
+#if (file_exists(XOOPS_ROOT_PATH . '/modules/amreviews/include/debug.php')) {
+#   include(XOOPS_ROOT_PATH . '/modules/amreviews/include/debug.php');
+#   #include_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/include/config.php');
 #}
 
-?>

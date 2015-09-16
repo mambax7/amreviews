@@ -1,37 +1,54 @@
 <?php
 ### =============================================================
-### Mastop InfoDigital - Paixão por Internet
+### Mastop InfoDigital - Paixï¿½o por Internet
 ### =============================================================
-### Header com includes padrões para a Admin do Módulo
+### Header com includes padrï¿½es para a Admin do Mï¿½dulo
 ### =============================================================
 ### Developer: Fernando Santos (topet05), fernando@mastop.com.br
-### Copyright: Mastop InfoDigital © 2003-2006
+### Copyright: Mastop InfoDigital ï¿½ 2003-2006
 ### -------------------------------------------------------------
 ### www.mastop.com.br
 ### =============================================================
 ### $Id: admin_header.php,v 1.3 2007/05/15 09:17:05 topet05 Exp $
 ### =============================================================
+use Xoopsmodules\amreviews;
 
-$path = dirname(dirname(dirname(dirname(__FILE__))));
-include_once $path . '/mainfile.php';
-include_once $path . '/include/cp_functions.php';
-require_once $path . '/include/cp_header.php';
+//include_once dirname(__DIR__) . '/class/psr4/setuploader.php';
+include_once dirname(__DIR__) . '/include/setup.php';
 
-global $xoopsModule;
+$moduleDirName = basename(dirname(__DIR__));
+include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+include_once $GLOBALS['xoops']->path('www/include/cp_functions.php');
+include_once $GLOBALS['xoops']->path('www/include/cp_header.php');
+include_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 
-$thisModuleDir = $GLOBALS['xoopsModule']->getVar('dirname');
+xoops_load('XoopsRequest');
+
+//$moduleDirName = $GLOBALS['xoopsModule']->getVar('dirname');
+
+$pathIcon16           = $GLOBALS['xoops']->url('www/' . $GLOBALS['xoopsModule']->getInfo('sysicons16'));
+$pathIcon32           = $GLOBALS['xoops']->url('www/' . $GLOBALS['xoopsModule']->getInfo('sysicons32'));
+$xoopsModuleAdminPath = $GLOBALS['xoops']->path('www/' . $GLOBALS['xoopsModule']->getInfo('dirmoduleadmin'));
+require_once "{$xoopsModuleAdminPath}/moduleadmin.php";
+
+$myts =& MyTextSanitizer::getInstance();
+if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
+    include_once $GLOBALS['xoops']->path('class/template.php');
+    $xoopsTpl = new XoopsTpl();
+}
+
+//Module specific elements
+//include_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/functions.php");
+//include_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/config.php");
+
+//Handlers
+//$XXXHandler =& xoops_getModuleHandler('XXX', $moduleDirName);
 
 // Load language files
-xoops_loadLanguage('admin', $thisModuleDir);
-xoops_loadLanguage('modinfo', $thisModuleDir);
-xoops_loadLanguage('main', $thisModuleDir);
+xoops_loadLanguage('admin', $moduleDirName);
+xoops_loadLanguage('modinfo', $moduleDirName);
+xoops_loadLanguage('main', $moduleDirName);
 
-$pathIcon16 = '../'.$xoopsModule->getInfo('icons16');
-$pathIcon32 = '../'.$xoopsModule->getInfo('icons32');
-$pathModuleAdmin = $xoopsModule->getInfo('dirmoduleadmin');
+//xoops_cp_header();
+//$adminObject = new ModuleAdmin();
 
-if ( file_exists($GLOBALS['xoops']->path($pathModuleAdmin.'/moduleadmin.php'))){
-        include_once $GLOBALS['xoops']->path($pathModuleAdmin.'/moduleadmin.php');
-    }else{
-        redirect_header("../../../admin.php", 5, _AM_MASTOPPUBLISH_MODULEADMIN_MISSING, false);
-   }

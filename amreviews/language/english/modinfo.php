@@ -1,9 +1,15 @@
 <?php
+
+use Xoopsmodules\amreviews;
+
+//include_once dirname(dirname(__DIR__)) . '/class/psr4/setuploader.php';
+include_once dirname(dirname(__DIR__)) . '/include/setup.php';
+
 // $Id: modinfo.php,v 1.4 2007/01/24 19:20:20 andrew Exp $
 //  ------------------------------------------------------------------------ //
 //  Author: Andrew Mills                                                     //
 //  Email:  ajmills@sirium.net                                               //
-//	About:  This file is part of the AM Reviews module for Xoops v2.         //
+//  About:  This file is part of the AM Reviews module for Xoops v2.         //
 //                                                                           //
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
@@ -30,56 +36,63 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
+/**
+ * xoops_version.php
+ */
+//include_once dirname(dirname(__DIR__)) . '/class/helper.php';
+//$helper    = & Helper::getInstance();
+//$moduleDirName    = basename(dirname(dirname(__DIR__)));
+$helper      = new Xoopsmodules\amreviews\Helper();
+$modinfoLang = '_MI_' . strtoupper($helper->moduleDirName);
+
+//$modinfoLang = '_MI_' . strtoupper($moduleDirName);
+//$adminLang   = '_AM_' . strtoupper($moduleDirName);
+
+define($modinfoLang . '_NAME', 'AM Reviews');
+define($modinfoLang . '_DESC', 'A reviews module for XOOPS v2');
 
 /**
-* xoops_version.php
-*/
-define("_MI_AM_REVIEW_NAME",	"AM Reviews");
-define("_MI_AM_REVIEW_DESC",	"A reviews module for XOOPS v2");
-
-
-/**
-* xoops_version.php - config options
-*/
-define("_MI_AMR_INDXCOL",			"Category columns:");
-define("_MI_AMR_INDXCOLDSC",		"Number of columns in category.");
-define("_MI_AMR_DATEFRMT",			"Review page date format:");
-define("_MI_AMR_DATEFRMTDSC",		"Define the date format in review page. See PHP's <a href=\"http://www.php.net/date\" target=\"_blank\">date format page</a> for the different date format characters you can use.");
-define("_MI_AMR_DATEFRMTINDX",		"Review list date format:");
-define("_MI_AMR_DATEFRMTINDXDSC",	"Define the date format in reviews list on index. See PHP's <a href=\"http://www.php.net/date\" target=\"_blank\">date format page</a> for the different date format characters you can use.");
-define("_MI_AMR_DATEFRMTPRT",		"Print page date format:");
-define("_MI_AMR_DATEFRMTPRTDSC",	"Define the date format for the print version. See PHP's <a href=\"http://www.php.net/date\" target=\"_blank\">date format page</a> for the different date format characters you can use.");
-define("_MI_AMR_DATEFRMTPDF",		"PDF page date format:");
-define("_MI_AMR_DATEFRMTPDFDSC",	"Define the date format for the PDF version. See PHP's <a href=\"http://www.php.net/date\" target=\"_blank\">date format page</a> for the different date format characters you can use.");
-define("_MI_AMR_SHWRVWDBY",			"Show reviewer:");
-define("_MI_AMR_SHWRVWDBYDSC",		" ");
-define("_MI_AMR_DETAILTPL",			"Item details template:");
-define("_MI_AMR_DETAILTPLDSC",		"Template for items details field in review.");
-define("_MI_AMR_INCREMENTADMIN",	"Do not increment admin views:");
-define("_MI_AMR_INCREMENTADMINDSC",	"Do not increment review views/reads for admins.");
-define("_MI_AMR_DETAILTPLTXT",		"<b>Part No:</b>");
-define("_MI_AMR_EDITADMIN",				"Admin editor:");
-define("_MI_AMR_EDITADMINDSC",			" ");
-define("_MI_AMR_PHOTOPATH",				"Photo location:");
-define("_MI_AMR_PHOTOPATHDSC",			"The location of review photos.");
-define("_MI_AMR_MAXUPADMIN",			"Maximum file size admin:");
-define("_MI_AMR_MAXUPADMINDSC",			"Maximum file size for photos in the admin area. In Kilobytes (Kb)");
-define("_MI_AMR_SHWPRINT",				"Printable version:");
-define("_MI_AMR_SHWPRINTDSC",			"Allow printable version.");
-define("_MI_AMR_ALLOWEMAIL",			"E-mail to friend:");
-define("_MI_AMR_ALLOWEMAILDSC",			"Allow e-mail to friend feature.");
-define("_MI_AMR_EMLLOGGEDIN",			"Log in to use e-mail to friend:");
-define("_MI_AMR_EMLLOGGEDINDSC",		" ");
-define("_MI_AMR_OPTION_EMLOWNMSG",		"Allow own message");
-define("_MI_AMR_OPTION_EMLOWNMSGDSC",	"Allow user to add their own message to e-mail.");
-define("_MI_AMR_OPTION_EMLMSGSBJCT",	"E-mail subject");
-define("_MI_AMR_OPTION_EMLMSGSBJCTDSC",	"the text that will appear in the e-mail's subject field.");
-define("_MI_AMR_OPTION_EMLMSGSUBJECT",	"A friend recommended this Review");
-define("_MI_AMR_OPTION_EMLMSGCHRS",		"No. characters in own message");
-define("_MI_AMR_OPTION_EMLMSGCHRSDSC",	"the maximum number of characters user is allowed to send in own message.");
-define("_MI_AMR_OPTION_EMAILTXT",		"E-mail message");
-define("_MI_AMR_OPTION_EMAILTXTSC",		"The text that will be sent in the e-mail to a friend message.");
-define("_MI_AMR_OPTION_EMAILTXTMSG",	"Hello,
+ * xoops_version.php - config options
+ */
+define($modinfoLang . '_INDXCOL', 'Category columns:');
+define($modinfoLang . '_INDXCOLDSC', 'Number of columns in category.');
+define($modinfoLang . '_DATEFRMT', 'Review page date format:');
+define($modinfoLang . '_DATEFRMTDSC', 'Define the date format in review page. See PHP\'s <a href=\'http://www.php.net/date\' target=\'_blank\'>date format page</a> for the different date format characters you can use.');
+define($modinfoLang . '_DATEFRMTINDX', 'Review list date format:');
+define($modinfoLang . '_DATEFRMTINDXDSC', 'Define the date format in reviews list on index. See PHP\'s <a href=\'http://www.php.net/date\' target=\'_blank\'>date format page</a> for the different date format characters you can use.');
+define($modinfoLang . '_DATEFRMTPRT', 'Print page date format:');
+define($modinfoLang . '_DATEFRMTPRTDSC', 'Define the date format for the print version. See PHP\'s <a href=\'http://www.php.net/date\' target=\'_blank\'>date format page</a> for the different date format characters you can use.');
+define($modinfoLang . '_DATEFRMTPDF', 'PDF page date format:');
+define($modinfoLang . '_DATEFRMTPDFDSC', 'Define the date format for the PDF version. See PHP\'s <a href=\'http://www.php.net/date\' target=\'_blank\'>date format page</a> for the different date format characters you can use.');
+define($modinfoLang . '_SHWRVWDBY', 'Show reviewer:');
+define($modinfoLang . '_SHWRVWDBYDSC', ' ');
+define($modinfoLang . '_DETAILTPL', 'Item details template:');
+define($modinfoLang . '_DETAILTPLDSC', 'Template for items details field in review.');
+define($modinfoLang . '_INCREMENTADMIN', 'Do not increment admin views:');
+define($modinfoLang . '_INCREMENTADMINDSC', 'Do not increment review views/reads for admins.');
+define($modinfoLang . '_DETAILTPLTXT', '<b>Part No:</b>');
+define($modinfoLang . '_EDITADMIN', 'Admin editor:');
+define($modinfoLang . '_EDITADMINDSC', ' ');
+define($modinfoLang . '_PHOTOPATH', 'Photo location:');
+define($modinfoLang . '_PHOTOPATHDSC', 'The location of review photos.');
+define($modinfoLang . '_MAXUPADMIN', 'Maximum file size admin:');
+define($modinfoLang . '_MAXUPADMINDSC', 'Maximum file size for photos in the admin area. In Kilobytes (Kb)');
+define($modinfoLang . '_SHWPRINT', 'Printable version:');
+define($modinfoLang . '_SHWPRINTDSC', 'Allow printable version.');
+define($modinfoLang . '_ALLOWEMAIL', 'E-mail to friend:');
+define($modinfoLang . '_ALLOWEMAILDSC', 'Allow e-mail to friend feature.');
+define($modinfoLang . '_EMLLOGGEDIN', 'Log in to use e-mail to friend:');
+define($modinfoLang . '_EMLLOGGEDINDSC', ' ');
+define($modinfoLang . '_OPTION_EMLOWNMSG', 'Allow own message');
+define($modinfoLang . '_OPTION_EMLOWNMSGDSC', 'Allow user to add their own message to e-mail.');
+define($modinfoLang . '_OPTION_EMLMSGSBJCT', 'E-mail subject');
+define($modinfoLang . '_OPTION_EMLMSGSBJCTDSC', 'the text that will appear in the e-mail\'s subject field.');
+define($modinfoLang . '_OPTION_EMLMSGSUBJECT', 'A friend recommended this Review');
+define($modinfoLang . '_OPTION_EMLMSGCHRS', 'No. characters in own message');
+define($modinfoLang . '_OPTION_EMLMSGCHRSDSC', 'the maximum number of characters user is allowed to send in own message.');
+define($modinfoLang . '_OPTION_EMAILTXT', 'E-mail message');
+define($modinfoLang . '_OPTION_EMAILTXTSC', 'The text that will be sent in the e-mail to a friend message.');
+define($modinfoLang . '_OPTION_EMAILTXTMSG', 'Hello,
 
 A user of {SITE_NAME} feels that the following page may be of interest to you.
 
@@ -95,51 +108,46 @@ Their message below:
 
 Security information:
 If this e-mail has been sent inappropriately, please forward the complete e-mail to {ADMIN_EMAIL}.
-User's IP address: {USER_IP}
-User's Browser: {USER_BROWSER}
+User\'s IP address: {USER_IP}
+User\'s Browser: {USER_BROWSER}
 Time sent: {USER_TIME}
 
--- 
+--
  {SITE_NAME}
  {SITE_URL}
-");
-define("_MI_AMR_IMGHIGHWIDTH",			"Default highlight image width:");
-define("_MI_AMR_IMGHIGHWIDTHDSC",		"Set the default width of highlight images (these appear in the review listings under categories).");
-define("_MI_AMR_IMGTHUMBWIDTH",			"Default thumbnail image width:");
-define("_MI_AMR_IMGTHUMBWIDTHDSC",		"Set the default width of thumbnail images (these appear in the review article).");
-define("_MI_AMR_SHOWSUBCATS",			"Show sub categories:");
-define("_MI_AMR_SHOWSUBCATSDSC",		"This will show the first level of subcategories.");
-define("_MI_AMR_HIDENOPERMCATS",		"Hide no access categories:");
-define("_MI_AMR_HIDENOPERMCATSDSC",		"Hide categories to those who do not have access permissions.");
-define("_MI_AMR_PAGETTLDEF",			"Default page title:");
-define("_MI_AMR_PAGETTLDEFDSC",			"The default page title behaviour - can be set individually in review.");
-define("_MI_AMR_PAGETTLDEF_OPT_0",		"None: default XOOPS page title");
-define("_MI_AMR_PAGETTLDEF_OPT_1",		"Yes: &lt;module name&gt; - &lt;review title&gt;");
-define("_MI_AMR_PAGETTLDEF_OPT_2",		"Yes: &lt;review title&gt; - &lt;module name&gt;");
-define("_MI_AMR_PAGEMETADEF",			"Default page meta header:");
-define("_MI_AMR_PAGEMETADEFDSC",		"The default page meta header behaviour - can be set individually in review.");
-define("_MI_AMR_PAGEMETADEF_OPT_0",		"None: default XOOPS meta tags");
-define("_MI_AMR_PAGEMETADEF_OPT_1",		"Yes: review's meta tags only");
-define("_MI_AMR_PAGEMETADEF_OPT_2",		"Yes: review's and XOOPS meta tags");
-define("_MI_AMR_LOGGEDINVOTE",			"Logged in to vote:");
-define("_MI_AMR_LOGGEDINVOTEDSC",		"Whether or not the user has to be logged in to vote.");
-define("_MI_AMR_ALLOWPDF",				"PDF version:");
-define("_MI_AMR_ALLOWPDFDSC",			"Allow PDF page version");
-define("_MI_AMR_HILITEIMG",				"Highlight image:");
-define("_MI_AMR_HILITEIMGDSC",			"How to show highlight image.");
-define("_MI_AMR_HILITEIMG_OPT_0",		"New window");
-define("_MI_AMR_HILITEIMG_OPT_1",		"Lightbox");
-
+');
+define($modinfoLang . '_IMGHIGHWIDTH', 'Default highlight image width:');
+define($modinfoLang . '_IMGHIGHWIDTHDSC', 'Set the default width of highlight images (these appear in the review listings under categories).');
+define($modinfoLang . '_IMGTHUMBWIDTH', 'Default thumbnail image width:');
+define($modinfoLang . '_IMGTHUMBWIDTHDSC', 'Set the default width of thumbnail images (these appear in the review article).');
+define($modinfoLang . '_SHOWSUBCATS', 'Show sub categories:');
+define($modinfoLang . '_SHOWSUBCATSDSC', 'This will show the first level of subcategories.');
+define($modinfoLang . '_HIDENOPERMCATS', 'Hide no access categories:');
+define($modinfoLang . '_HIDENOPERMCATSDSC', 'Hide categories to those who do not have access permissions.');
+define($modinfoLang . '_PAGETTLDEF', 'Default page title:');
+define($modinfoLang . '_PAGETTLDEFDSC', 'The default page title behaviour - can be set individually in review.');
+define($modinfoLang . '_PAGETTLDEF_OPT_0', 'None: default XOOPS page title');
+define($modinfoLang . '_PAGETTLDEF_OPT_1', 'Yes: &lt;module name&gt; - &lt;review title&gt;');
+define($modinfoLang . '_PAGETTLDEF_OPT_2', 'Yes: &lt;review title&gt; - &lt;module name&gt;');
+define($modinfoLang . '_PAGEMETADEF', 'Default page meta header:');
+define($modinfoLang . '_PAGEMETADEFDSC', 'The default page meta header behaviour - can be set individually in review.');
+define($modinfoLang . '_PAGEMETADEF_OPT_0', 'None: default XOOPS meta tags');
+define($modinfoLang . '_PAGEMETADEF_OPT_1', 'Yes: review\'s meta tags only');
+define($modinfoLang . '_PAGEMETADEF_OPT_2', 'Yes: review\'s and XOOPS meta tags');
+define($modinfoLang . '_LOGGEDINVOTE', 'Logged in to vote:');
+define($modinfoLang . '_LOGGEDINVOTEDSC', 'Whether or not the user has to be logged in to vote.');
+define($modinfoLang . '_ALLOWPDF', 'PDF version:');
+define($modinfoLang . '_ALLOWPDFDSC', 'Allow PDF page version');
+define($modinfoLang . '_HILITEIMG', 'Highlight image:');
+define($modinfoLang . '_HILITEIMGDSC', 'How to show highlight image.');
+define($modinfoLang . '_HILITEIMG_OPT_0', 'New window');
+define($modinfoLang . '_HILITEIMG_OPT_1', 'Lightbox');
 
 /**
-* admin/menu.php
-*/
-define("_MI_AMREVIEW_MENU1",	"Index");
-define("_MI_AMREVIEW_MENU2",	"Categories");
-define("_MI_AMREVIEW_MENU3",	"Reviews");
-define("_MI_AMREVIEW_MENU4",	"Images");
-define("_MI_AMREVIEW_MENU5",	"Permissions");
-
-
-
-?>
+ * admin/menu.php
+ */
+define($modinfoLang . '_MENU1', 'Index');
+define($modinfoLang . '_MENU2', 'Categories');
+define($modinfoLang . '_MENU3', 'Reviews');
+define($modinfoLang . '_MENU4', 'Images');
+define($modinfoLang . '_MENU5', 'Permissions');

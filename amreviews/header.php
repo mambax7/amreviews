@@ -3,7 +3,7 @@
 //  ------------------------------------------------------------------------ //
 //  Author: Andrew Mills                                                     //
 //  Email:  ajmills@sirium.net                                               //
-//	About:  This file is part of the AM Reviews module for Xoops v2.         //
+//  About:  This file is part of the AM Reviews module for Xoops v2.         //
 //                                                                           //
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
@@ -29,24 +29,30 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+use Xoopsmodules\amreviews;
 
+//include_once __DIR__ . '/class/psr4/setuploader.php';
+include_once __DIR__ . '/include/setup.php';
 
-require('../../mainfile.php');
-include_once("include/config.inc.php");
-include_once("include/functions.inc.php");
-include_once("class/ratings.php");
+//require __DIR__ . '/include/setup.php';
+include_once dirname(dirname(__DIR__)) . '/mainfile.php';
+include_once __DIR__ . '/include/config.inc.php';
+//include_once  __DIR__ . '/include/functions.inc.php';
+//include_once 'class/ratings.php';
+
+xoops_load('XoopsRequest');
 
 #include_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->getVar('dirname') . '/include/config.php');
 
 /**
-* Set up classes.
-*/
-$ratings_handler = new amrRatings();
+ * Set up classes.
+ */
+//$ratingsHandler = new amrRatings();
 
+$ratingsHandler = new Xoopsmodules\amreviews\AmrRatings($db);
 
 /**
-* For debug
-*/
+ * For debug
+ */
 #if (function_exists("tmngstart")) { $tmngstart = tmngstart(); }
 
-?>
