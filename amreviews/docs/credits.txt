@@ -1,0 +1,6 @@
+CREDITS:
+=========
+
+This module is made up from suggestions and ideas from many sources.
+
+The idea of this page, and the navigation menu came from the newBB module (v2.0), and Smartfactory modules, and the module dev documentation.

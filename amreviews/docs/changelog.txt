@@ -1,0 +1,7 @@
+<b><u>Version 0.1 Alpha 2 (2012-05-06)</u></b>
+
+- converted to XOOPS 2.5.x Admin GUI (mamba)
+
+<b><u>Version 0.1. Alpha 1 (2007-01-24)</u></b>
+
+- First Alpha release of the module.
