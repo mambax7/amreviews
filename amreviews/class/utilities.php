@@ -48,12 +48,13 @@ class Utilities
 
     /**
      * See if an image file is in use by a review.
-     * @param  string $image_file
+     * @param  string $imageFile
      * @return int
      */
-    public function checkImageInUse($image_file = '')
+    public function checkImageInUse($imageFile = '')
     {
-        $sql    = ('SELECT COUNT(image_file) AS count FROM ' . $this->db->prefix('amreviews_reviews') . " WHERE image_file='" . $image_file . "'");
+        $count = 0;
+        $sql    = ('SELECT COUNT(image_file) AS count FROM ' . $this->db->prefix('amreviews_reviews') . " WHERE image_file='" . $imageFile . "'");
         $result = $this->db->query($sql);
 
         if ($this->db->getRowsNum($result) > 0) {
@@ -265,7 +266,7 @@ class Utilities
      * @param \XoopsDatabase $db
      * @param string         $id
      */
-    public function amr_ratings(\XoopsDatabase $db, $id = '0')
+    public function getRatings(\XoopsDatabase $db, $id = '0')
     {
         $sql    = ("SELECT * FROM " . $db->prefix('amreviews_cat') . ' ');
         $result = $db->query($sql);
@@ -310,7 +311,8 @@ class Utilities
      */
     public function getReviewCount($catid = '0')
     {
-        $sql    = ("SELECT COUNT(id) AS count FROM " . $this->db->prefix('amreviews_reviews') . " WHERE catid='" . $catid . "'");
+        $count = 0;
+        $sql    = ('SELECT COUNT(id) AS count FROM ' . $this->db->prefix('amreviews_reviews') . " WHERE catid='" . $catid . "'");
         $result = $this->db->query($sql);
 
         if ($this->db->getRowsNum($result) > 0) {
@@ -371,7 +373,7 @@ class Utilities
         $result = $db->query("SELECT AVG(rate_rating) AS rate, COUNT(rate_rating) AS votes FROM " . $db->prefix('amreviews_rate') . " WHERE rate_review_id='" . (int)($id) . "'");
         list($rate, $votes) = $db->fetchRow($result);// {
 
-        if (!$result or $rate < 0.01) {
+        if (!$result || $rate < 0.01) {
             $summary['rate']  = 0;
             $summary['votes'] = 0;
         } else {

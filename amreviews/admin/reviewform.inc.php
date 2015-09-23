@@ -76,12 +76,12 @@ unset($teasereditor);
 /**
  * Item details.
  */
-if (!isset($item_details)) {
-    $item_details = $xoopsModuleConfig['itemdetailtpl'];
+if (!isset($itemDetails)) {
+    $itemDetails = $xoopsModuleConfig['itemdetailtpl'];
 }
 //$editor = amreviews_getwysiwygform(constant($adminLang . '_CAPSTEASER'), 'formdata[teaser]', $teaser, '100%', '400px', '8');
-//$editor = new XoopsFormTextArea(constant($adminLang . '_CAPSDETAILS'), 'formdata[item_details]', $item_details, $rows=5, $cols=50, $id = '');
-$det_editor = new XoopsFormTextArea(constant($adminLang . '_CAPSDETAILS'), 'formdata[item_details]', $item_details, $rows = 5, $cols = 50, 0);
+//$editor = new XoopsFormTextArea(constant($adminLang . '_CAPSDETAILS'), 'formdata[item_details]', $itemDetails, $rows=5, $cols=50, $id = '');
+$det_editor = new XoopsFormTextArea(constant($adminLang . '_CAPSDETAILS'), 'formdata[item_details]', $itemDetails, $rows = 5, $cols = 50, 0);
 $reviewform->addElement($det_editor);
 unset($det_editor);
 
@@ -201,15 +201,15 @@ unset($ratingselect);
 /**
  * Image
  */
-//$image_file = '';
-//if (isset($image_file)) {
-//    $image_file = $image_file;
+//$imageFile = '';
+//if (isset($imageFile)) {
+//    $imageFile = $imageFile;
 //}
 
-$image_file = isset($image_file) ? $image_file : '';
+$imageFile = isset($imageFile) ? $imageFile : '';
 
 $image_array  =& XoopsLists::getImgListAsArray(XOOPS_ROOT_PATH . $xoopsModuleConfig['photopath'] . '/thumb/');
-$image_select = new XoopsFormSelect('', 'formdata[image_file]', $image_file);
+$image_select = new XoopsFormSelect('', 'formdata[image_file]', $imageFile);
 $image_select->addOption('-1', '---------------');
 $image_select->addOptionArray($image_array);
 $image_select->setExtra("onchange='showImgSelected(\"photo\", \"formdata[image_file]\", \"uploads/amreviews/photos/thumb\", \"\", \"" . XOOPS_URL . "\")'");

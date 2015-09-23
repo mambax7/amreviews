@@ -50,23 +50,23 @@ class Thumbnails
         $image = $photopath . '/' . $filename; // erm, filenname
         if (!file_exists($image) || !is_readable($image)) {
             // send error and stuff (code, other data, in this case, file)
-            $error = $this->show_errors('Unable to read input image.');
+            $error = $this->showErrors('Unable to read input image.');
 
             return (false);
         }
 
-        $imagesize = getimagesize($image); # find image dimensions - was IMGsize
+        $imagesize = getimagesize($image); // find image dimensions - was IMGsize
 
         // create path and filename for the thumbnail
         $thumbfilenamepart = explode('.', $filename);
-        if ($extention === 1) {
+        if ($extention == 1) {
             $thumbfilename = $thumbfilenamepart[0] . '_tn';// . $thumbfilenamepart[1];
         } else {
             $thumbfilename = $thumbfilenamepart[0];
         }
         $thumbnail = $thumbnailpath . $thumbfilename;
 
-        # use width to work out height (keeping aspect ratio)
+        // use width to work out height (keeping aspect ratio)
         $percentage  = $thumbwidth / $imagesize[0]; // was PERcent
         $thumbheight = round($percentage * $imagesize[1], 0); // was YOURheight
 
@@ -97,7 +97,7 @@ class Thumbnails
         if (($imagesize['mime'] === 'image/gif') && ($gdinfo['GIF Read Support'])) {
             $oldimage = imagecreatefromgif($image);
         }
-
+        $oldimage='';
         imagecopyresized($newimage, $oldimage, 0, 0, 0, 0, $thumbwidth, $thumbheight, $imagesize[0], $imagesize[1]);
         // or try ImageCopyResampled() for the above, and possibly ImageCreateTrueColor()
         // requires GD > 2.0
@@ -116,7 +116,7 @@ class Thumbnails
                 imagejpeg($newimage, $thumbfile, 75);
             }
         } else {
-            $this->show_errors('Unable to write thumbnail.');
+            $this->showErrors('Unable to write thumbnail.');
 
             return (false);
         }
@@ -137,7 +137,7 @@ class Thumbnails
      * @param $error
      * @return bool
      */
-    public function show_errors($error)
+    public function showErrors($error)
     {
         echo "<span style=\"color: red;\">Thumbnail class error: " . $error . '</span>';
 

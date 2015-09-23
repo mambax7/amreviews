@@ -121,12 +121,12 @@ if (isset($_REQUEST['op']) && $_REQUEST['op'] === 'save') {
     $weight       = (int)($formdata['weight']);
     $title        = $myts->addSlashes($formdata['title']);
     $subtitle     = $myts->addSlashes($formdata['subtitle']);
-    $image_file   = $myts->addSlashes($formdata['image_file']);
-    $image_align  = 'L'; // (TEMP) $formdata['image_align'];
+    $imageFile   = $myts->addSlashes($formdata['image_file']);
+    $imageAlign  = 'L'; // (TEMP) $formdata['imageAlign'];
     $our_rating   = (int)($formdata['our_rating']);
     $reviewer_ip  = $formdata['reviewer_ip'];
     $teaser       = $myts->addSlashes($formdata['teaser']);
-    $item_details = $myts->addSlashes($formdata['item_details']);
+    $itemDetails = $myts->addSlashes($formdata['item_details']);
     $review       = $myts->addSlashes($formdata['review']);
     $keywords     = $myts->addSlashes($formdata['keywords']);
     $date         = date('Y-m-d H:i:s', strtotime($formdata['date']['date']) + $formdata['date']['time']);
@@ -198,12 +198,12 @@ if (isset($_REQUEST['op']) && $_REQUEST['op'] === 'save') {
             '$weight',
             '$title',
             '$subtitle',
-            '$image_file',
-            '$image_align',
+            '$imageFile',
+            '$imageAlign',
             '$our_rating',
             '$reviewer_ip',
             '$teaser',
-            '$item_details',
+            '$itemDetails',
             '$review',
             '$keywords',
             '$date',
@@ -277,7 +277,7 @@ if (isset($_REQUEST['op']) && $_REQUEST['op'] === 'save') {
      * title            varchar(100)    Yes    NULL
      * subtitle        varchar(100)    Yes    NULL
      * image_file        varchar(100)    Yes    NULL
-     * image_align        char(1)            No    L
+     * imageAlign        char(1)            No    L
      * our_rating        varchar(5)        No    0
      * reviewer_ip        varchar(20)        No    000.000.000.000
      * teaser            text            Yes    NULL
@@ -336,12 +336,12 @@ if (isset($_REQUEST['op']) && $_REQUEST['op'] === 'edit') {
                 $weight       = $myrow['weight'];
                 $title        = $myts->htmlSpecialChars($myrow['title']);
                 $subtitle     = $myts->htmlSpecialChars($myrow['subtitle']);
-                $image_file   = $myrow['image_file'];
-                $image_align  = $myrow['image_align'];
+                $imageFile   = $myrow['image_file'];
+                $imageAlign  = $myrow['image_align'];
                 $our_rating   = $myrow['our_rating'];
                 $reviewer_ip  = $myrow['reviewer_ip'];
                 $teaser       = $myts->htmlSpecialChars($myrow['teaser']);
-                $item_details = $myts->htmlSpecialChars($myrow['item_details']);
+                $itemDetails = $myts->htmlSpecialChars($myrow['item_details']);
                 $review       = $myts->htmlSpecialChars($myrow['review']);
                 $keywords     = $myts->htmlSpecialChars($myrow['keywords']);
                 $date         = $myrow['date'];
@@ -398,12 +398,12 @@ if (isset($_REQUEST['op']) && $_REQUEST['op'] === 'edit') {
         $weight       = (int)($formdata['weight']);
         $title        = $myts->addSlashes($formdata['title']);
         $subtitle     = $myts->addSlashes($formdata['subtitle']);
-        $image_file   = $myts->addSlashes($formdata['image_file']);
-        $image_align  = 'L'; // (TEMP) $formdata['image_align'];
+        $imageFile   = $myts->addSlashes($formdata['image_file']);
+        $imageAlign  = 'L'; // (TEMP) $formdata['image_align'];
         $our_rating   = (int)($formdata['our_rating']);
         $reviewer_ip  = $formdata['reviewer_ip'];
         $teaser       = $myts->addSlashes($formdata['teaser']);
-        $item_details = $myts->addSlashes($formdata['item_details']);
+        $itemDetails = $myts->addSlashes($formdata['item_details']);
         $review       = $myts->addSlashes($formdata['review']);
         $keywords     = $myts->addSlashes($formdata['keywords']);
         $date         = date('Y-m-d H:i:s', strtotime($formdata['date']['date']) + $formdata['date']['time']);
@@ -478,12 +478,12 @@ if (isset($_REQUEST['op']) && $_REQUEST['op'] === 'edit') {
                 weight          = '$weight',
                 title           = '$title',
                 subtitle        = '$subtitle',
-                image_file      = '$image_file',
-                image_align     = '$image_align',
+                image_file      = '$imageFile',
+                image_align     = '$imageAlign',
                 our_rating      = '$our_rating',
                 reviewer_ip     = '$reviewer_ip',
                 teaser          = '$teaser',
-                item_details    = '$item_details',
+                item_details    = '$itemDetails',
                 review          = '$review',
                 keywords        = '$keywords',
                 date            = '$date',

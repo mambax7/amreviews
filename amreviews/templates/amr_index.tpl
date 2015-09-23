@@ -50,7 +50,7 @@
                 <td class="itemBody">
                     <a href="<{$xoops_url}>/modules/<{$mod_dir}>/review.php?id=<{$reviews.id}>"><img
                                 src="<{$xoops_url}><{$reviews.photopath}>/highlight/<{$reviews.imagefilename}>"
-                                alt="<{$reviews.title}>" align="<{$reviews.image_align}>" border="0"
+                                alt="<{$reviews.title}>" align="<{$reviews.imageAlign}>" border="0"
                                 style="padding: 3px;"/></a>
 
                     <p class="itemText">

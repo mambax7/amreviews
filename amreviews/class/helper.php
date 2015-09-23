@@ -25,9 +25,9 @@
     //defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class XoalbumHelper
+ * Class Helper
  */
-class Helper   /*extends Xoalbum_Module_Helper_Abstract*/
+class Helper   /*extends Module_Helper_Abstract*/
 {
     /**
      * Init vars

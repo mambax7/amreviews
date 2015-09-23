@@ -176,7 +176,7 @@ if (isset($_REQUEST['somethingsoIdonotgetloaded'])) {
     /**
      * Comment
      */
-    $commeditor = new XoopsFormTextArea(constant($mainLang . '_COMMENTTXT'), 'formdata[comment]', $item_details, $rows = 8, $cols = 36, 0);
+    $commeditor = new XoopsFormTextArea(constant($mainLang . '_COMMENTTXT'), 'formdata[comment]', $itemDetails, $rows = 8, $cols = 36, 0);
     $rateform->addElement($commeditor);
     unset($commeditor);
 

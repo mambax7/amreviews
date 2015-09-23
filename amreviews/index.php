@@ -181,9 +181,9 @@ if (!isset($_REQUEST['op'])) {
                  * Align image left or right.
                  */
                 if ($myrow['image_align'] === 'L') {
-                    $amr_reviews['image_align'] = 'left';
+                    $amr_reviews['imageAlign'] = 'left';
                 } else {
-                    $amr_reviews['image_align'] = 'right';
+                    $amr_reviews['imageAlign'] = 'right';
                 }
 
                 /**

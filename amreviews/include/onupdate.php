@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -42,17 +43,18 @@ if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof XoopsUse
  */
 function tableExists($tablename)
 {
-    $result = $GLOBALS['xoopsDB']->queryF("SHOW TABLES LIKE '$tablename'");
+    $result = $GLOBALS['xoopsDB']->queryF("SHOW TABLES LIKE '".$tablename."'");
 
-    return ($GLOBALS['xoopsDB']->getRowsNum($result) > 0) ? true : false;
+    return ($GLOBALS['xoopsDB']->getRowsNum($result) > 0);
 }
 
 /**
- * @param       $module
- * @param  null $oldversion
+ * @param XoopsObject $module
+ * @param  null       $oldversion
  * @return bool
+ * @internal param $mixed
  */
-function xoops_module_update_randomquote(&$module, $oldversion = null)
+function xoops_module_update_randomquote(XoopsObject $module, $oldversion = null)
 {
     $errors = 0;
     if (tableExists($GLOBALS['xoopsDB']->prefix('citas'))) {
@@ -77,7 +79,6 @@ function xoops_module_update_randomquote(&$module, $oldversion = null)
             ++$errors;
         }
     } elseif (tableExists($GLOBALS['xoopsDB']->prefix('randomquote_quotes'))) {
-
         // change status to indicate quote waiting approval
         $sql    = "UPDATE " . $GLOBALS['xoopsDB']->prefix('randomquote_quotes') . " SET quote_status=2 WHERE `quote_waiting` > 0";
         $result = $GLOBALS['xoopsDB']->queryF($sql);

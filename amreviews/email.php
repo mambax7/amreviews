@@ -31,7 +31,7 @@
 //  ------------------------------------------------------------------------ //
 require __DIR__ . '/include/setup.php';
 include_once 'header.php';
-include_once 'include/functions.inc.php';
+//include_once 'include/functions.inc.php';
 $myts =& MyTextSanitizer::getInstance();
 xoops_load('XoopsRequest');
 
@@ -105,7 +105,7 @@ if (0 !== ($id = XoopsRequest::getInt('id', 0, 'GET'))) {
     $xoopsTpl->assign('email_allowown', $xoopsModuleConfig['emailtofriendownmsg']); // switch for message box
     $xoopsTpl->assign('maxchars', $xoopsModuleConfig['emailtofreindchars']); // max number of chars
 
-    $sql    = ('SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('articles_main') . " WHERE id = $id LIMIT 1");
+    $sql    = ('SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('articles_main') . 'WHERE id = '.$id.' LIMIT 1');
     $result = $GLOBALS['xoopsDB']->query($sql);
 
     $myrow = $GLOBALS['xoopsDB']->fetchArray($result);

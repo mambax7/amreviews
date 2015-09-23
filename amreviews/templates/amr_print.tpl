@@ -61,8 +61,8 @@
                 </table>
 
                 <br/>
-                <strong><{$item_detailscap}></strong><br/>
-                <{$item_details}>
+                <strong><{$itemDetailscap}></strong><br/>
+                <{$itemDetails}>
 
             </td>
             <td>

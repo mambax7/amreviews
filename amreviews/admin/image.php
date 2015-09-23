@@ -135,8 +135,8 @@ if (!XoopsRequest::getCmd('op', XoopsRequest::getCmd('op', '', 'POST'), 'GET')) 
 
     $imgdelform = new XoopsThemeForm(constant($adminLang . '_DELIMG'), 'imgform', xoops_getenv('PHP_SELF'), 'post');
 
-    #if (isset($image_file)) { $image_file = $image_file;  }
-    #   else { $image_file = ""; }
+    #if (isset($imageFile)) { $imageFile = $imageFile;  }
+    #   else { $imageFile = ""; }
     $image_array  =& XoopsLists::getImgListAsArray(XOOPS_ROOT_PATH . $xoopsModuleConfig['photopath'] . '/thumb');
     $image_select = new XoopsFormSelect('', 'formdata[image_file]', '');
     $image_select->addOption('-1', '---------------');
@@ -184,7 +184,9 @@ if (isset($temp) && $temp === 'upload') {
     //print_r($uploadfile);
     //print_r($_FILES['uploadfile']);
     //print_r($_FILES);
-    print_r($formdata);
+
+//    print_r($formdata);
+
     //exit;
     //echo "</pre>";
 
@@ -216,7 +218,7 @@ if (isset($temp) && $temp === 'upload') {
                     }
                     //$destinationfile = GALLERY_UPLOAD_PATH . $filename;
                 } else {
-                    $destfilename = uniqid('img') . '.gif';
+                    $destfilename = uniqid('img', 1) . '.gif';
                     //$destinationfile = GALLERY_UPLOAD_PATH . uniqid('img').'.gif';
                 }
                 //$destinationfile = XOOPS_ROOT_PATH . $xoopsModuleConfig['photopath'] . "/" . $destfilename;
@@ -231,7 +233,7 @@ if (isset($temp) && $temp === 'upload') {
                     }
                     //$destinationfile = GALLERY_UPLOAD_PATH . $filename;
                 } else {
-                    $destfilename = uniqid('img') . '.jpg';
+                    $destfilename = uniqid('img', 1) . '.jpg';
                     //$destinationfile = GALLERY_UPLOAD_PATH . uniqid('img').'.jpg';
                 }
                 //$destinationfile = XOOPS_ROOT_PATH . $xoopsModuleConfig['photopath'] . "/" . $destfilename;
@@ -247,7 +249,7 @@ if (isset($temp) && $temp === 'upload') {
                     }
                     //$destinationfile = GALLERY_UPLOAD_PATH . $filename;
                 } else {
-                    $destfilename = uniqid('img') . '.png';
+                    $destfilename = uniqid('img', 1) . '.png';
                     //$destinationfile = GALLERY_UPLOAD_PATH . uniqid('img').'.png';
                 }
                 //$destinationfile = XOOPS_ROOT_PATH . $xoopsModuleConfig['photopath'] . "/" . $destfilename;
@@ -311,7 +313,7 @@ if (isset($temp) && $temp === 'upload') {
         }
     } else {
         // if it is in photo dir, give option to do stuff
-        $destfilename = uniqid('img') . '.jpg';
+        $destfilename = uniqid('img', 1) . '.jpg';
         if (copy($destinationfile, XOOPS_ROOT_PATH . $xoopsModuleConfig['photopath'] . '/' . $destfilename)) {
             //echo "<p>Sorry, I was unable to copy the uploaded file from: <br>". $destinationfile ." <br>to:<br> ". GALLERY_IMAGE_PATH . $destfilename ."</p>";
             echo "<p><b>Notice:</b> The file name \"<b>" . $destfilename . "</b>\"" . constant($adminLang . '_ERROR_FILE_EXISTS_RENAMED') . " \"<b>" . $destfilename . "</b>\"</p>";
@@ -415,17 +417,17 @@ if (isset($_REQUEST['op']) && $_REQUEST['op'] === 'delimage') {
 
         // test
         #print_r($_POST);
-        $image_file = '';
+        $imageFile = '';
         if (isset($_REQUEST['image_file'])) {
-            $image_file = $_REQUEST['image_file'];
+            $imageFile = $_REQUEST['image_file'];
         }
 
-        $photomain  = AMREVIEW_UPLOAD_PATH . '/photos/' . $image_file;
-        $photothumb = AMREVIEW_UPLOAD_PATH . '/photos/thumb/' . $image_file;
-        $photohigh  = AMREVIEW_UPLOAD_PATH . '/photos/highlight/' . $image_file;
+        $photomain  = AMREVIEW_UPLOAD_PATH . '/photos/' . $imageFile;
+        $photothumb = AMREVIEW_UPLOAD_PATH . '/photos/thumb/' . $imageFile;
+        $photohigh  = AMREVIEW_UPLOAD_PATH . '/photos/highlight/' . $imageFile;
 
         echo '<div style=\'font-family: courier, sans-serif;\'>';
-        echo constant($adminLang . '_IMGDELETING') . ' ' . $image_file . '<br />';
+        echo constant($adminLang . '_IMGDELETING') . ' ' . $imageFile . '<br />';
         if (@unlink($photomain)) {
             echo constant($adminLang . '_IMGMAINDEL') . " <span style=\"color: green;\">deleted</span><br />";
         } else {

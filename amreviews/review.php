@@ -55,7 +55,7 @@ if (isset($_REQUEST['id'])) {
     $xoopsTpl->assign('our_ratingcap', constant($mainLang . '_OURRATECAP'));
     $xoopsTpl->assign('user_ratingcap', constant($mainLang . '_USERRATECAP'));
     $xoopsTpl->assign('mod_dir', AMREVIEW_DIRNAME);
-    $xoopsTpl->assign('item_detailscap', constant($mainLang . '_DETAILSCAP'));
+    $xoopsTpl->assign('itemDetailscap', constant($mainLang . '_DETAILSCAP'));
     $xoopsTpl->assign('backcap', constant($mainLang . '_BACKCAP'));
     $xoopsTpl->assign('printcap', constant($mainLang . '_PRINTCAP'));
     $xoopsTpl->assign('emailcap', constant($mainLang . '_EMAILCAP'));
