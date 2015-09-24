@@ -41,6 +41,8 @@ $myts =& MyTextSanitizer::getInstance();
 //$mytree = new XoopsTree($GLOBALS['xoopsDB']->prefix("amreview_cat"),"id","cat_parentid");
 $gperm_handler =& xoops_gethandler('groupperm');
 
+$utilities = new Xoopsmodules\amreviews\Utilities($db);
+
 //----------------------------------------------------------------------------//
 // Default page view
 if (!isset($_REQUEST['op'])) {
@@ -82,8 +84,13 @@ if (!isset($_REQUEST['op'])) {
             $amr_cat              = array();
             $amr_cat['id']        = $myrow['id'];
             $amr_cat['cat_title'] = $myts->displayTarea($myrow['cat_title']);
-            //$amr_cat['rev_count'] = getReviewCount($myrow['id']);
+            //$amr_cat['rev_count'] = $utilities->getReviewCount($myrow['id']);
 
+            //TEST
+            //            if (isset($myrow['id'])) {
+            //                $temp1 = $utilities->getReviewCount($myrow['id']);
+            //                $temp2 = $utilities->getRowCount('amreviews_reviews', 'id', 'catid', 'int', $myrow['id']);
+            //            }
             /**
              * Create switch to start new row.
              */
@@ -99,8 +106,8 @@ if (!isset($_REQUEST['op'])) {
              */
             if ($xoopsModuleConfig['showsubcats'] === 1) {
                 $amr_cat['subcatsswitch'] = 1;
-                $utilities                = new Xoopsmodules\amreviews\Utilities($db);
-                $amr_cat['subcats']       = $utilities->getSubcats($myrow['id']);
+                //                $utilities                = new Xoopsmodules\amreviews\Utilities($db);
+                $amr_cat['subcats'] = $utilities->getSubcats($myrow['id']);
             }
 
             $xoopsTpl->append('categories', $amr_cat);

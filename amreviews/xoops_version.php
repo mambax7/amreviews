@@ -385,8 +385,7 @@ $modversion['config'][] = array(
     'formtype'    => 'select',
     'valuetype'   => 'int',
     'default'     => '0',
-    'options'     => array($modinfoLang . '_PAGEMETADEF_OPT_0' => '0', $modinfoLang . '_PAGEMETADEF_OPT_1' => '1')
-    //, $modinfoLang . '_PAGEMETADEF_OPT_2' => '2')
+    'options'     => array($modinfoLang . '_PAGEMETADEF_OPT_0' => '0', $modinfoLang . '_PAGEMETADEF_OPT_1' => '1')//, $modinfoLang . '_PAGEMETADEF_OPT_2' => '2')
 );
 
 // Logged in to vote
@@ -406,6 +405,5 @@ $modversion['config'][] = array(
     'formtype'    => 'select',
     'valuetype'   => 'int',
     'default'     => 1,
-    'options'     => array($modinfoLang . '_HILITEIMG_OPT_0' => '0', $modinfoLang . '_HILITEIMG_OPT_1' => '1')
-    //, $modinfoLang . '_PAGEMETADEF_OPT_2' => '2')
+    'options'     => array($modinfoLang . '_HILITEIMG_OPT_0' => '0', $modinfoLang . '_HILITEIMG_OPT_1' => '1')//, $modinfoLang . '_PAGEMETADEF_OPT_2' => '2')
 );

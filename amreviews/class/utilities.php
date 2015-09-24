@@ -51,23 +51,24 @@ class Utilities
      * @param  string $imageFile
      * @return int
      */
-    public function checkImageInUse($imageFile = '')
-    {
-        $count = 0;
-        $sql    = ('SELECT COUNT(image_file) AS count FROM ' . $this->db->prefix('amreviews_reviews') . " WHERE image_file='" . $imageFile . "'");
-        $result = $this->db->query($sql);
+    /*
+        public function checkImageInUse($imageFile = '')
+        {
+            $count  = 0;
+            $sql    = ('SELECT COUNT(image_file) AS count FROM ' . $this->db->prefix('amreviews_reviews') . " WHERE image_file='" . $imageFile . "'");
+            $result = $this->db->query($sql);
 
-        if ($this->db->getRowsNum($result) > 0) {
-            while ($myrow = $this->db->fetchArray($result)) {
-                $count = $myrow['count'];
+            if ($this->db->getRowsNum($result) > 0) {
+                while ($myrow = $this->db->fetchArray($result)) {
+                    $count = $myrow['count'];
+                }
+            } else {
+                $count = 0;
             }
-        } else {
-            $count = 0;
-        }
 
-        return $count;
-    } // end function
-
+            return $count;
+        } // end function
+    */
     /**
      * Do some basic file checks and stuff.
      */
@@ -309,10 +310,42 @@ class Utilities
      * @param string $catid
      * @return
      */
-    public function getReviewCount($catid = '0')
+
+    /*
+        public function getReviewCount($catid = '0')
+        {
+            $count  = 0;
+            $sql    = ('SELECT COUNT(id) AS count FROM ' . $this->db->prefix('amreviews_reviews') . " WHERE catid='" . $catid . "'");
+            $result = $this->db->query($sql);
+
+            if ($this->db->getRowsNum($result) > 0) {
+                while ($myrow = $this->db->fetchArray($result)) {
+                    $count = $myrow['count'];
+                }
+            }
+
+            return $count;
+        } // end function
+    */
+    //----------------------------------------------------------------------------//
+
+    /**
+     * Get count on a field in DB (not recursive)
+     * @param string     $aTable
+     * @param string     $idField
+     * @param string     $checkField
+     * @param string     $checkFieldType
+     * @param string|int $checkValue
+     * @return int
+     */
+    public function getRowCount($aTable, $idField, $checkField, $checkFieldType, $checkValue)
     {
-        $count = 0;
-        $sql    = ('SELECT COUNT(id) AS count FROM ' . $this->db->prefix('amreviews_reviews') . " WHERE catid='" . $catid . "'");
+        if (!isset($aTable) || !isset($idField) || !isset($checkField) || !isset($checkFieldType) || !isset($checkValue)) {
+            redirect_header('javascript:history.go(-1)', 1, 'missing field values');
+        }
+
+        $count  = 0;
+        $sql    = ('SELECT COUNT(' . $idField . ') AS count FROM ' . $this->db->prefix($aTable) . " WHERE " . $checkField . "='" . $checkValue . "'");
         $result = $this->db->query($sql);
 
         if ($this->db->getRowsNum($result) > 0) {
@@ -323,8 +356,6 @@ class Utilities
 
         return $count;
     } // end function
-
-    //----------------------------------------------------------------------------//
 
     /**
      * Increment review views/reads

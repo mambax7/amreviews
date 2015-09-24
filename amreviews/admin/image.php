@@ -185,7 +185,7 @@ if (isset($temp) && $temp === 'upload') {
     //print_r($_FILES['uploadfile']);
     //print_r($_FILES);
 
-//    print_r($formdata);
+    //    print_r($formdata);
 
     //exit;
     //echo "</pre>";
@@ -352,7 +352,7 @@ if (isset($temp) && $temp === 'upload') {
 
     //    $utilities->adminfooter();
     include_once __DIR__ . '/admin_footer.php';
-//    xoops_cp_footer();
+    //    xoops_cp_footer();
 } // end if
 
 //----------------------------------------------------------------------------//
@@ -395,7 +395,12 @@ if (isset($_REQUEST['op']) && $_REQUEST['op'] === 'delimage') {
         $utilities      = new Xoopsmodules\amreviews\Utilities($db);
 
         // We want to see if the image is in use, so we can change the confirm message.
-        if ($utilities->checkImageInUse($image_filename) === 0) {
+
+        //TEST
+        //        $temp1 = $utilities->checkImageInUse($image_filename);
+        $checkImageInUse = $utilities->getRowCount('amreviews_reviews', 'image_file', 'image_file', 'int', $image_filename);
+
+        if ($checkImageInUse === 0) {
             #echo constant($adminLang . '_IMGCONFDEL');
             $confirm_msg = constant($adminLang . '_IMGCONFDEL');
         } else {

@@ -86,6 +86,7 @@ class Thumbnails
         }
 
         // create from jpg
+        $oldimage = '';
         if ($imagesize['mime'] === 'image/jpeg') {
             $oldimage = imagecreatefromjpeg($image);
         }
@@ -97,7 +98,7 @@ class Thumbnails
         if (($imagesize['mime'] === 'image/gif') && ($gdinfo['GIF Read Support'])) {
             $oldimage = imagecreatefromgif($image);
         }
-        $oldimage='';
+
         imagecopyresized($newimage, $oldimage, 0, 0, 0, 0, $thumbwidth, $thumbheight, $imagesize[0], $imagesize[1]);
         // or try ImageCopyResampled() for the above, and possibly ImageCreateTrueColor()
         // requires GD > 2.0

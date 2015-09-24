@@ -36,14 +36,15 @@
 #--
 
 CREATE TABLE `amreviews_cat` (
-  `id` int(5) NOT NULL auto_increment,
-  `cat_parentid` int(5) NOT NULL default '0',
-  `cat_title` varchar(100) NOT NULL default '0',
-  `cat_description` text NOT NULL,
-  `cat_weight` int(5) NOT NULL default '0',
-  `cat_showme` int(5) NOT NULL default '1',
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM;
+  `id`              INT(5)       NOT NULL AUTO_INCREMENT,
+  `cat_parentid`    INT(5)       NOT NULL DEFAULT '0',
+  `cat_title`       VARCHAR(100) NOT NULL DEFAULT '0',
+  `cat_description` TEXT         NOT NULL,
+  `cat_weight`      INT(5)       NOT NULL DEFAULT '0',
+  `cat_showme`      INT(5)       NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+)
+  ENGINE = MyISAM;
 
 #--
 #-- Dumping data for table `<prefix>_amreview_cat`
@@ -59,38 +60,39 @@ INSERT INTO `amreviews_cat` VALUES (1, 0, 'Example category', 'This is an exampl
 #-- 
 
 CREATE TABLE `amreviews_reviews` (
-  `id` int(10) unsigned NOT NULL auto_increment,
-  `uid` int(10) unsigned NOT NULL default '0',
-  `catid` int(10) unsigned NOT NULL default '0',
-  `weight` int(10) unsigned NOT NULL default '0',
-  `title` varchar(100) default NULL,
-  `subtitle` varchar(100) default NULL,
-  `image_file` varchar(100) default NULL,
-  `image_align` char(1) NOT NULL default 'L',
-  `our_rating` varchar(5) NOT NULL default '0',
-  `reviewer_ip` varchar(20) NOT NULL default '000.000.000.000',
-  `teaser` text,
-  `item_details` text,
-  `review` text,
-  `keywords` text,
-  `date` datetime NOT NULL default '0000-00-00 00:00:00',
-  `date_publish` int(11) unsigned NOT NULL default '0',
-  `date_end` int(11) unsigned NOT NULL default '0',
-  `views` int(10) unsigned NOT NULL default '0',
-  `pagetitle` int(5) unsigned NOT NULL default '0',
-  `metaheaders` int(5) unsigned NOT NULL default '0',
-  `comments` enum('0','1') NOT NULL default '1',
-  `notify` enum('0','1') NOT NULL default '0',
-  `validated` enum('0','1') NOT NULL default '0',
-  `showme` enum('0','1') NOT NULL default '0',
-  `highlight` enum('0','1') NOT NULL default '0',
-  `nohtml` enum('0','1') NOT NULL default '1',
-  `nosmiley` enum('0','1') NOT NULL default '1',
-  `noxcode` enum('0','1') NOT NULL default '1',
-  `noimage` enum('0','1') NOT NULL default '1',
-  `nobr` enum('0','1') NOT NULL default '1',
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM;
+  `id`           INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `uid`          INT(10) UNSIGNED NOT NULL DEFAULT '0',
+  `catid`        INT(10) UNSIGNED NOT NULL DEFAULT '0',
+  `weight`       INT(10) UNSIGNED NOT NULL DEFAULT '0',
+  `title`        VARCHAR(100)              DEFAULT NULL,
+  `subtitle`     VARCHAR(100)              DEFAULT NULL,
+  `image_file`   VARCHAR(100)              DEFAULT NULL,
+  `image_align`  CHAR(1)          NOT NULL DEFAULT 'L',
+  `our_rating`   VARCHAR(5)       NOT NULL DEFAULT '0',
+  `reviewer_ip`  VARCHAR(20)      NOT NULL DEFAULT '000.000.000.000',
+  `teaser`       TEXT,
+  `item_details` TEXT,
+  `review`       TEXT,
+  `keywords`     TEXT,
+  `date`         DATETIME         NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_publish` INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  `date_end`     INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  `views`        INT(10) UNSIGNED NOT NULL DEFAULT '0',
+  `pagetitle`    INT(5) UNSIGNED  NOT NULL DEFAULT '0',
+  `metaheaders`  INT(5) UNSIGNED  NOT NULL DEFAULT '0',
+  `comments`     ENUM('0', '1')   NOT NULL DEFAULT '1',
+  `notify`       ENUM('0', '1')   NOT NULL DEFAULT '0',
+  `validated`    ENUM('0', '1')   NOT NULL DEFAULT '0',
+  `showme`       ENUM('0', '1')   NOT NULL DEFAULT '0',
+  `highlight`    ENUM('0', '1')   NOT NULL DEFAULT '0',
+  `nohtml`       ENUM('0', '1')   NOT NULL DEFAULT '1',
+  `nosmiley`     ENUM('0', '1')   NOT NULL DEFAULT '1',
+  `noxcode`      ENUM('0', '1')   NOT NULL DEFAULT '1',
+  `noimage`      ENUM('0', '1')   NOT NULL DEFAULT '1',
+  `nobr`         ENUM('0', '1')   NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+)
+  ENGINE = MyISAM;
 
 
 #-- --------------------------------------------------------
@@ -100,18 +102,19 @@ CREATE TABLE `amreviews_reviews` (
 #-- 
 
 CREATE TABLE `amreviews_rate` (
-  `id` int(5) NOT NULL auto_increment,
-  `rate_review_id` int(5) NOT NULL default '0',
-  `rate_rating` int(5) NOT NULL default '0',
-  `rate_uid` int(5) NOT NULL default '0',
-  `rate_user_ip` varchar(20) NOT NULL default '0',
-  `rate_user_browser` varchar(50) NOT NULL default '0',
-  `rate_title` varchar(100) NOT NULL default '0',
-  `rate_text` text NOT NULL,
-  `rate_datetime` datetime NOT NULL default '0000-00-00 00:00:00',
-  `rate_showme` int(5) NOT NULL default '1',
-  `rate_validated` int(5) NOT NULL default '0',
-  `rate_useful` varchar(20) NOT NULL default '0/0',
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM;
+  `id`                INT(5)       NOT NULL AUTO_INCREMENT,
+  `rate_review_id`    INT(5)       NOT NULL DEFAULT '0',
+  `rate_rating`       INT(5)       NOT NULL DEFAULT '0',
+  `rate_uid`          INT(5)       NOT NULL DEFAULT '0',
+  `rate_user_ip`      VARCHAR(20)  NOT NULL DEFAULT '0',
+  `rate_user_browser` VARCHAR(50)  NOT NULL DEFAULT '0',
+  `rate_title`        VARCHAR(100) NOT NULL DEFAULT '0',
+  `rate_text`         TEXT         NOT NULL,
+  `rate_datetime`     DATETIME     NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `rate_showme`       INT(5)       NOT NULL DEFAULT '1',
+  `rate_validated`    INT(5)       NOT NULL DEFAULT '0',
+  `rate_useful`       VARCHAR(20)  NOT NULL DEFAULT '0/0',
+  PRIMARY KEY (`id`)
+)
+  ENGINE = MyISAM;
 
