@@ -24,7 +24,7 @@
  * @version         $Id: $
  */
 
-require_once  dirname(__DIR__) . '/class/Autoloader.php';
+require_once dirname(__DIR__) . '/class/Autoloader.php';
 // true param for auto-registration in spl_autoload_register() function.
 $loaderPsr4 = new Xoopsmodules\amreviews\Autoloader(true);
 
@@ -78,7 +78,7 @@ $loaderPsr4->registerNamespace('amreviews', dirname(__DIR__) . '/tests');
 
 require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 
-$db = & XoopsDatabaseFactory::getDatabaseConnection();
+$db = &XoopsDatabaseFactory::getDatabaseConnection();
 xoops_load('XoopsRequest');
 
 if (!defined('AMREVIEW_DIRNAME')) {
@@ -98,6 +98,7 @@ define('AMREVIEW_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . AMREVIEW_DIRNAME); // W
 
 $helper = new Xoopsmodules\amreviews\Helper();
 //$helper      = & Helper::getInstance();
+$utilities = new Xoopsmodules\amreviews\Utilities($db,$helper);
 $mainLang    = '_MD_' . strtoupper($helper->moduleDirName);
 $modinfoLang = '_MI_' . strtoupper($helper->moduleDirName);
 $adminLang   = '_AM_' . strtoupper($helper->moduleDirName);

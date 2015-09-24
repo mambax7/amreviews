@@ -21,7 +21,6 @@
      */
 
     //namespace Xoopsmodules\Amreview;
-
     //defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
@@ -75,7 +74,7 @@ class Helper   /*extends Module_Helper_Abstract*/
 
     /**
      * Get instance
-     * @return object
+     * @return Helper
      */
     public static function &getInstance()
     {

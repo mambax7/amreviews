@@ -6,16 +6,20 @@
  * Date: 2014-11-19
  * Time: 3:05
  */
+
 class Utilities
 {
     protected $db;
+    protected $helper;
 
     /**
-     * @param $db
+     * @param \XoopsDatabase $db
+     * @param                $helper
      */
-    public function __construct(\XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db, $helper)
     {
         $this->db = $db;
+        $this->helper = $helper;
     }
 
     public function adminfooter()
@@ -416,4 +420,24 @@ class Utilities
         return ($summary);
     } // end function
 
+//    public function reportDelete($adminLang, $photo, $imageDelete, &$imgerr){
+    /**
+     * @param $photo
+     * @param $imageDelete
+     * @param $imgerr
+     * @return string
+     */
+    public function reportDelete($photo, $imageDelete, &$imgerr){
+
+        $adminLang = '_AM_' . strtoupper($this->helper->moduleDirName);
+
+        $ret = '';
+        if (@unlink($photo)) {
+            $ret =  constant($adminLang . $imageDelete) . " <span style=\"color: green;\">deleted</span><br />";
+        } else {
+            $ret =  constant($adminLang . $imageDelete) . " <span style=\"color: red;\">not deleted</span><br />";
+            $imgerr = 1;
+        }
+        return $ret;
+    }
 }

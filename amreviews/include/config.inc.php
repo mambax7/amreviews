@@ -56,4 +56,3 @@ define('_AM_AMRMODDIR', 'amreviews');
 #   include(XOOPS_ROOT_PATH . '/modules/amreviews/include/debug.php');
 #   #include_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/include/config.php');
 #}
-

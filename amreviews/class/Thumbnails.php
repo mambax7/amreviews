@@ -112,7 +112,7 @@ class Thumbnails
                 $thumbfile     = $thumbnailpath . $thumbfilename;
                 imagejpeg($newimage, $thumbfile, 75);
             } else {
-                $thumbfilename = $thumbfilename . '.jpg';
+                $thumbfilename .= '.jpg';
                 $thumbfile     = $thumbnailpath . $thumbfilename;
                 imagejpeg($newimage, $thumbfile, 75);
             }
@@ -144,7 +144,7 @@ class Thumbnails
 
         //return(array('error' => '1', 'thumbnail' => ''));
         return (false);
-        exit;
+        //exit;
     } // end function
 
     // function to check GD version
@@ -169,4 +169,3 @@ class Thumbnails
         return ($gd2);
     } // end checkgd()
 } // end class
-

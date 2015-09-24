@@ -105,7 +105,7 @@ if (0 !== ($id = XoopsRequest::getInt('id', 0, 'GET'))) {
     $xoopsTpl->assign('email_allowown', $xoopsModuleConfig['emailtofriendownmsg']); // switch for message box
     $xoopsTpl->assign('maxchars', $xoopsModuleConfig['emailtofreindchars']); // max number of chars
 
-    $sql    = ('SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('articles_main') . 'WHERE id = '.$id.' LIMIT 1');
+    $sql    = ('SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('articles_main') . 'WHERE id = ' . $id . ' LIMIT 1');
     $result = $GLOBALS['xoopsDB']->query($sql);
 
     $myrow = $GLOBALS['xoopsDB']->fetchArray($result);
@@ -200,7 +200,7 @@ if (null !== ($formdata = XoopsRequest::getArray('formdata', null, 'POST'))) {
     // Replace {SITE_NAME} with name of site defined in XOOPS' config.
     $message = preg_replace("/{SITE_NAME}/", $GLOBALS['xoopsConfig']['sitename'], $message);
     // Replace {USER_TIME} with date and time
-    $message = preg_replace("/{USER_TIME}/", formatTimestamp(mktime(), 'rss'), $message);
+    $message = preg_replace("/{USER_TIME}/", formatTimestamp(time(), 'rss'), $message);
     // Replace {ARTICLE_URL} with URL to article.
     $message = preg_replace("/{ARTICLE_URL}/", XOOPS_URL . '/modules/articles/article.php?id=' . $id, $message);
     // Replace {ADMIN_EMAIL} with admin email

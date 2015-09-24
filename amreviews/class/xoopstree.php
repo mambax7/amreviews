@@ -67,10 +67,10 @@ class XoopsTree extends \XoopsObject
     public function getFirstChild($selId, $order = '')
     {
         $selId = (int)($selId);
-        $arr    = array();
-        $sql    = 'SELECT * FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $selId . '';
+        $arr   = array();
+        $sql   = 'SELECT * FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $selId . '';
         if ($order !== '') {
-            $sql .= ' ORDER BY '.$order;
+            $sql .= ' ORDER BY ' . $order;
         }
         $result = $this->db->query($sql);
         $count  = $this->db->getRowsNum($result);
@@ -78,7 +78,7 @@ class XoopsTree extends \XoopsObject
             return $arr;
         }
         while ($myrow = $this->db->fetchArray($result)) {
-            $arr[] =  $myrow;
+            $arr[] = $myrow;
         }
 
         return $arr;
@@ -92,7 +92,7 @@ class XoopsTree extends \XoopsObject
      */
     public function getFirstChildId($selId)
     {
-        $selId  = (int)($selId);
+        $selId   = (int)($selId);
         $idArray = array();
         $result  = $this->db->query('SELECT ' . $this->id . ' FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $selId . '');
         $count   = $this->db->getRowsNum($result);
@@ -117,9 +117,9 @@ class XoopsTree extends \XoopsObject
     public function getAllChildId($selId, $order = '', $idArray = array())
     {
         $selId = (int)($selId);
-        $sql    = 'SELECT ' . $this->id . ' FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $selId . '';
+        $sql   = 'SELECT ' . $this->id . ' FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $selId . '';
         if ($order !== '') {
-            $sql .= ' ORDER BY '.$order;
+            $sql .= ' ORDER BY ' . $order;
         }
         $result = $this->db->query($sql);
         $count  = $this->db->getRowsNum($result);
@@ -128,7 +128,7 @@ class XoopsTree extends \XoopsObject
         }
         while (list($resultId) = $this->db->fetchRow($result)) {
             $idArray[] = $resultId;
-            $idArray = $this->getAllChildId($resultId, $order, $idArray);
+            $idArray   = $this->getAllChildId($resultId, $order, $idArray);
         }
 
         return $idArray;
@@ -145,9 +145,9 @@ class XoopsTree extends \XoopsObject
     public function getAllParentId($selId, $order = '', $idArray = array())
     {
         $selId = (int)($selId);
-        $sql    = 'SELECT ' . $this->pid . ' FROM ' . $this->table . ' WHERE ' . $this->id . '=' . $selId . '';
+        $sql   = 'SELECT ' . $this->pid . ' FROM ' . $this->table . ' WHERE ' . $this->id . '=' . $selId . '';
         if ($order !== '') {
-            $sql .= ' ORDER BY '.$order;
+            $sql .= ' ORDER BY ' . $order;
         }
         $result = $this->db->query($sql);
         list($resultId) = $this->db->fetchRow($result);
@@ -155,7 +155,7 @@ class XoopsTree extends \XoopsObject
             return $idArray;
         }
         $idArray[] = $resultId;
-        $idArray = $this->getAllParentId($resultId, $order, $idArray);
+        $idArray   = $this->getAllParentId($resultId, $order, $idArray);
 
         return $idArray;
     }
@@ -171,7 +171,7 @@ class XoopsTree extends \XoopsObject
      */
     public function getPathFromId($selId, $title, $path = '')
     {
-        $selId = (int)($selId);
+        $selId  = (int)($selId);
         $result = $this->db->query('SELECT ' . $this->pid . ', ' . $title . ' FROM ' . $this->table . ' WHERE ' . $this->id . "=$selId");
         if ($this->db->getRowsNum($result) === 0) {
             return $path;
@@ -212,7 +212,7 @@ class XoopsTree extends \XoopsObject
         echo ">\n";
         $sql = 'SELECT ' . $this->id . ', ' . $title . ' FROM ' . $this->table . ' WHERE ' . $this->pid . '=0';
         if ($order !== "") {
-            $sql .= ' ORDER BY '.$order;
+            $sql .= ' ORDER BY ' . $order;
         }
         $result = $this->db->query($sql);
         if ($none) {
@@ -251,8 +251,8 @@ class XoopsTree extends \XoopsObject
     public function getNicePathFromId($selId, $title, $funcURL, $path = '')
     {
         $path   = !empty($path) ? '&nbsp;:&nbsp;' . $path : $path;
-        $selId = (int)($selId);
-        $sql    = 'SELECT ' . $this->pid . ', ' . $title . ' FROM ' . $this->table . ' WHERE ' . $this->id . '=' .$selId;
+        $selId  = (int)($selId);
+        $sql    = 'SELECT ' . $this->pid . ', ' . $title . ' FROM ' . $this->table . ' WHERE ' . $this->id . '=' . $selId;
         $result = $this->db->query($sql);
         if ($this->db->getRowsNum($result) === 0) {
             return $path;
@@ -279,8 +279,8 @@ class XoopsTree extends \XoopsObject
      */
     public function getIdPathFromId($selId, $path = "")
     {
-        $selId = (int)($selId);
-        $result = $this->db->query('SELECT ' . $this->pid . ' FROM ' . $this->table . ' WHERE ' . $this->id . '=' .$selId);
+        $selId  = (int)($selId);
+        $result = $this->db->query('SELECT ' . $this->pid . ' FROM ' . $this->table . ' WHERE ' . $this->id . '=' . $selId);
         if ($this->db->getRowsNum($result) === 0) {
             return $path;
         }
@@ -297,60 +297,60 @@ class XoopsTree extends \XoopsObject
     /**
      * Enter description here...
      *
-     * @param int|\unknown_type    $selId
+     * @param integer|\unknown_type    $selId
      * @param string|\unknown_type $order
-     * @param array|\unknown_type  $parray
+     * @param array|\unknown_type  $pArray
      *
      * @return unknown
      */
-    public function getAllChild($selId = 0, $order = '', $parray = array())
+    public function getAllChild($selId = 0, $order = '', $pArray = array())
     {
         $selId = (int)($selId);
-        $sql    = 'SELECT * FROM ' . $this->table . " WHERE " . $this->pid . '=' . $selId . '';
+        $sql   = 'SELECT * FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $selId . '';
         if ($order !== '') {
-            $sql .= ' ORDER BY '.$order;
+            $sql .= ' ORDER BY ' . $order;
         }
         $result = $this->db->query($sql);
         $count  = $this->db->getRowsNum($result);
         if ($count === 0) {
-            return $parray;
+            return $pArray;
         }
         while ($row = $this->db->fetchArray($result)) {
-            $parray[] = $row;
-            $parray = $this->getAllChild($row[$this->id], $order, $parray);
+            $pArray[] = $row;
+            $pArray   = $this->getAllChild($row[$this->id], $order, $pArray);
         }
 
-        return $parray;
+        return $pArray;
     }
 
     /**
      * Enter description here...
      *
-     * @param int|\unknown_type    $selId
+     * @param integer|\unknown_type    $selId
      * @param string|\unknown_type $order
-     * @param array|\unknown_type  $parray
+     * @param array|\unknown_type  $pArray
      * @param string|\unknown_type $r_prefix
      *
      * @return unknown
      */
-    public function getChildTreeArray($selId = 0, $order = '', $parray = array(), $r_prefix = '')
+    public function getChildTreeArray($selId = 0, $order = '', $pArray = array(), $r_prefix = '')
     {
         $selId = (int)($selId);
-        $sql    = 'SELECT * FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $selId . '';
+        $sql   = 'SELECT * FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $selId . '';
         if ($order !== '') {
-            $sql .= ' ORDER BY '.$order;
+            $sql .= ' ORDER BY ' . $order;
         }
         $result = $this->db->query($sql);
         $count  = $this->db->getRowsNum($result);
         if ($count === 0) {
-            return $parray;
+            return $pArray;
         }
         while ($row = $this->db->fetchArray($result)) {
             $row['prefix'] = $r_prefix . '.';
-            $parray[] = $row;
-            $parray = $this->getChildTreeArray($row[$this->id], $order, $parray, $row['prefix']);
+            $pArray[]      = $row;
+            $pArray        = $this->getChildTreeArray($row[$this->id], $order, $pArray, $row['prefix']);
         }
 
-        return $parray;
+        return $pArray;
     }
 }

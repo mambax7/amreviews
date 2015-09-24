@@ -38,7 +38,6 @@ foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
 //$moduleStatsArray = Summary::getModuleStats();
 
 //-----------------------
-$utilities   = new Xoopsmodules\amreviews\Utilities($db);
 $moduleStats = $utilities->getModuleStats();
 $indexAdmin->addInfoBox(constant($adminLang . '_SUMMARY'));
 
@@ -57,4 +56,3 @@ $utilities->getServerStats();
 
 include_once __DIR__ . '/admin_footer.php';
 //xoops_cp_footer();
-

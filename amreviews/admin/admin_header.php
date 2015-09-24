@@ -24,6 +24,9 @@ include_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 
 xoops_load('XoopsRequest');
 
+//include_once dirname(__DIR__) . '/class/helper.php';
+//$helper      = &Xoopsmodules\amreviews\Helper::getInstance();
+
 //$moduleDirName = $GLOBALS['xoopsModule']->getVar('dirname');
 
 $pathIcon16           = $GLOBALS['xoops']->url('www/' . $GLOBALS['xoopsModule']->getInfo('sysicons16'));
@@ -51,4 +54,3 @@ xoops_loadLanguage('main', $moduleDirName);
 
 //xoops_cp_header();
 //$adminObject = new ModuleAdmin();
-

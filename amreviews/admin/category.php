@@ -140,9 +140,6 @@ if ('' === XoopsRequest::getCmd('op', XoopsRequest::getCmd('op', '', 'POST'), 'G
     include_once 'catform.inc.php';
 
     //    echo $indexAdmin->addNavigation('category.php');
-    //    echo $indexAdmin->renderIndex();
-    //    $utilities = new Xoopsmodules\amreviews\Utilities();
-    //    $utilities->adminfooter();
     include_once __DIR__ . '/admin_footer.php';
 } // end if
 
@@ -324,4 +321,3 @@ if ('del' === XoopsRequest::getCmd('op', XoopsRequest::getCmd('op', '', 'POST'),
         } //
     } //
 } // end if
-

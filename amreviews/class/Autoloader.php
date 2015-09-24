@@ -77,7 +77,6 @@ class Autoloader
         if (isset($this->files[$class]) === false) {
             $this->files[$class] = $filename;
         } elseif ($overwrite === true) {
-
             // Overwrite the last filename
             $this->files[$class] = $filename;
         }
@@ -106,7 +105,6 @@ class Autoloader
         if (false === isset($this->prefixes[$namespace])) {
             $this->prefixes[$namespace] = array();
         } elseif (in_array($directory, $this->prefixes[$namespace], true)) {
-
             // Already added ...
             return;
         }
@@ -140,7 +138,6 @@ class Autoloader
         // work backwards through the namespace names of the fully-qualified
         // class name to find a mapped file name
         while (false !== ($position = strrpos($prefix, '\\'))) {
-
             // retain the trailing namespace separator in the prefix
             $prefix = substr($class, 0, $position + 1);
 

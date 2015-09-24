@@ -36,4 +36,3 @@
  * Debug stuff
  */
 #if (function_exists("tmngend")) {  echo tmngend($tmngstart); }
-

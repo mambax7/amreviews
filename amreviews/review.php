@@ -166,7 +166,6 @@ if (isset($_REQUEST['id'])) {
             #$xoopsTpl->assign("imgFileName", "star-" . $userRatings['imgNum'] . "." . _AM_AMR_RATESTAREXT);
             #$xoopsTpl->assign("imgALT", sprintf(constant($mainLang . '_USERRATEALT'), $userRatings['rating'], $userRatings['rates']));
 
-            $utilities   = new Xoopsmodules\amreviews\Utilities($db);
             $temp        = XoopsRequest::getInt('id', 0, 'GET');
             $userRatings = $utilities->getUserRating($GLOBALS['xoopsDB'], $temp);
             //print_r ($userRatings);
@@ -182,7 +181,7 @@ if (isset($_REQUEST['id'])) {
             //  else { $catid = 0; }
             //$cat_path = "<a href=\"index.php\">" . constant($mainLang . '_NAVBCTOP') . "</a>&nbsp;&#187;&nbsp;";
             //$cat_path .= $mytree->getNicePathFromId($myrow['catid'], "cat_title", "index.php?t=");
-            $utilities = new Xoopsmodules\amreviews\Utilities($db);
+
             $cat_path  = $utilities->getCategoryPath($xoopsModule->getVar('name'), $myrow['catid'], 'cat_title', 'index.php?t=', '&#187;', 'amreviews_cat', 'id', 'cat_parentid'); // constant($mainLang . '_NAVBCTOP
             $xoopsTpl->assign('category_path', $cat_path);
 
@@ -257,7 +256,6 @@ if (isset($_REQUEST['id'])) {
              */
             if ($page <= 1) {
                 if (!$GLOBALS['xoopsUser'] || ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid()) && $xoopsModuleConfig['noincrementifadmin'] !== 1)) {
-                    $utilities = new Xoopsmodules\amreviews\Utilities($db);
                     $utilities->incrementViews($myrow['id']);
                 }
             }

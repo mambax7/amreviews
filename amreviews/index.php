@@ -41,8 +41,6 @@ $myts =& MyTextSanitizer::getInstance();
 //$mytree = new XoopsTree($GLOBALS['xoopsDB']->prefix("amreview_cat"),"id","cat_parentid");
 $gperm_handler =& xoops_gethandler('groupperm');
 
-$utilities = new Xoopsmodules\amreviews\Utilities($db);
-
 //----------------------------------------------------------------------------//
 // Default page view
 if (!isset($_REQUEST['op'])) {
@@ -106,7 +104,6 @@ if (!isset($_REQUEST['op'])) {
              */
             if ($xoopsModuleConfig['showsubcats'] === 1) {
                 $amr_cat['subcatsswitch'] = 1;
-                //                $utilities                = new Xoopsmodules\amreviews\Utilities($db);
                 $amr_cat['subcats'] = $utilities->getSubcats($myrow['id']);
             }
 
@@ -127,7 +124,7 @@ if (!isset($_REQUEST['op'])) {
     }
     //$cat_path = "<a href=\"index.php\">" . constant($mainLang . '_NAVBCTOP') . "</a>&nbsp;&#187;&nbsp;";
     //$cat_path .= $mytree->getNicePathFromId($catid, "cat_title", "index.php?t=");
-    $utilities = new Xoopsmodules\amreviews\Utilities($db);
+
     $cat_path  = $utilities->getCategoryPath($xoopsModule->getVar('name'), $catid, 'cat_title', 'index.php?t=', '&#187;', 'amreviews_cat', 'id', 'cat_parentid');
     $xoopsTpl->assign('category_path', $cat_path);
 
@@ -136,7 +133,6 @@ if (!isset($_REQUEST['op'])) {
      * reviews for that category - if any.
      */
     if (isset($_GET['id'])) {
-
         /**
          * Deal with category permissions.
          */

@@ -108,7 +108,6 @@ if (isset($_REQUEST['id'])) {
     $result = $GLOBALS['xoopsDB']->query('SELECT id FROM ' . $GLOBALS['xoopsDB']->prefix('amreviews_rate') . " WHERE rate_user_ip LIKE '%" . $_SERVER['REMOTE_ADDR'] . "%' AND rate_review_id = '" . $myrow['id'] . "'");
     list($voted) = $GLOBALS['xoopsDB']->fetchRow($result);
 
-    $utilities   = new Xoopsmodules\amreviews\Utilities($db);
     $temp        = XoopsRequest::getInt('id', 0, 'GET');
     $userRatings = $utilities->getUserRating($GLOBALS['xoopsDB'], $temp);
     //print_r ($userRatings);
@@ -136,4 +135,3 @@ if (isset($_REQUEST['id'])) {
 } // end function
 
 //----------------------------------------------------------------------------//
-

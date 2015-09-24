@@ -55,4 +55,3 @@ $ratingsHandler = new Xoopsmodules\amreviews\AmrRatings($db);
  * For debug
  */
 #if (function_exists("tmngstart")) { $tmngstart = tmngstart(); }
-

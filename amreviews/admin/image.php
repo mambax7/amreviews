@@ -44,6 +44,7 @@ include_once(XOOPS_ROOT_PATH . '/class/xoopsformloader.php');
 $myts      =& MyTextSanitizer::getInstance();
 $thumbnail = new Xoopsmodules\amreviews\Thumbnails();
 
+//include_once dirname(__DIR__) . '/class/helper.php';
 //----------------------------------------------------------------------------//
 
 //if (!isset($_REQUEST['op'])) {
@@ -135,8 +136,8 @@ if (!XoopsRequest::getCmd('op', XoopsRequest::getCmd('op', '', 'POST'), 'GET')) 
 
     $imgdelform = new XoopsThemeForm(constant($adminLang . '_DELIMG'), 'imgform', xoops_getenv('PHP_SELF'), 'post');
 
-    #if (isset($imageFile)) { $imageFile = $imageFile;  }
-    #   else { $imageFile = ""; }
+    //if (isset($imageFile)) { $imageFile = $imageFile;  }
+    //   else { $imageFile = ""; }
     $image_array  =& XoopsLists::getImgListAsArray(XOOPS_ROOT_PATH . $xoopsModuleConfig['photopath'] . '/thumb');
     $image_select = new XoopsFormSelect('', 'formdata[image_file]', '');
     $image_select->addOption('-1', '---------------');
@@ -165,8 +166,6 @@ if (!XoopsRequest::getCmd('op', XoopsRequest::getCmd('op', '', 'POST'), 'GET')) 
      * End - Display form
      */
     $imgdelform->display();
-    //    $utilities = new Xoopsmodules\amreviews\Utilities();
-    //    $utilities->adminfooter();
     include_once __DIR__ . '/admin_footer.php';
 } // end if
 
@@ -279,9 +278,8 @@ if (isset($temp) && $temp === 'upload') {
         exit;
     }
 
-    /**
-     * move from system /tmp to local temp directory
-     */
+
+// move from system /tmp to local temp directory
     if ($destTempFile !== '') {
         if (!move_uploaded_file($sourcefile, $destTempFile)) {
             //echo 'File saved to local temp dir. ('. $destinationfile .')<BR>';
@@ -290,9 +288,9 @@ if (isset($temp) && $temp === 'upload') {
         } //else {
         //echo 'File could not be saved to local temp dir.<BR>';
         //}
-        /**
-         * chmod temp file, or user may not be able to do stuff to it.
-         */
+
+// chmod temp file, or user may not be able to do stuff to it.
+
         if (!chmod($destTempFile, 0644)) {
             echo "<p><b>Notice:</b> " . constant($adminLang . '_ERROR_PERMISSIONS_NOT_CHANGED') . "</p>";
         }
@@ -357,6 +355,19 @@ if (isset($temp) && $temp === 'upload') {
 
 //----------------------------------------------------------------------------//
 
+
+//function reportDelete($adminLang, $photo, $imageDelete, &$imgerr){
+//
+//    $ret = '';
+//    if (@unlink($photo)) {
+//        $ret =  constant($adminLang . $imageDelete) . " <span style=\"color: green;\">deleted</span><br />";
+//    } else {
+//        $ret =  constant($adminLang . $imageDelete) . " <span style=\"color: red;\">not deleted</span><br />";
+//        $imgerr = 1;
+//    }
+//    return $ret;
+//}
+
 if (isset($_REQUEST['op']) && $_REQUEST['op'] === 'delimage') {
     //xoops_cp_header();
 
@@ -392,12 +403,8 @@ if (isset($_REQUEST['op']) && $_REQUEST['op'] === 'delimage') {
         }
 
         $image_filename = $formdata['image_file'];
-        $utilities      = new Xoopsmodules\amreviews\Utilities($db);
 
         // We want to see if the image is in use, so we can change the confirm message.
-
-        //TEST
-        //        $temp1 = $utilities->checkImageInUse($image_filename);
         $checkImageInUse = $utilities->getRowCount('amreviews_reviews', 'image_file', 'image_file', 'int', $image_filename);
 
         if ($checkImageInUse === 0) {
@@ -406,7 +413,7 @@ if (isset($_REQUEST['op']) && $_REQUEST['op'] === 'delimage') {
         } else {
             #echo constant($adminLang . '_IMGCONFDELIU';
             #echo sprintf(constant($adminLang . '_IMGCONFDELIU'), amr_checkImageInUse($image_filename));
-            $confirm_msg = sprintf(constant($adminLang . '_IMGCONFDELIU'), $utilities->checkImageInUse($image_filename));
+            $confirm_msg = sprintf(constant($adminLang . '_IMGCONFDELIU'), $checkImageInUse);
         }
 
         xoops_confirm(array('op' => 'delimage', 'image_file' => $image_filename, 'subop' => 'delok'), 'image.php', $confirm_msg);
@@ -433,24 +440,35 @@ if (isset($_REQUEST['op']) && $_REQUEST['op'] === 'delimage') {
 
         echo '<div style=\'font-family: courier, sans-serif;\'>';
         echo constant($adminLang . '_IMGDELETING') . ' ' . $imageFile . '<br />';
+
+
+        echo $utilities->reportDelete($photomain,  '_IMGMAINDEL', $imgerr);
+        echo $utilities->reportDelete($photothumb,  '_IMGHIGHDEL', $imgerr);
+        echo $utilities->reportDelete($photohigh,  '_IMGTHUMBDEL', $imgerr);
+
+/*
         if (@unlink($photomain)) {
             echo constant($adminLang . '_IMGMAINDEL') . " <span style=\"color: green;\">deleted</span><br />";
         } else {
             echo constant($adminLang . '_IMGMAINDEL') . " <span style=\"color: red;\">not deleted</span><br />";
             $imgerr = 1;
         }
+
         if (@unlink($photothumb)) {
             echo constant($adminLang . '_IMGHIGHDEL') . " <span style=\"color: green;\">deleted</span><br />";
         } else {
             echo constant($adminLang . '_IMGHIGHDEL') . " <span style=\"color: red;\">not deleted</span><br />";
             $imgerr = 1;
         }
+
         if (@unlink($photohigh)) {
             echo constant($adminLang . '_IMGTHUMBDEL') . " <span style=\"color: green;\">deleted</span><br />";
         } else {
             echo constant($adminLang . '_IMGTHUMBDEL') . " <span style=\"color: red;\">not deleted</span><br />";
             $imgerr = 1;
         }
+        */
+
         echo '</div><br />';
 
         if (isset($imgerr)) {
@@ -475,4 +493,3 @@ if (isset($_REQUEST['op']) && $_REQUEST['op'] === 'delimage') {
 
     //xoops_cp_footer();
 } // end if
-

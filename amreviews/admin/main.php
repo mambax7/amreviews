@@ -41,7 +41,6 @@ xoops_cp_header();
 /**
  * Summary
  */
-$utilities = new Xoopsmodules\amreviews\Utilities($db);
 $summary   = $utilities->summary();
 /*
 echo "<fieldset>";
@@ -68,10 +67,6 @@ echo '</table><br />';
 /**
  * Do some tests
  */
-$utilities = new Xoopsmodules\amreviews\Utilities($db);
 $utilities->getServerStats();
-//    $utilities = new Xoopsmodules\amreviews\Utilities();
-//$utilities->adminfooter();
 include_once __DIR__ . '/admin_footer.php';
 //xoops_cp_footer();
-

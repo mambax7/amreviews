@@ -51,7 +51,6 @@ if ($xoopsModuleConfig['loggedinvote'] === 1) {
 //----------------------------------------------------------------------------//
 // Add vote stuff
 if (isset($_REQUEST['id']) && isset($_REQUEST['rate'])) {
-
     /**
      * Check to see if voted.
      */

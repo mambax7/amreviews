@@ -106,12 +106,7 @@ if (!isset($_REQUEST['op'])) {
     echo "<br />\n";
     unset($permform);
 
-    /**
-     * Submit permissions.
-     *
-     */
-    //    $utilities = new Xoopsmodules\amreviews\Utilities();
-    //    $utilities->adminfooter();
-    include_once __DIR__ . '/admin_footer.php';
-} //
+//Submit permissions.
 
+    include_once __DIR__ . '/admin_footer.php';
+}

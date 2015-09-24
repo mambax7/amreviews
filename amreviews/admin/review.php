@@ -93,8 +93,6 @@ if (!isset($_REQUEST['op'])) {
     $formaction   = 'add';
 
     include_once 'reviewform.inc.php';
-    //    $utilities = new Xoopsmodules\amreviews\Utilities();
-    //    $utilities->adminfooter();
     include_once __DIR__ . '/admin_footer.php';
 } // end if
 
@@ -116,20 +114,20 @@ if (isset($_REQUEST['op']) && $_REQUEST['op'] === 'save') {
     //echo "</pre>";
 
     //id            =
-    $uid          = (int)($formdata['uid']);
-    $catid        = (int)($formdata['catid']);
-    $weight       = (int)($formdata['weight']);
-    $title        = $myts->addSlashes($formdata['title']);
-    $subtitle     = $myts->addSlashes($formdata['subtitle']);
+    $uid         = (int)($formdata['uid']);
+    $catid       = (int)($formdata['catid']);
+    $weight      = (int)($formdata['weight']);
+    $title       = $myts->addSlashes($formdata['title']);
+    $subtitle    = $myts->addSlashes($formdata['subtitle']);
     $imageFile   = $myts->addSlashes($formdata['image_file']);
     $imageAlign  = 'L'; // (TEMP) $formdata['imageAlign'];
-    $our_rating   = (int)($formdata['our_rating']);
-    $reviewer_ip  = $formdata['reviewer_ip'];
-    $teaser       = $myts->addSlashes($formdata['teaser']);
+    $our_rating  = (int)($formdata['our_rating']);
+    $reviewer_ip = $formdata['reviewer_ip'];
+    $teaser      = $myts->addSlashes($formdata['teaser']);
     $itemDetails = $myts->addSlashes($formdata['item_details']);
-    $review       = $myts->addSlashes($formdata['review']);
-    $keywords     = $myts->addSlashes($formdata['keywords']);
-    $date         = date('Y-m-d H:i:s', strtotime($formdata['date']['date']) + $formdata['date']['time']);
+    $review      = $myts->addSlashes($formdata['review']);
+    $keywords    = $myts->addSlashes($formdata['keywords']);
+    $date        = date('Y-m-d H:i:s', strtotime($formdata['date']['date']) + $formdata['date']['time']);
     //$date_publish = strtotime($formdata['date_publish']['date']) + $formdata['date_publish']['time'];
     //$date_end     = strtotime($formdata['date_end']['date']) + $formdata['date_end']['time'];
     $views       = null; //intval
@@ -304,7 +302,7 @@ if (isset($_REQUEST['op']) && $_REQUEST['op'] === 'save') {
 
     #$utilities->adminfooter();
     include_once __DIR__ . '/admin_footer.php';
-//    xoops_cp_footer();
+    //    xoops_cp_footer();
 } //
 
 //----------------------------------------------------------------------------//
@@ -336,12 +334,12 @@ if (isset($_REQUEST['op']) && $_REQUEST['op'] === 'edit') {
                 $weight       = $myrow['weight'];
                 $title        = $myts->htmlSpecialChars($myrow['title']);
                 $subtitle     = $myts->htmlSpecialChars($myrow['subtitle']);
-                $imageFile   = $myrow['image_file'];
-                $imageAlign  = $myrow['image_align'];
+                $imageFile    = $myrow['image_file'];
+                $imageAlign   = $myrow['image_align'];
                 $our_rating   = $myrow['our_rating'];
                 $reviewer_ip  = $myrow['reviewer_ip'];
                 $teaser       = $myts->htmlSpecialChars($myrow['teaser']);
-                $itemDetails = $myts->htmlSpecialChars($myrow['item_details']);
+                $itemDetails  = $myts->htmlSpecialChars($myrow['item_details']);
                 $review       = $myts->htmlSpecialChars($myrow['review']);
                 $keywords     = $myts->htmlSpecialChars($myrow['keywords']);
                 $date         = $myrow['date'];
@@ -392,21 +390,21 @@ if (isset($_REQUEST['op']) && $_REQUEST['op'] === 'edit') {
         //exit;
         //echo "</pre>";
 
-        $id           = (int)($formdata['id']);
-        $uid          = (int)($formdata['uid']);
-        $catid        = (int)($formdata['catid']);
-        $weight       = (int)($formdata['weight']);
-        $title        = $myts->addSlashes($formdata['title']);
-        $subtitle     = $myts->addSlashes($formdata['subtitle']);
+        $id          = (int)($formdata['id']);
+        $uid         = (int)($formdata['uid']);
+        $catid       = (int)($formdata['catid']);
+        $weight      = (int)($formdata['weight']);
+        $title       = $myts->addSlashes($formdata['title']);
+        $subtitle    = $myts->addSlashes($formdata['subtitle']);
         $imageFile   = $myts->addSlashes($formdata['image_file']);
         $imageAlign  = 'L'; // (TEMP) $formdata['image_align'];
-        $our_rating   = (int)($formdata['our_rating']);
-        $reviewer_ip  = $formdata['reviewer_ip'];
-        $teaser       = $myts->addSlashes($formdata['teaser']);
+        $our_rating  = (int)($formdata['our_rating']);
+        $reviewer_ip = $formdata['reviewer_ip'];
+        $teaser      = $myts->addSlashes($formdata['teaser']);
         $itemDetails = $myts->addSlashes($formdata['item_details']);
-        $review       = $myts->addSlashes($formdata['review']);
-        $keywords     = $myts->addSlashes($formdata['keywords']);
-        $date         = date('Y-m-d H:i:s', strtotime($formdata['date']['date']) + $formdata['date']['time']);
+        $review      = $myts->addSlashes($formdata['review']);
+        $keywords    = $myts->addSlashes($formdata['keywords']);
+        $date        = date('Y-m-d H:i:s', strtotime($formdata['date']['date']) + $formdata['date']['time']);
         //$date_publish = strtotime($formdata['date_publish']['date']) + $formdata['date_publish']['time'];
         //$date_end     = strtotime($formdata['date_end']['date']) + $formdata['date_end']['time'];
         $views       = (int)($formdata['views']); //NULL; //intval
@@ -570,4 +568,3 @@ if (isset($_REQUEST['op']) && $_REQUEST['op'] === 'del') {
 if (isset($_REQUEST['op']) && $_REQUEST['op'] === 'preview') {
     echo 'moo';
 } // end
-

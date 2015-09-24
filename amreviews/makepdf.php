@@ -92,8 +92,8 @@ $pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
 $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); //set image scale factor
 
-$pdf->setHeaderFont(Array(PDF_FONT_NAME_SUB, '', PDF_FONT_SIZE_SUB));
-$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+$pdf->setHeaderFont(array(PDF_FONT_NAME_SUB, '', PDF_FONT_SIZE_SUB));
+$pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 $pdf->setFooterData($tc = array(0, 64, 0), $lc = array(0, 64, 128));
 
 //initialize document
