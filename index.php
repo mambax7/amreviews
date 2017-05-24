@@ -37,7 +37,7 @@ include_once 'header.php';
 //include_once(XOOPS_ROOT_PATH . "/class/xoopstree.php");
 
 //
-$myts =& MyTextSanitizer::getInstance();
+$myts = MyTextSanitizer::getInstance();
 //$mytree = new XoopsTree($GLOBALS['xoopsDB']->prefix("amreview_cat"),"id","cat_parentid");
 $gperm_handler =& xoops_gethandler('groupperm');
 

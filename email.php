@@ -32,7 +32,7 @@
 require __DIR__ . '/include/setup.php';
 include_once 'header.php';
 //include_once 'include/functions.inc.php';
-$myts =& MyTextSanitizer::getInstance();
+$myts = MyTextSanitizer::getInstance();
 xoops_load('XoopsRequest');
 
 //

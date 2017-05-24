@@ -36,7 +36,7 @@ include_once 'header.php';
 include_once(XOOPS_ROOT_PATH . '/class/xoopsformloader.php');
 
 //
-$myts =& MyTextSanitizer::getInstance();
+$myts = MyTextSanitizer::getInstance();
 
 //----------------------------------------------------------------------------//
 // Check access (permissions and stuff, logged in)

@@ -37,7 +37,7 @@ include_once __DIR__ . '/admin_header.php';
 //include_once dirname(__DIR__) . '/include/config.inc.php';
 //include_once(XOOPS_ROOT_PATH . '/class/xoopstree.php');
 
-$myts =& MyTextSanitizer::getInstance();
+$myts = MyTextSanitizer::getInstance();
 
 //----------------------------------------------------------------------------//
 

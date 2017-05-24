@@ -36,7 +36,7 @@ include_once 'header.php';
 require_once(XOOPS_ROOT_PATH . '/class/template.php');
 
 //
-$myts =& MyTextSanitizer::getInstance();
+$myts = MyTextSanitizer::getInstance();
 
 # add permissions and stuff
 

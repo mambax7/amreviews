@@ -41,7 +41,7 @@ include_once(XOOPS_ROOT_PATH . '/class/xoopsformloader.php');
 
 //include_once dirname(__DIR__) . '/class/image_resizerGD.class.php';
 
-$myts      =& MyTextSanitizer::getInstance();
+$myts      = MyTextSanitizer::getInstance();
 $thumbnail = new Xoopsmodules\amreviews\Thumbnails();
 
 //include_once dirname(__DIR__) . '/class/helper.php';
