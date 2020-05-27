@@ -63,7 +63,7 @@ if (!XoopsRequest::getCmd('op', XoopsRequest::getCmd('op', '', 'POST'), 'GET')) 
     /**
      * Initialise form.
      */
-    $imageform = new XoopsThemeForm(constant($adminLang . '_IMGUPLOAD'), 'imageform', xoops_getenv('PHP_SELF'), 'post');
+    $imageform = new XoopsThemeForm(constant($adminLang . '_IMGUPLOAD'), 'imageform', xoops_getenv('PHP_SELF'), 'post', true);
     $imageform->setExtra('enctype=\'multipart/form-data\'');
 
     /**
@@ -134,7 +134,7 @@ if (!XoopsRequest::getCmd('op', XoopsRequest::getCmd('op', '', 'POST'), 'GET')) 
      * Show images to delete
      */
 
-    $imgdelform = new XoopsThemeForm(constant($adminLang . '_DELIMG'), 'imgform', xoops_getenv('PHP_SELF'), 'post');
+    $imgdelform = new XoopsThemeForm(constant($adminLang . '_DELIMG'), 'imgform', xoops_getenv('PHP_SELF'), 'post', true);
 
     //if (isset($imageFile)) { $imageFile = $imageFile;  }
     //   else { $imageFile = ""; }

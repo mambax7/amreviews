@@ -33,7 +33,7 @@
 //require dirname(__DIR__) . '/include/setup.php';
 include_once(XOOPS_ROOT_PATH . '/class/xoopsformloader.php');
 
-$catform = new XoopsThemeForm($catformcaption, 'categoryform', xoops_getenv('PHP_SELF'), 'post');
+$catform = new XoopsThemeForm($catformcaption, 'categoryform', xoops_getenv('PHP_SELF'), 'post', true);
 
 //XoopsFormSelectGroup
 //$groups = ( $xt->id ) ? explode(' ', $xt->groupid ) : true; // line 62

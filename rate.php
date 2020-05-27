@@ -139,7 +139,7 @@ if (isset($_REQUEST['somethingsoIdonotgetloaded'])) {
 
     //echo "Sorry, not yet implemented.";
 
-    $rateform = new XoopsThemeForm(constant($mainLang . '_RATEFRMCAP'), 'rateform', xoops_getenv('PHP_SELF'), 'post');
+    $rateform = new XoopsThemeForm(constant($mainLang . '_RATEFRMCAP'), 'rateform', xoops_getenv('PHP_SELF'), 'post', true);
 
     /**
      * Rating type

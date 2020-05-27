@@ -39,7 +39,7 @@ include_once(XOOPS_ROOT_PATH . '/class/xoopsformloader.php');
 /**
  * Initialise form.
  */
-$reviewform = new XoopsThemeForm($formcaption, 'reviewform', xoops_getenv('PHP_SELF'), 'post');
+$reviewform = new XoopsThemeForm($formcaption, 'reviewform', xoops_getenv('PHP_SELF'), 'post', true);
 
 /**
  * Review title

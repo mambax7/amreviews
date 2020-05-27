@@ -20,7 +20,7 @@
  * @copyright       {@link http://sourceforge.net/projects/xoops/ The XOOPS Project}
  * @license         GPL 2.0 or later
  * @package         amreview
- * @author          XOOPS Module Dev Team (http://xoops.org)
+ * @author          XOOPS Module Dev Team (https://xoops.org)
  * @version         $Id: $
  */
 
@@ -117,5 +117,5 @@ $uploadFolders = array(
 //$xoopsTpl->assign('uploadFolders', $uploadFolders);
 
 // module information
-$mod_copyright = "<a href='http://xoops.org' title='XOOPS Project' target='_blank'>
+$mod_copyright = "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
                      <img src='" . AMREVIEW_AUTHOR_LOGOIMG . " alt='XOOPS Project' /></a>";

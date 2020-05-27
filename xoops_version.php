@@ -10,7 +10,7 @@
  */
 
 /**
- * @copyright   XOOPS Project (http://xoops.org)
+ * @copyright   XOOPS Project (https://xoops.org)
  * @license     GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
  * @package     review
  * @since       1.0
@@ -63,7 +63,7 @@ $modversion = array(
     //    'release'             => '2015-04-04',
     'demo_site_url'       => 'http://www.xoops.org',
     'demo_site_name'      => 'XOOPS Demo Site',
-    'support_url'         => 'http://xoops.org/modules/newbb',
+    'support_url'         => 'https://xoops.org/modules/newbb',
     'support_name'        => 'Support Forum',
     'module_website_url'  => 'www.xoops.org',
     'module_website_name' => 'XOOPS Project',

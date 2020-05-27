@@ -12,11 +12,11 @@
     /**
      * xoalbum module for xoops
      *
-     * @copyright       XOOPS Project (http://xoops.org)
+     * @copyright       XOOPS Project (https://xoops.org)
      * @license         GPL 2.0 or later
      * @package         xoalbum
      * @since           2.0.0
-     * @author          XOOPS Development Team <name@site.com> - <http://xoops.org>
+     * @author          XOOPS Development Team <name@site.com> - <https://xoops.org>
      * @version         $Id: 2.10 helper.php 11532 Mon 2014/04/28 11:10:05Z XOOPS Development Team $
      */
 
