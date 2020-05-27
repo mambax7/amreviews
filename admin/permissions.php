@@ -1,112 +1,116 @@
 <?php
-// $Id: perms.php,v 1.2 2007/01/24 19:15:59 andrew Exp $
-//  ------------------------------------------------------------------------ //
-//  Author: Andrew Mills                                                     //
-//  Email:  ajmills@sirium.net                                               //
-//  About:  This file is part of the AM Reviews module for Xoops v2.         //
-//                                                                           //
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
 
-// includes
-include_once __DIR__ . '/admin_header.php';
-include_once dirname(__DIR__) . '/include/config.inc.php';
-//include_once (XOOPS_ROOT_PATH . "/class/xoopstree.php");
-//include_once(XOOPS_ROOT_PATH . "/class/xoopslists.php");
-include_once(XOOPS_ROOT_PATH . "/class/xoopsform/grouppermform.php");
+declare(strict_types=1);
 
-$myts      = MyTextSanitizer::getInstance();
-$module_id = $xoopsModule->getVar('mid');
+/*
+ You may not change or alter any portion of this comment or credits
+ of supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit authors.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+*/
 
-//----------------------------------------------------------------------------//
+/**
+ * Module: Amreviews
+ *
+ * @category        Module
+ * @author          XOOPS Development Team <https://xoops.org>
+ * @copyright       {@link https://xoops.org/ XOOPS Project}
+ * @license         GPL 2.0 or later
+ */
 
-if (!isset($_REQUEST['op'])) {
-    xoops_cp_header();
-    $indexAdmin = new ModuleAdmin();
-    echo $indexAdmin->addNavigation('permissions.php');
-    /**
-     * For my reference, and anyone else's - how to use group perms:
-     * http://www.xoops.org/modules/newbb/viewtopic.php?topic_id=12230&viewmode=flat&order=ASC&start=0
-     */
-    ### /news/admin/groupperms.php
-    ### /smartfaq/admin/myblocksadmin.php ?
+use Xmf\Module\Admin;
 
-    $title_of_form = 'Permission form for my module';
-    //$perm_name = 'Category Permission';
-    $perm_desc = 'Select categories that each group is allowed to view';
+require __DIR__ . '/admin_header.php';
+xoops_cp_header();
+require XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
+if ('' != \Xmf\Request::getString('submit', '')) {
+    redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['xoopsModule']->dirname() . '/admin/permissions.php', 1, $lang::PERMISSIONS_GPERMUPDATED);
+}
+// Check admin have access to this page
+/*$group = $GLOBALS['xoopsUser']->getGroups ();
+$groups = xoops_getModuleOption ( 'admin_groups', $thisDirname );
+if (count ( array_intersect ( $group, $groups ) ) <= 0) {
+    redirect_header ( 'index.php', 3, _NOPERM );
+}*/
+$adminObject->displayNavigation(basename(__FILE__));
 
-    /*
-    $item_list = array('1' => 'Category 1', '2' => 'Category 2', '3' => 'Category 3');
+$permission                = \Xmf\Request::getInt('permission', 1, 'POST');
+$selected                  = ['', '', '', '',];
+$selected[$permission - 1] = ' selected';
 
+echo "
+<form method='post' name='fselperm' action='permissions.php'>
+    <table border=0>
+        <tr>
+            <td>
+                <select name='permission' onChange='document.fselperm.submit()'>
+                    <option value='1'" . $selected[0] . '>' . $lang::PERMISSIONS_GLOBAL . "</option>
+                    <option value='2'" . $selected[1] . '>' . $lang::PERMISSIONS_APPROVE . "</option>
+                    <option value='3'" . $selected[2] . '>' . $lang::PERMISSIONS_SUBMIT . "</option>
+                    <option value='4'" . $selected[3] . '>' . $lang::PERMISSIONS_VIEW . '</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+</form>';
 
-    $form = new XoopsGroupPermForm($title_of_form, $module_id, $perm_name, $perm_desc,'admin/permissions.php');
-    foreach ($item_list as $item_id => $item_name) {
-        $form->addItem($item_id, $item_name);
-    }
-    echo $form->render();
-    */
-    ##################
-    ##################
+$module_id = $GLOBALS['xoopsModule']->getVar('mid');
+switch ($permission) {
+    case 1:
+        $formTitle   = $lang::PERMISSIONS_GLOBAL;
+        $permName    = 'amreviews_ac';
+        $permDesc    = $lang::PERMISSIONS_GLOBAL_DESC;
+        $globalPerms = [
+            '4'  => $lang::PERMISSIONS_GLOBAL_4,
+            '8'  => $lang::PERMISSIONS_GLOBAL_8,
+            '16' => $lang::PERMISSIONS_GLOBAL_16,
+        ];
+        break;
+    case 2:
+        $formTitle = $lang::PERMISSIONS_APPROVE;
+        $permName  = 'amreviews_approve';
+        $permDesc  = $lang::PERMISSIONS_APPROVE_DESC;
+        break;
+    case 3:
+        $formTitle = $lang::PERMISSIONS_SUBMIT;
+        $permName  = 'amreviews_submit';
+        $permDesc  = $lang::PERMISSIONS_SUBMIT_DESC;
+        break;
+    case 4:
+        $formTitle = $lang::PERMISSIONS_VIEW;
+        $permName  = 'amreviews_view';
+        $permDesc  = $lang::PERMISSIONS_VIEW_DESC;
+        break;
+}
 
-    //$categories = array();
-    // Another example from news thingy, but allows for sub categories
-    // See smartsection/permissions.php line 36 - 50
-    //$permform = new XoopsGroupPermForm($title_of_form, $module_id, $perm_name, $perm_desc,'admin/permissions.php');
-    //$xt = new XoopsTopic($GLOBALS['xoopsDB']->prefix("amreview_cat"));
-    //$xt = new XoopsTree($GLOBALS['xoopsDB']->prefix("amreview_cat"), "id", "cat_parentid");
-    //$categories = $xt->getChildTreeArray(0,"cat_title");
-    //$categories = $xt->getTopicsList();
-
-    $permform = new XoopsGroupPermForm(constant($adminLang . '_CATPERMTTL'), $module_id, 'Category Permission', constant($adminLang . '_CATPERMDSC'), 'admin/permissions.php');
-    $sql      = ('SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('amreviews_cat') . '');
-    $result   = $GLOBALS['xoopsDB']->query($sql);
-
-    //$cats = array();
-    $key = 1;
-    if ($GLOBALS['xoopsDB']->getRowsNum($result) > 0) {
-        while ($myrow = $GLOBALS['xoopsDB']->fetchArray($result)) {
-
-            //$cat = array();
-            //$cat['id']                = $myrow['id'];
-            //$cat['cat_title']     = $myrow['cat_title'];
-            //$cat['cat_parentid']  = $myrow['cat_parentid'];
-
-            $categories1[$key] = array('name' => $myts->displayTarea($myrow['cat_title'], 0, 0, 0, 0, 0), 'parent' => (int)($myrow['cat_parentid']));
-            ++$key;
-            //array_push($cats, $cat);
-        } // while
-    } // if
-
-    foreach ($categories1 as $cat_id => $cat_data) {
-        $permform->addItem($cat_id, $cat_data['name'], $cat_data['parent']);
+$permform = new \XoopsGroupPermForm($formTitle, $module_id, $permName, $permDesc, 'admin/permissions.php');
+if (1 == $permission) {
+    foreach ($globalPerms as $perm_id => $perm_name) {
+        $permform->addItem($perm_id, $perm_name);
     }
     echo $permform->render();
-    echo "<br />\n";
-    unset($permform);
-
-//Submit permissions.
-
-    include_once __DIR__ . '/admin_footer.php';
+    echo '<br><br>';
+} else {
+    $criteria = new \CriteriaCompo();
+    $criteria->setSort('title');
+    $criteria->setOrder('ASC');
+    $cat_count = $catHandler->getCount($criteria);
+    $catArray  = $catHandler->getObjects($criteria);
+    unset($criteria);
+    foreach (array_keys($catArray) as $i) {
+        $permform->addItem($catArray[$i]->getVar('id'), $catArray[$i]->getVar('title'));
+    }
+    // Check if cat exist before rendering the form and redirect, if there aren't cat
+    if ($cat_count > 0) {
+        echo $permform->render();
+        echo '<br><br>';
+    } else {
+        redirect_header('cat.php?op=new', 3, $lang::PERMISSIONS_NOPERMSSET);
+        //exit ();
+    }
 }
+unset($permform);
+require __DIR__ . '/admin_footer.php';

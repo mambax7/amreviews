@@ -1,56 +1,58 @@
 <?php
-### =============================================================
-### Mastop InfoDigital - Paix�o por Internet
-### =============================================================
-### Header com includes padr�es para a Admin do M�dulo
-### =============================================================
-### Developer: Fernando Santos (topet05), fernando@mastop.com.br
-### Copyright: Mastop InfoDigital � 2003-2006
-### -------------------------------------------------------------
-### www.mastop.com.br
-### =============================================================
-### $Id: admin_header.php,v 1.3 2007/05/15 09:17:05 topet05 Exp $
-### =============================================================
-use Xoopsmodules\amreviews;
 
-//include_once dirname(__DIR__) . '/class/psr4/setuploader.php';
-include_once dirname(__DIR__) . '/include/setup.php';
+declare(strict_types=1);
 
-$moduleDirName = basename(dirname(__DIR__));
-include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
-include_once $GLOBALS['xoops']->path('www/include/cp_functions.php');
-include_once $GLOBALS['xoops']->path('www/include/cp_header.php');
-include_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
+/*
+ You may not change or alter any portion of this comment or credits
+ of supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit authors.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+*/
 
-xoops_load('XoopsRequest');
+/**
+ * Module: Amreviews
+ *
+ * @category        Module
+ * @author          XOOPS Development Team <https://xoops.org>
+ * @copyright       {@link https://xoops.org/ XOOPS Project}
+ * @license         GPL 2.0 or later
+ */
 
-//include_once dirname(__DIR__) . '/class/helper.php';
-//$helper      = &Xoopsmodules\amreviews\Helper::getInstance();
+use XoopsModules\Amreviews;
+use XoopsModules\Amreviews\Helper;
 
-//$moduleDirName = $GLOBALS['xoopsModule']->getVar('dirname');
+require dirname(__DIR__) . '/preloads/autoloader.php';
 
-$pathIcon16           = $GLOBALS['xoops']->url('www/' . $GLOBALS['xoopsModule']->getInfo('sysicons16'));
-$pathIcon32           = $GLOBALS['xoops']->url('www/' . $GLOBALS['xoopsModule']->getInfo('sysicons32'));
-$xoopsModuleAdminPath = $GLOBALS['xoops']->path('www/' . $GLOBALS['xoopsModule']->getInfo('dirmoduleadmin'));
-require_once $xoopsModuleAdminPath . '/moduleadmin.php';
+require dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require dirname(dirname(dirname(__DIR__))) . '/class/xoopsformloader.php';
 
-$myts = MyTextSanitizer::getInstance();
-if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
-    include_once $GLOBALS['xoops']->path('class/template.php');
-    $xoopsTpl = new XoopsTpl();
+require dirname(__DIR__) . '/include/common.php';
+
+/** @var \XoopsModules\Amreviews\Helper $helper */
+$helper = Helper::getInstance();
+$lang   = $helper->getLanguage();
+
+/** @var Xmf\Module\Admin $adminObject */
+$adminObject = \Xmf\Module\Admin::getInstance();
+
+$db = \XoopsDatabaseFactory::getDatabaseConnection();
+
+$pathIcon16    = \Xmf\Module\Admin::iconUrl('', 16);
+$pathIcon32    = \Xmf\Module\Admin::iconUrl('', 32);
+$pathModIcon32 = $helper->getConfig('modicons32');
+
+/** @var \XoopsPersistableObjectHandler $reviewsHandler */
+$reviewsHandler = $helper->getHandler('Reviews');
+/** @var \XoopsPersistableObjectHandler $catHandler */
+$catHandler = $helper->getHandler('Cat');
+/** @var \XoopsPersistableObjectHandler $rateHandler */
+$rateHandler = $helper->getHandler('Rate');
+
+$myts = \MyTextSanitizer::getInstance();
+if (!isset($xoopsTpl) || !is_object($xoopsTpl)) {
+    require XOOPS_ROOT_PATH . '/class/template.php';
+    $xoopsTpl = new \XoopsTpl();
 }
-
-//Module specific elements
-//include_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/functions.php");
-//include_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/config.php");
-
-//Handlers
-//$XXXHandler =& xoops_getModuleHandler('XXX', $moduleDirName);
-
-// Load language files
-xoops_loadLanguage('admin', $moduleDirName);
-xoops_loadLanguage('modinfo', $moduleDirName);
-xoops_loadLanguage('main', $moduleDirName);
-
-//xoops_cp_header();
-//$adminObject = new ModuleAdmin();

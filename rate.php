@@ -1,215 +1,168 @@
 <?php
-// $Id: rate.php,v 1.2 2007/01/24 19:24:32 andrew Exp $
-//  ------------------------------------------------------------------------ //
-//  Author: Andrew Mills                                                     //
-//  Email:  ajmills@sirium.net                                               //
-//  About:  This file is part of the AM Reviews module for Xoops v2.         //
-//                                                                           //
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
 
-// includes
-require __DIR__ . '/include/setup.php';
-include_once 'header.php';
-include_once(XOOPS_ROOT_PATH . '/class/xoopsformloader.php');
+declare(strict_types=1);
 
-//
-$myts = MyTextSanitizer::getInstance();
+/*
+ You may not change or alter any portion of this comment or credits
+ of supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit authors.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+*/
 
-//----------------------------------------------------------------------------//
-// Check access (permissions and stuff, logged in)
-if ($xoopsModuleConfig['loggedinvote'] === 1) {
-    #echo "logged in ";
-    if (empty($GLOBALS['xoopsUser'])) {
-        #echo "(empty user)";
-        redirect_header(XOOPS_URL . '/user.php', 2, _MD_LOGGEDINVOTE);
+/**
+ * Module: Amreviews
+ *
+ * @category        Module
+ * @author          XOOPS Development Team <https://xoops.org>
+ * @copyright       {@link https://xoops.org/ XOOPS Project}
+ * @license         GPL 2.0 or later
+ */
+
+use XoopsModules\Amreviews;
+use Xmf\Request;
+
+require __DIR__ . '/header.php';
+
+$op = \Xmf\Request::getCmd('op', 'list');
+
+if ('edit' !== $op) {
+    if ('view' === $op) {
+        $GLOBALS['xoopsOption']['template_main'] = 'amreviews_rate.tpl';
+    } else {
+        $GLOBALS['xoopsOption']['template_main'] = 'amreviews_rate_list0.tpl';
     }
 }
+require_once XOOPS_ROOT_PATH . '/header.php';
 
-//----------------------------------------------------------------------------//
-// Add vote stuff
-if (isset($_REQUEST['id']) && isset($_REQUEST['rate'])) {
-    /**
-     * Check to see if voted.
-     */
-    $result = $GLOBALS['xoopsDB']->query('SELECT id FROM ' . $GLOBALS['xoopsDB']->prefix('amreviews_rate') . " WHERE rate_user_ip LIKE '%" . $_SERVER['REMOTE_ADDR'] . "%' AND rate_review_id = '" . (int)($_GET['id']) . "'");
-    list($voted) = $GLOBALS['xoopsDB']->fetchRow($result);
+global $xoTheme;
 
-    if ($voted) { // match
-        #echo "you've voted";
-        redirect_header('review.php?id=' . (int)($_GET['id']) . '', 2, $adminLang . '_ALRDYVTD');
-    }
+$start = \Xmf\Request::getInt('start', 0);
+// Define Stylesheet
+/** @var xos_opal_Theme $xoTheme */
+$xoTheme->addStylesheet($stylesheet);
 
-    /**
-     *  Insert vote data.
-     */
-    $rate_review_id = (int)($_GET['id']);
-    $rate_rating    = (int)($_GET['rate']);
+$db = \XoopsDatabaseFactory::getDatabaseConnection();
 
-    // find user id
-    if (empty($GLOBALS['xoopsUser'])) {
-        $rate_uid = 0;
-    } else {
-        $rate_uid = $GLOBALS['xoopsUser']->getVar('uid');
-    }
+// Get Handler
+/** @var \XoopsPersistableObjectHandler $rateHandler */
+$rateHandler = $helper->getHandler('Rate');
 
-    $rate_user_ip      = $_SERVER['REMOTE_ADDR'];
-    $rate_user_browser = '';
-    $rate_title        = '';
-    $rate_text         = '';
-    //$rate_datetime
-    $rate_showme    = '';
-    $rate_validated = '';
-    $rate_useful    = '';
+$ratePaginationLimit = $helper->getConfig('userpager');
 
-    $sql = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('amreview_rate') . " VALUES (
-            NULL,
-            '$rate_review_id',
-            '$rate_rating',
-            '$rate_uid',
-            '$rate_user_ip',
-            '$rate_user_browser',
-            '$rate_title',
-            '$rate_text',
-            NOW(),
-            '$rate_showme',
-            '$rate_validated',
-            '$rate_useful'
-            )";
+$criteria = new \CriteriaCompo();
 
-    $GLOBALS['xoopsDB']->queryF($sql); // or $eh->show("0013");
-    if ($GLOBALS['xoopsDB']->getAffectedRows($sql)) {
-        redirect_header('review.php?id=' . (int)($_GET['id']) . '', 2, $adminLang . '_VOTED');
-        //echo 'voted';
-    } else {
-        redirect_header('review.php?id=' . (int)($_GET['id']) . '', 2, $adminLang . '_DBVOTEFAIL');
-        //echo "not entered";
-    }
+$criteria->setOrder('DESC');
+$criteria->setLimit($ratePaginationLimit);
+$criteria->setStart($start);
 
-    /*
-    id
-    rate_review_id
-    rate_rating
-    rate_uid
-    rate_user_ip
-    rate_user_browser
-    rate_title
-    rate_text
-    rate_datetime
-    rate_showme
-    rate_validated
-    rate_useful
-    */
-} // end section
+$rateCount = $rateHandler->getCount($criteria);
+$rateArray = $rateHandler->getAll($criteria);
 
-//----------------------------------------------------------------------------//
-// Default page view - defunct, remove me
-#if (!isset($_REQUEST['op'])) {
-if (isset($_REQUEST['somethingsoIdonotgetloaded'])) {
-    $xoopsOption['template_main'] = 'amr_rate.tpl';
-    include(XOOPS_ROOT_PATH . '/header.php');
+$id = \Xmf\Request::getInt('id', 0, 'GET');
 
-    /**
-     * General assigns.
-     */
-    //$xoopsTpl->assign("gen_on",   constant($mainLang . '_GENON'));
-    //$xoopsTpl->assign("gen_on",   constant($mainLang . '_GENON'));
+switch ($op) {
+    case 'edit':
+        $rateObject = $rateHandler->get(Request::getString('id', ''));
+        $form       = $rateObject->getForm();
+        $form->display();
+        break;
 
-    //echo "Sorry, not yet implemented.";
+    case 'view':
+        //        viewItem();
+        $ratePaginationLimit = 1;
+        $myid                = $id;
+        //id
+        $rateObject = $rateHandler->get($myid);
 
-    $rateform = new XoopsThemeForm(constant($mainLang . '_RATEFRMCAP'), 'rateform', xoops_getenv('PHP_SELF'), 'post', true);
+        $criteria = new \CriteriaCompo();
+        $criteria->setSort('id');
+        $criteria->setOrder('DESC');
+        $criteria->setLimit($ratePaginationLimit);
+        $criteria->setStart($start);
+        $rate['id'] = $rateObject->getVar('id');
+        $rate['review_id']    = $reviewsHandler->get($rateObject->getVar('review_id'))->getVar('title');
+        $rate['rating']       = $rateObject->getVar('rating');
+        $rate['uid']          = strip_tags(\XoopsUser::getUnameFromId($rateObject->getVar('uid')));
+        $rate['user_ip']      = $rateObject->getVar('user_ip');
+        $rate['user_browser'] = $rateObject->getVar('user_browser');
+        $rate['title']        = $rateObject->getVar('title');
+        $rate['text']         = $rateObject->getVar('text');
+        $rate['date_created'] = formatTimestamp($rateObject->getVar('date_created'), 's');
+        $rate['showme']       = $rateObject->getVar('showme');
+        $rate['validated']    = $rateObject->getVar('validated');
+        $rate['useful']       = $rateObject->getVar('useful');
 
-    /**
-     * Rating type
-     * 0 - Rate only, 1 - Rating and comment, 2 - comment only
-     */
-    $rateselect = new XoopsFormSelect(constant($mainLang . '_RATETYPECAP'), 'formdata[type]', $art_cat_id, '1', false);
-    $rateselect->addOption('0', constant($mainLang . '_RATETYPEONLY'));
-    $rateselect->addOption('1', constant($mainLang . '_RATETYPERANDC'));
-    $rateselect->addOption('2', constant($mainLang . '_RATETYPECOMM'));
-    $rateform->addElement($rateselect);
-    unset($rateselect);
+        //       $GLOBALS['xoopsTpl']->append('rate', $rate);
+        $keywords[] = $rateObject->getVar('title');
 
-    /**
-     * Rating (out of 5)
-     */
-    $ratingselect = new XoopsFormSelect(constant($mainLang . '_CAPRATE'), 'formdata[rating]', $our_rating = "0", '1', false);
-    $ratingselect->addOption('0', constant($mainLang . '_CAPRATESLT'));
-    $ratingselect->addOption('1', constant($mainLang . '_CAPRATE1'));
-    $ratingselect->addOption('2', constant($mainLang . '_CAPRATE2'));
-    $ratingselect->addOption('3', constant($mainLang . '_CAPRATE3'));
-    $ratingselect->addOption('4', constant($mainLang . '_CAPRATE4'));
-    $ratingselect->addOption('5', constant($mainLang . '_CAPRATE5'));
-    $rateform->addElement($ratingselect);
-    unset($ratingselect);
+        $GLOBALS['xoopsTpl']->assign('rate', $rate);
+        $start = $id;
 
-    /**
-     * Review title/subject
-     */
-    $title = new XoopsFormText(constant($mainLang . '_FRMCAPSDTTL'), 'formdata[title]', 40, 50, $art_title);
-    $rateform->addElement($title);
-    unset($title);
+        // Display Navigation
+        if ($rateCount > $ratePaginationLimit) {
+            $GLOBALS['xoopsTpl']->assign('xoops_mpageurl', $helper->url('rate.php'));
+            xoops_load('XoopsPageNav');
+            $pagenav = new \XoopsPageNav($rateCount, $ratePaginationLimit, $start, 'op=view&id');
+            $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
+        }
 
-    /**
-     * Comment
-     */
-    $commeditor = new XoopsFormTextArea(constant($mainLang . '_COMMENTTXT'), 'formdata[comment]', $itemDetails, $rows = 8, $cols = 36, 0);
-    $rateform->addElement($commeditor);
-    unset($commeditor);
+        break;
+    case 'list':
+    default:
+        //        viewall();
 
-    /**
-     * Hidden fields
-     */
-    $rateform->addElement(new XoopsFormHidden('formdata[id]', (int)($_GET['id'])));
-    $rateform->addElement(new XoopsFormHidden('op', 'save'));
+        if ($rateCount > 0) {
+            $GLOBALS['xoopsTpl']->assign('rate', []);
+            foreach (array_keys($rateArray) as $i) {
+                $rate['id'] = $rateArray[$i]->getVar('id');
+                $rate['review_id']    = $reviewsHandler->get($rateArray[$i]->getVar('review_id'))->getVar('title');
+                $rate['rating']       = $rateArray[$i]->getVar('rating');
+                $rate['uid']          = strip_tags(\XoopsUser::getUnameFromId($rateArray[$i]->getVar('uid')));
+                $rate['user_ip']      = $rateArray[$i]->getVar('user_ip');
+                $rate['user_browser'] = $rateArray[$i]->getVar('user_browser');
+                $rate['title']        = $rateArray[$i]->getVar('title');
+                $rate['title']        = $utility::truncateHtml($rate['title'], $helper->getConfig('truncatelength'));
+                $rate['text']         = $rateArray[$i]->getVar('text');
+                $rate['text']         = $utility::truncateHtml($rate['text'], $helper->getConfig('truncatelength'));
+                $rate['date_created'] = formatTimestamp($rateArray[$i]->getVar('date_created'), 's');
+                $rate['showme']       = $rateArray[$i]->getVar('showme');
+                $rate['validated']    = $rateArray[$i]->getVar('validated');
+                $rate['useful']       = $rateArray[$i]->getVar('useful');
+                $GLOBALS['xoopsTpl']->append('rate', $rate);
+                $keywords[] = $rateArray[$i]->getVar('title');
+                unset($rate);
+            }
+            // Display Navigation
+            if ($rateCount > $ratePaginationLimit) {
+                $GLOBALS['xoopsTpl']->assign('xoops_mpageurl', $helper->url('rate.php'));
+                xoops_load('XoopsPageNav');
+                $pagenav = new \XoopsPageNav($rateCount, $ratePaginationLimit, $start, 'start');
+                $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
+            }
+        }
+}
 
-    /**
-     * Buttons
-     */
-    $button_sub = new XoopsFormButton('', 'but_save', constant($mainLang . '_RATESUBMIT'), 'submit');
-    //$button_sub->setExtra('onclick="return checkfields();"');
-    $button_can = new XoopsFormButton('', 'but_reset', constant($mainLang . '_RATERESET'), 'reset');
+//keywords
+if (isset($keywords)) {
+    $utility::metaKeywords($helper->getConfig('keywords') . ', ' . implode(', ', $keywords));
+}
+//description
+$utility::metaDescription($lang::RATE_DESC);
 
-    $tray = new XoopsFormElementTray('');
-    $tray->addElement($button_sub);
-    $tray->addElement($button_can);
-    $rateform->addElement($tray);
-    unset($button_sub, $button_can);
+$GLOBALS['xoopsTpl']->assign('xoops_mpageurl', $helper->url('rate.php'));
+$GLOBALS['xoopsTpl']->assign('amreviews_url', $helper->url());
+$GLOBALS['xoopsTpl']->assign('adv', $helper->getConfig('advertise'));
 
-    #$rateform->display();
-    //
-    // Assign to template
-    $xoopsTpl->assign('rateform', $rateform->render());
-    unset($rateform);
+$GLOBALS['xoopsTpl']->assign('bookmarks', $helper->getConfig('bookmarks'));
+$GLOBALS['xoopsTpl']->assign('fbcomments', $helper->getConfig('fbcomments'));
 
-    // header bit
-    $xoopsTpl->assign('category_path', "<a href=\"" . XOOPS_URL . '/modules/' . _AM_AMRMODDIR . "/index.php\">" . $xoopsModule->getVar('name') . '</a> &#187; ' . constant($mainLang . '_RATEPGNM'));
+$GLOBALS['xoopsTpl']->assign('admin', $lang::ADMIN);
+$GLOBALS['xoopsTpl']->assign('copyright', $copyright);
+$GLOBALS['xoopsTpl']->assign('dirname', $helper->getDirname());
 
-    include_once(XOOPS_ROOT_PATH . '/footer.php');
-} // end
+require_once XOOPS_ROOT_PATH . '/include/comment_view.php';
 
-//----------------------------------------------------------------------------//
-
-include_once 'footer.php';
+require __DIR__ . '/footer.php';

@@ -1,29 +1,31 @@
 <?php
+
+declare(strict_types=1);
+//use Xmf\Module\Admin;
+
+/*
+ You may not change or alter any portion of this comment or credits
+ of supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit authors.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+*/
 /**
- * XOOPS Profile module
+ * Module: Amreviews
  *
- * You may not change or alter any portion of this comment or credits
- * of supporting developers from this source code or any supporting source code
- * which is considered copyrighted (c) material of the original comment or credit authors.
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- *
- * @copyright    The XOOPS Project (http://www.xoops.org)
- * @license      GNU GPL (http://www.gnu.org/licenses/gpl-2.0.html)
- * @package      xoopsPoll
- * @since        2.5.0
- * @author       Mage, Mamba
- * @version      $Id $
- **/
+ * @category        Module
+ * @author          XOOPS Development Team <https://xoops.org>
+ * @copyright       {@link https://xoops.org/ XOOPS Project}
+ * @license         GPL 2.0 or later
+ */
 
-include_once __DIR__ . '/admin_header.php';
-
+require_once __DIR__ . '/admin_header.php';
 xoops_cp_header();
 
-$aboutAdmin = new ModuleAdmin();
+$adminObject->displayNavigation(basename(__FILE__));
+$adminObject::setPaypal('xoopsfoundation@gmail.com');
+$adminObject->displayAbout(false);
 
-echo $aboutAdmin->addNavigation('about.php');
-echo $aboutAdmin->renderAbout('xoopsfoundation@gmail.com', false);
-
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

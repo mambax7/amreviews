@@ -1,198 +1,123 @@
-<?php namespace Xoopsmodules\amreviews;
+<?php
 
-    /*
-     You may not change or alter any portion of this comment or credits
-     of supporting developers from this source code or any supporting source code
-     which is considered copyrighted (c) material of the original comment or credit authors.
+declare(strict_types=1);
 
-     This program is distributed in the hope that it will be useful,
-     but WITHOUT ANY WARRANTY; without even the implied warranty of
-     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-    */
-    /**
-     * xoalbum module for xoops
-     *
-     * @copyright       XOOPS Project (https://xoops.org)
-     * @license         GPL 2.0 or later
-     * @package         xoalbum
-     * @since           2.0.0
-     * @author          XOOPS Development Team <name@site.com> - <https://xoops.org>
-     * @version         $Id: 2.10 helper.php 11532 Mon 2014/04/28 11:10:05Z XOOPS Development Team $
-     */
+namespace XoopsModules\Amreviews;
 
-    //namespace Xoopsmodules\Amreview;
-    //defined('XOOPS_ROOT_PATH') or die('Restricted access');
+/*
+ You may not change or alter any portion of this comment or credits
+ of supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit authors.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+*/
+/**
+ * Module: Amreviews
+ *
+ * @category        Module
+ * @author          XOOPS Development Team <https://xoops.org>
+ * @copyright       {@link https://xoops.org/ XOOPS Project}
+ * @license         GPL 2.0 or later
+ */
 
 /**
  * Class Helper
  */
-class Helper   /*extends Module_Helper_Abstract*/
+class Helper extends \Xmf\Module\Helper
 {
-    /**
-     * Init vars
-     * @initialize variables
-     */
-    private $config;
-    private $dirname;
-    private $handler;
-    private $module;
-    public  $moduleDirName;
+    public $debug;
 
     /**
      * Constructor
      *
-     * @param $dirname
+     * @param bool $debug
      */
-    public function __construct($dirname = '')
+    public function __construct($debug = false)
     {
-        $this->dirname = $dirname;
-        $this->init();
-    }
-
-    public function init()
-    {
-        //        $this->setDirname('alumni');
-        //        $moduleDirName = basename(dirname(__DIR__));
-        $this->setDirname(basename(dirname(__DIR__)));
-
-        $this->moduleDirName = basename(dirname(__DIR__));
-
-        //        $this->criteriaFactory = new CriteriaFactory;
-        //        $this->formElementFactory = new FormElementFactory;
-
-        //$this->setDebug(true);
-        //    $this->loadLanguage('modinfo');
+        $this->debug   = $debug;
+        $moduleDirName = \basename(\dirname(__DIR__));
+        parent::__construct($moduleDirName);
     }
 
     /**
-     * @param string $dirname dirname of the module
+     * @param bool $debug
+     * @return \XoopsModules\Amreviews\Helper
      */
-    protected function setDirname($dirname)
+    public static function getInstance($debug = false)
     {
-        $this->dirname = strtolower($dirname);
-    }
-
-    /**
-     * Get instance
-     * @return Helper
-     */
-    public static function &getInstance()
-    {
-        static $instance = false;
-        if (!$instance) {
-            $instance = new self();
+        static $instance;
+        if (null === $instance) {
+            $instance = new static($debug);
         }
-
         return $instance;
-    }
-
-    /**
-     * Init config
-     * @initialize object
-     */
-    public function initConfig()
-    {
-        $modConfigHandler = &xoops_gethandler('config');
-        $this->_config    = $modConfigHandler->getConfigsByCat(0, $this->getModule()->getVar('mid'));
-    }
-
-    /**
-     * Init module
-     * @initialize object
-     */
-    public function initModule()
-    {
-        global $xoopsModule;
-        if (isset($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirname') === $this->dirname) {
-            $this->_module = $xoopsModule;
-        } else {
-            $moduleHandler = &xoops_gethandler('module');
-            $this->_module = $moduleHandler->getByDirname($this->dirname);
-        }
-    }
-
-    /**
-     * Init handler
-     * @initialize object
-     * @param $name
-     */
-    public function initHandler($name)
-    {
-        $this->handler[$name . '_handler'] = &xoops_getmodulehandler($name, $this->dirname);
-    }
-
-    /**
-     * Get module
-     * @return object
-     */
-    public function &getModule()
-    {
-        if ($this->module === null) {
-            $this->initModule();
-        }
-
-        return $this->module;
-    }
-
-    /**
-     * Get modules
-     *
-     * @param array $dirnames
-     * @param null  $otherCriteria
-     * @param bool  $asObj
-     *
-     * @return array objects
-     */
-    public function &getModules(array $dirnames = null, $otherCriteria = null, $asObj = false)
-    {
-        // get all dirnames
-        $moduleHandler = &xoops_gethandler('module');
-        $criteria      = new CriteriaCompo();
-        if (count($dirnames) > 0) {
-            foreach ($dirnames as $mDir) {
-                $criteria->add(new Criteria('dirname', $mDir), 'OR');
-            }
-        }
-        if (!empty($otherCriteria)) {
-            $criteria->add($otherCriteria);
-        }
-        $criteria->add(new Criteria('isactive', 1), 'AND');
-        $modules = $moduleHandler->getObjects($criteria, true);
-        if ($asObj) {
-            return $modules;
-        }
-        $dirs['system-root'] = _YOURHOME;
-        foreach ($modules as $module) {
-            $dirs[$module->dirname()] = $module->name();
-        }
-
-        return $dirs;
-    }
-
-    /**
-     * Get handler
-     *
-     * @param $name
-     *
-     * @return object
-     */
-    public function &getHandler($name)
-    {
-        if (!isset($this->handler[$name . 'Handler'])) {
-            $this->initHandler($name);
-        }
-
-        return $this->handler[$name . 'Handler'];
     }
 
     /**
      * @return string
      */
-    public function getModuleDirName()
+    public function getDirname()
     {
-        //        $moduleDirName = $this->_dirname;
-        //        $moduleDirName2 = basename(dirname(__DIR__));
-        //        $moduleDirName3 = $this->dirName;
-        return $this->moduleDirName;
+        return $this->dirname;
+    }
+
+    /**
+     * Get an Object Handler
+     *
+     * @param string $name name of handler to load
+     *
+     * @return bool|\XoopsObjectHandler|\XoopsPersistableObjectHandler
+     */
+    public function getHandler($name)
+    {
+        //$ret   = false;
+        $class = __NAMESPACE__ . '\\' . \ucfirst($name) . 'Handler';
+        if (!\class_exists($class)) {
+            throw new \RuntimeException("Class '$class' not found");
+        }
+        /** @var \XoopsMySQLDatabase $db */
+        $db     = \XoopsDatabaseFactory::getDatabaseConnection();
+        $helper = self::getInstance();
+        $ret    = new $class($db, $helper);
+        $this->addLog("Getting handler '{$name}'");
+        return $ret;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLanguage()
+    {
+        $language  = \ucfirst($GLOBALS['xoopsConfig']['language']);
+        $className = __NAMESPACE__ . '\Locale\\' . $language;
+        //        setlocale(LC_ALL, 'en_US');
+        //        xoops_load('XoopsLocal');
+        //        $className = __NAMESPACE__ .  '\Locale\\' . LC_ALL . '\Locale';
+
+        if (!\class_exists($className)) {
+            throw new \RuntimeException("Language Class '$className' not found");
+        }
+        if (\class_exists($className)) {
+            $lang = new $className();
+            return $lang;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getLanguageClass()
+    {
+        $language  = \ucfirst($GLOBALS['xoopsConfig']['language']);
+        $className = __NAMESPACE__ . '\Locale\\' . $language;
+        //        setlocale(LC_ALL, 'en_US');
+        //        xoops_load('XoopsLocal');
+        //        $className = __NAMESPACE__ .  '\Locale\\' . LC_ALL . '\Locale';
+
+        if (!\class_exists($className)) {
+            throw new \RuntimeException("Language Class '$className' not found");
+        }
+        return $className;
     }
 }

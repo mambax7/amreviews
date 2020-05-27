@@ -1,0 +1,8 @@
+INSTALLATION
+=============
+
+1) As first you have to copy content of the /EXTRA/htdocs/ folder to your /ROOT folder of you Website - it contains a Smarty plugin for translations
+
+2) Then Install just like another XOOPS module
+
+3) You can then import the sample data

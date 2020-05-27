@@ -1,212 +1,68 @@
-/* $Id: style.css,v 1.4 2007/01/24 19:24:32 andrew Exp $
-*
-* Part of the AM Reviews XOOPS2 Module. Custom CSS file.
-*
-*/
+@charset "UTF-8";
 
-.amreviewHead {
-    background-color: #2F5376;
-    padding: 3px;
-    color: #ffffff;
-}
 
 /*
-.reviewTitle a {
-    font-size: 130%;
-    font-weight: bold;
-    font-variant: small-caps;
-    color: #ffffff;
-    background-color: transparent;
-}
-.reviewInfo {
-    text-align: right;
-    padding: 3px;
-    background-color: #efefef
-}
-.reviewPoster {
-    font-size: 90%;
-    font-style:italic;
-}
-.reviewPostDate {
-    font-size: 90%;
-    font-style:italic;
-}
-.reviewBody {
-    padding-left: 5px;
-}
-.reviewText {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    padding-left: 3px;
-    padding-right: 3px;
-}
-.reviewFoot {
-    text-align: right;
-    padding: 3px;
-    background-color: #efefef;
-    vertical-align: middle;
-}
-.reviewPermaLink {
-    font-size: 90%;
-}
+ You may not change or alter any portion of this comment or credits
+ of supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit authors.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
-.amreviewSubtitle {
-    font-weight: bold;
+/**
+ * Module: Amreviews
+ *
+ * @category        Module
+ * @author          XOOPS Development Team <https://xoops.org>
+ * @copyright       {@link https://xoops.org/ XOOPS Project}
+ * @license         GPL 2.0 or later
+ */
+table {
+    margin: 0;
 }
 
-.amreviewnoreviewscap {
-    margin-left: auto;
-    margin-right: auto;
-    /*padding: 10px;*/
-    text-align: center;
-    /*background-color: ButtonFace;*/
-    width: 80%;
-    font-size: larger;
-    font-weight: bold;
+table.amreviews {
+
+    padding: 2px;
+    border: 1px solid #ccc;
 }
 
-.amreviewSubcats {
-    font-size: smaller;
-    padding-left: 4px;
+td.fields {
+    font-family: Verdana, Tahoma, sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+div.outer {
+    color: #555;
+    background-color: #eee;
+    border: 1px solid #ccc;
+}
+
+ul.fields > li {
+    display: inline;
+    list-style: none none;
+}
+
+/* about */
+#about label, #about text {
     display: block;
-}
-
-/* ~~~~ Print page doodahs ~~~~ */
-.printBody {
-    background-color: White;
-    color: Black;
-    font-family: "Times New Roman", Times, serif;
-    text-align: justify;
-    font-size: 12pt;
-}
-
-.printContainer {
-    width: 650px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.printTitle {
-    font-weight: bold;
-}
-
-.printSubTitle {
-}
-
-.printDate {
-}
-
-.printReviewText {
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-.printFooter {
-    padding-bottom: 10px;
-}
-
-/* for rating stars - don't modify unless you know what to do */
-/*             styles for the star rater                */
-.star-rating {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    width: 60px;
-    height: 12px;
-    position: relative;
-    background: url(assets/images/stars12x36.gif) top left repeat-x;
-}
-
-.star-rating li {
-    padding: 0;
-    margin: 0;
-    /*height: 12px;
-    width: 12px;        */
-    /*\*/
     float: left;
-    /* */
-    list-style: none;
-}
-
-.star-rating li a {
-    display: block;
-    width: 12px;
-    height: 12px;
-    line-height: 12px;
-    text-decoration: none;
-    text-indent: -9000px;
-    z-index: 20;
-    position: absolute;
-    padding: 0;
-    overflow: hidden;
-    list-style: none;
-}
-
-.star-rating li a:hover {
-    background: url(assets/images/stars12x36.gif) left center;
-    z-index: 2;
-    left: 0;
-    border: none;
-    list-style: none;
-}
-
-.star-rating a.one-star {
-    left: 0;
-}
-
-.star-rating a.one-star:hover {
-    width: 12px;
-}
-
-.star-rating a.two-stars {
-    left: 12px;
-}
-
-.star-rating a.two-stars:hover {
-    width: 24px;
-}
-
-.star-rating a.three-stars {
-    left: 24px;
-}
-
-.star-rating a.three-stars:hover {
-    width: 36px;
-}
-
-.star-rating a.four-stars {
-    left: 36px;
-}
-
-.star-rating a.four-stars:hover {
-    width: 48px;
-}
-
-.star-rating a.five-stars {
-    left: 48px;
-}
-
-.star-rating a.five-stars:hover {
-    width: 60px;
-}
-
-.star-rating li.current-rating {
-    background: url(assets/images/stars12x36.gif) left bottom;
-    position: absolute;
-    height: 12px;
-    display: block;
-    text-indent: -9000px;
-    z-index: 1;
-    /*display: none;*/
-}
-
-/* remove halo effect in firefox   */
-a:active {
-    outline: none;
-}
-
-.hide {
-    display: none;
+    margin-bottom: 12px;
 }
 
 
+#about label {
+    text-align: right;
+    width: 200px;
+    padding-right: 20px;
+}
+
+br {
+    clear: left;
+}
+
+#about br {
+    clear: both;
+}

@@ -1,40 +1,34 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
  which is considered copyrighted (c) material of the original comment or credit authors.
-
+ 
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 
 /**
- * Module: RandomQuote
+ * Module: Amreviews
  *
  * @category        Module
- * @package         randomquote
- * @author          XOOPS Module Development Team
- * @author          Mamba
- * @author          Herve Thouzard
- * @copyright       Herve Thouzard
- * @copyright       {@link http://sourceforge.net/projects/xoops/ The XOOPS Project}
- * @license         {@link http://www.fsf.org/copyleft/gpl.html GNU public license}
- * @version         $Id: update.php 12889 2014-12-08 20:18:04Z zyspec $
- * @link            http://sourceforge.net/projects/xoops/
- * @since           2.0.0
+ * @author          XOOPS Development Team <https://xoops.org>
+ * @copyright       {@link https://xoops.org/ XOOPS Project}
+ * @license         GPL 2.0 or later
  */
 
-/**
- * @internal {Make sure you PROTECT THIS FILE
- *
- * This code has the potential to be extremely dangerous!!}
- */
+use XoopsModules\Amreviews;
 
-if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof XoopsUser) || !($GLOBALS['xoopsUser']->IsAdmin())) {
-    exit("Restricted access" . PHP_EOL);
+if ((!defined('XOOPS_ROOT_PATH')) || !$GLOBALS['xoopsUser'] instanceof \XoopsUser
+    || !$GLOBALS['xoopsUser']->isAdmin()) {
+    exit('Restricted access' . PHP_EOL);
 }
+
+require dirname(__DIR__) . '/preloads/autoloader.php';
 
 /**
  * @param string $tablename
@@ -43,90 +37,141 @@ if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof XoopsUse
  */
 function tableExists($tablename)
 {
-    $result = $GLOBALS['xoopsDB']->queryF("SHOW TABLES LIKE '".$tablename."'");
+    $result = $GLOBALS['xoopsDB']->queryF("SHOW TABLES LIKE '$tablename'");
 
     return ($GLOBALS['xoopsDB']->getRowsNum($result) > 0);
 }
 
 /**
- * @param XoopsObject $module
- * @param  null       $oldversion
- * @return bool
- * @internal param $mixed
+ *
+ * Prepares system prior to attempting to install module
+ * @param \XoopsModule $module {@link XoopsModule}
+ *
+ * @return bool true if ready to install, false if not
  */
-function xoops_module_update_randomquote(XoopsObject $module, $oldversion = null)
+function xoops_module_pre_update_amreviews(\XoopsModule $module)
 {
-    $errors = 0;
-    if (tableExists($GLOBALS['xoopsDB']->prefix('citas'))) {
-        $sql    = sprintf('ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('citas') . ' CHANGE `citas` `quote` TEXT');
-        $result = $GLOBALS['xoopsDB']->queryF($sql);
-        if (!$result) {
-            $module->setErrors(_AM_RANDOMQUOTE_UPGRADEFAILED0);
-            ++$errors;
-        }
+    // /** @var \XoopsModules\Amreviews\Helper $helper */
+    //$helper       = \XoopsModules\Amreviews\Helper::getInstance();
+    /** @var \XoopsModules\Amreviews\Utility $utility */
+    $utility = new \XoopsModules\Amreviews\Utility();
 
-        $sql    = sprintf('ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('citas') . " ADD COLUMN `quote_status` int (10) NOT NULL default '0'," . " ADD COLUMN `quote_waiting` int (10) NOT NULL default '0'," . " ADD COLUMN `quote_online` int (10) NOT NULL default '0';");
-        $result = $GLOBALS['xoopsDB']->queryF($sql);
-        if (!$result) {
-            $module->setErrors(_AM_RANDOMQUOTE_UPGRADEFAILED1);
-            ++$errors;
-        }
+    $xoopsSuccess = $utility::checkVerXoops($module);
+    $phpSuccess   = $utility::checkVerPhp($module);
 
-        $sql    = sprintf('ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('citas') . ' RENAME ' . $GLOBALS['xoopsDB']->prefix('quotes'));
-        $result = $GLOBALS['xoopsDB']->queryF($sql);
-        if (!$result) {
-            $module->setErrors(_AM_RANDOMQUOTE_UPGRADEFAILED2);
-            ++$errors;
-        }
-    } elseif (tableExists($GLOBALS['xoopsDB']->prefix('randomquote_quotes'))) {
-        // change status to indicate quote waiting approval
-        $sql    = "UPDATE " . $GLOBALS['xoopsDB']->prefix('randomquote_quotes') . " SET quote_status=2 WHERE `quote_waiting` > 0";
-        $result = $GLOBALS['xoopsDB']->queryF($sql);
-        if (!$result) {
-            $module->setErrors(_AM_RANDOMQUOTE_UPGRADEFAILED1);
-            ++$errors;
-        }
+    /** @var \XoopsModules\Amreviews\Common\Configurator $configurator */
+    $configurator = new \XoopsModules\Amreviews\Common\Configurator();
 
-        // change status to indicate quote online
-        $sql    = "UPDATE " . $GLOBALS['xoopsDB']->prefix('randomquote_quotes') . " SET quote_status=1 WHERE `quote_online` > 0";
-        $result = $GLOBALS['xoopsDB']->queryF($sql);
-        if (!$result) {
-            $module->setErrors(_AM_RANDOMQUOTE_UPGRADEFAILED1);
-            ++$errors;
-        }
-
-        // drop the waiting and online columns
-        $sql    = sprintf('ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('randomquote_quotes') . " DROP COLUMN `quote_waiting`," . " DROP COLUMN `quote_online`;");
-        $result = $GLOBALS['xoopsDB']->queryF($sql);
-        if (!$result) {
-            $module->setErrors(_AM_RANDOMQUOTE_UPGRADEFAILED1);
-            ++$errors;
-        }
-
-        // change the table name (drops the module name prefix)
-        $sql    = sprintf('ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('randomquote_quotes') . ' RENAME ' . $GLOBALS['xoopsDB']->prefix('quotes'));
-        $result = $GLOBALS['xoopsDB']->queryF($sql);
-        if (!$result) {
-            $module->setErrors(_AM_RANDOMQUOTE_UPGRADEFAILED2);
-            ++$errors;
-        }
+    //create upload folders
+    $uploadFolders = $configurator->uploadFolders;
+    foreach ($uploadFolders as $value) {
+        $utility::prepareFolder($value);
     }
 
-    if ($installedVersion < 233) {
-        /* add column for poll anonymous which was created in versions prior
-         * to 1.40 of xoopspoll but not automatically created
-         */
-        $result    = $db->queryF("SHOW COLUMNS FROM " . $db->prefix('quotes') . " LIKE 'create_date'");
-        $foundAnon = $db->getRowsNum($result);
-        if (empty($foundAnon)) {
-            // column doesn't exist, so try and add it
-            $success = $db->queryF("ALTER TABLE " . $db->prefix('quotes') . " ADD create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP AFTER quote_status");
-            if (!$success) {
-                $module->setErrors(sprintf(_AM_RANDOMQUOTE_ERROR_COLUMN, 'create_date'));
-                ++$errors;
+    //    $migrator = new \XoopsModules\Amreviews\Common\Migrate();
+    //    $migrator->synchronizeSchema();
+
+    return $xoopsSuccess && $phpSuccess;
+}
+
+/**
+ * Performs tasks required during update of the module
+ * @param \XoopsModule $module {@link XoopsModule}
+ * @param null|int     $previousVersion
+ *
+ * @return bool true if update successful, false if not
+ */
+
+function xoops_module_update_amreviews(\XoopsModule $module, $previousVersion = null)
+{
+    $moduleDirName = basename(dirname(__DIR__));
+    //$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+
+    /** @var Amreviews\Helper $helper */ /** @var Amreviews\Utility $utility */
+    /** @var Amreviews\Common\Configurator $configurator */
+    $helper       = Amreviews\Helper::getInstance();
+    $utility      = new Amreviews\Utility();
+    $configurator = new Amreviews\Common\Configurator();
+    //    $helper->loadLanguage('common');
+    $lang = $helper->getLanguage();
+
+    if ($previousVersion < 240) {
+        //delete old HTML templates
+        if (count($configurator->templateFolders) > 0) {
+            foreach ($configurator->templateFolders as $folder) {
+                $templateFolder = $GLOBALS['xoops']->path('modules/' . $moduleDirName . $folder);
+                if (is_dir($templateFolder)) {
+                    //$templateList = array_diff(scandir($templateFolder, SCANDIR_SORT_NONE), ['..', '.',]);
+                    $temp = scandir($templateFolder, SCANDIR_SORT_NONE);
+                    if (false !== $temp) {
+                        $templateList = array_diff(
+                            $temp,
+                            [
+                                '..',
+                                '.',
+                            ]
+                        );
+
+                        foreach ($templateList as $k => $v) {
+                            $fileInfo = new SplFileInfo($templateFolder . $v);
+                            if ('html' === $fileInfo->getExtension() && 'index.html' !== $fileInfo->getFilename()) {
+                                if (file_exists($templateFolder . $v)) {
+                                    unlink($templateFolder . $v);
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
-    }
 
-    return ($errors) ? false : true;
+        //  ---  DELETE OLD FILES ---------------
+        if (count($configurator->oldFiles) > 0) {
+            //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
+            foreach (array_keys($configurator->oldFiles) as $i) {
+                $tempFile = $GLOBALS['xoops']->path('modules/' . $moduleDirName . $configurator->oldFiles[$i]);
+                if (is_file($tempFile)) {
+                    unlink($tempFile);
+                }
+            }
+        }
+
+        //  ---  DELETE OLD FOLDERS ---------------
+        xoops_load('XoopsFile');
+        if (count($configurator->oldFolders) > 0) {
+            //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
+            foreach (array_keys($configurator->oldFolders) as $i) {
+                $tempFolder = $GLOBALS['xoops']->path('modules/' . $moduleDirName . $configurator->oldFolders[$i]);
+                /** @var \XoopsObjectHandler $folderHandler */
+                $folderHandler = \XoopsFile::getHandler('folder', $tempFolder);
+                $folderHandler->delete($tempFolder);
+            }
+        }
+
+        //  ---  CREATE FOLDERS ---------------
+        if (count($configurator->uploadFolders) > 0) {
+            //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
+            foreach (array_keys($configurator->uploadFolders) as $i) {
+                $utility::createFolder($configurator->uploadFolders[$i]);
+            }
+        }
+
+        //  ---  COPY blank.png FILES ---------------
+        if (count($configurator->copyBlankFiles) > 0) {
+            $file = dirname(__DIR__) . '/assets/images/blank.png';
+            foreach (array_keys($configurator->copyBlankFiles) as $i) {
+                $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
+                $utility::copyFile($file, $dest);
+            }
+        }
+
+        //delete .html entries from the tpl table
+        $sql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('tplfile') . " WHERE `tpl_module` = '" . $module->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
+        $GLOBALS['xoopsDB']->queryF($sql);
+
+        /** @var \XoopsGroupPermHandler $grouppermHandler */
+        $grouppermHandler = xoops_getHandler('groupperm');
+        return $grouppermHandler->deleteByModule($module->getVar('mid'), 'item_read');
+    }
+    return true;
 }
